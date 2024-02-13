@@ -5,10 +5,11 @@ This project contains my personal dotfiles collection. My primary machine is Mac
 OS X, but most of this stuff should work equally well under Linux with a few
 tweaks.
 
-I use [Chezmoi](https://www.chezmoi.io/) to manage configuration across
-machines and [Homebrew](https://brew.sh/) as my package manager.
+I use [Chezmoi](https://www.chezmoi.io/) to manage the symlinks in
+this repository, and [Homebrew](https://brew.sh/) as my package manager.
 
 I use [Fish Shell](https://fishshell.com/) with the [Fisher](https://github.com/jorgebucaran/fisher) plugin manager.
+
 
 License
 =======

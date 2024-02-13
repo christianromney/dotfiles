@@ -222,7 +222,7 @@ Doom loads early."
    :map dired-mode-map
    "C-l" #'dired-up-directory)
   (when IS-MAC
-    (setq insert-directory-program "/usr/local/bin/gls"
+    (setq insert-directory-program "gls"
           dired-listing-switches   "-aBhl --group-directories-first")
     (map!
      :map dired-mode-map

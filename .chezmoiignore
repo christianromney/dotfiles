@@ -1,3 +1,9 @@
 .config/chezmoi/**
 .config/emacs/eln-cache/**
+.config/emacs/.local/autosave/**
+.config/emacs/.local/cache/eln/**
+.config/emacs/.local/cache/comp/**
+.config/emacs/.local/whisper
+.config/emacs/.local/undo-fu-session
+.config/emacs/.local/org/**
 .config/raycast/extensions/**

@@ -1,5 +1,5 @@
 .config/chezmoi/**
-.config/emacs/.local/autosave/**
+.config/emacs/.local/cache/autosave/**
 .config/emacs/.local/cache/comp/**
 .config/emacs/.local/cache/eln/**
 .config/emacs/.local/cache/emojis/**

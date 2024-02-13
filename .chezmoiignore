@@ -5,6 +5,9 @@
 .config/emacs/.local/cache/org/**
 .config/emacs/.local/cache/undo-fu-session/**
 .config/emacs/.local/cache/whisper/**
+.config/emacs/.local/etc/**
+.config/emacs/.local/state/**
+.config/emacs/.local/straight/**
 .config/emacs/eln-cache/**
 .config/op/**
 .config/raycast/**

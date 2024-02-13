@@ -1,1 +1,3 @@
 .config/chezmoi
+.config/emacs/eln-cache
+.config/raycast/extensions

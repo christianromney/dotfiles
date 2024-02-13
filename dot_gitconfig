@@ -1,6 +1,7 @@
 [user]
   name = Christian Romney
   email = christian.a.romney@gmail.com
+	signingkey = 350131637E802173F7707485A0FA17A0540AAC06
 [core]
   autocrlf = input
   excludesfile = ~/.gitignore_global
@@ -76,7 +77,7 @@
 [pull]
   ff = only
 [filter "lfs"]
-	smudge = git-lfs smudge --skip %f
+	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	clean = git-lfs clean -- %f
 	required = true

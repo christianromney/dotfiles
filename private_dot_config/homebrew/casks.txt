@@ -17,5 +17,4 @@ raycast: (Raycast) Control your tools with a few keystrokes
 temurin: (Eclipse Temurin Java Development Kit) JDK from the Eclipse Foundation (Adoptium)
 transmission: (Transmission) Open-source BitTorrent client
 visualvm: (VisualVM) All-in-One Java Troubleshooting Tool
-warp: (Warp) Rust-based terminal
 zoom: (Zoom) Video communication and virtual meeting platform

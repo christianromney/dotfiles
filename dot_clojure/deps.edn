@@ -1,0 +1,73 @@
+;; The deps.edn file describes the information needed to build a classpath.
+;;
+;; When using the `clojure` or `clj` script, there are several deps.edn files
+;; that are combined:
+;; - install-level
+;; - user level (this file)
+;; - project level (current directory when invoked)
+;;
+;; For all attributes other than :paths, these config files are merged left to right.
+;; Only the last :paths is kept and others are dropped.
+;;
+;; =================================================
+;;                      TOOLS
+;; =================================================
+;;
+;; clj-new - create new clojure projects
+;;
+;; install:
+;;     clojure -Ttools install com.github.seancorfield/clj-new '{:git/tag "v1.2.381"}' :as clj-new
+;; usage:
+;;
+;;     To create a new application
+;;     clojure -Tclj-new app :name myname/myapp
+;;
+;;     To create a new library
+;;     clojure -Tclj-new lib :name myname/mylib
+;;
+;; =================================================
+{
+ ;; Paths
+ ;;   Directories in the current project to include in the classpath
+
+ ;; :paths ["src"]
+
+ ;; External dependencies
+
+ ;; :deps {
+ ;;   org.clojure/clojure {:mvn/version "1.10.0"}
+ ;; }
+
+ ;; Aliases
+ ;;   resolve-deps aliases (-R) affect dependency resolution, options:
+ ;;     :extra-deps - specifies extra deps to add to :deps
+ ;;     :override-deps - specifies a coordinate to use instead of that in :deps
+ ;;     :default-deps - specifies a coordinate to use for a lib if one isn't found
+ ;;   make-classpath aliases (-C) affect the classpath generation, options:
+ ;;     :extra-paths - vector of additional paths to add to the classpath
+ ;;     :classpath-overrides - map of lib to path that overrides the result of resolving deps
+
+ :aliases {:try
+           {:extra-deps
+            {deps-try/deps-try           {:git/url "https://gitlab.com/eval/deps-try"
+                                          :sha "9ccf64be248d5d9aa641df9e94feaea913bc0687"}}
+            :main-opts ["-m" "deps-try.main"]}
+
+           :repl-server
+           {:extra-deps {compliment/compliment {:mvn/version "0.3.12"}}
+            :exec-fn clojure.core.server/start-server
+            :exec-args {:name "repl-server"
+                        :port 5555
+                        :accept clojure.core.server/repl
+                        :server-daemon false}}
+
+           :morse
+           {:extra-deps {io.github.nubank/morse {:git/tag "v2023.04.30.01" :git/sha "d99b09c"}}}
+
+           :datomic
+           {:extra-deps
+            {com.datomic/dev-local       {:mvn/version "1.0.243"}}}}
+
+ ;; Provider attributes
+ :mvn/repos {"central" {:url "https://repo1.maven.org/maven2/"}
+             "clojars" {:url "https://repo.clojars.org/"}}}

@@ -1,0 +1,84 @@
+[user]
+  name = Christian Romney
+  email = christian.a.romney@gmail.com
+[core]
+  autocrlf = input
+  excludesfile = ~/.gitignore_global
+  editor = emacs
+  pager = delta
+[delta]
+    features = side-by-side line-numbers decorations
+    syntax-theme = Monokai Extended Origin
+    whitespace-error-style = 22 reverse
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+[interactive]
+  diffFilter = delta --color-only
+[help]
+  autocorrect = 1
+[alias]
+  br = branch
+  ci = commit -Ss
+  co = checkout
+  cp = cherry-pick
+  dc = diff --cached
+  fp = format-patch
+  ls = log --oneline
+  st = status
+  up = pull
+  ff = pull --ff-only
+  rl = reflog
+  staged = diff --cached
+  file-rm = clean
+  dir-rm = clean
+  praise = blame
+  shortsha = rev-parse --short=20
+[color]
+  ui = auto
+[color "diff"]
+  meta = cyan bold
+  commit = green bold
+  frag = yellow bold
+  old = red
+  new = green
+  whitespace = red reverse
+[color "branch"]
+  current = cyan bold
+  local = cyan
+  remote = yellow
+[color "status"]
+  added = green
+  changed = yellow
+  untracked = red
+[push]
+  default = simple
+  followTags = true
+[merge]
+  tool = opendiff
+[mergetool]
+  prompt = false
+[clean]
+  requireForce = false
+[include]
+  path = ~/.gitconfig.secrets
+[diff]
+  colorMoved = default
+[difftool]
+  prompt = false
+[rerere]
+  enabled = 1
+[magit]
+  hideCampaign = true   
+[icdiff]
+  options = --highlight --line-numbers
+[pull]
+  ff = only
+[filter "lfs"]
+	smudge = git-lfs smudge --skip %f
+	process = git-lfs filter-process
+	clean = git-lfs clean -- %f
+	required = true
+[init]
+	defaultBranch = master

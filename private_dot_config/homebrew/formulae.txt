@@ -205,7 +205,6 @@ npth: New GNU portable threads library
 nspr: Platform-neutral API for system-level and libc-like functions
 nss: Libraries for security-enabled client and server applications
 numpy: Package for scientific computing with Python
-ollama: Create, run, and share large language models (LLMs)
 oniguruma: Regular expressions library
 openblas: Optimized BLAS library
 opencore-amr: Audio codecs extracted from Android open source project

@@ -2,6 +2,7 @@
 .config/emacs/.local/autosave/**
 .config/emacs/.local/cache/comp/**
 .config/emacs/.local/cache/eln/**
+.config/emacs/.local/cache/emojis/**
 .config/emacs/.local/cache/org/**
 .config/emacs/.local/cache/undo-fu-session/**
 .config/emacs/.local/cache/whisper/**

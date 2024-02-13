@@ -1,0 +1,309 @@
+aom: Codec library for encoding and decoding AV1 video streams
+aribb24: Library for ARIB STD-B24, decoding JIS 8 bit characters and parsing MPEG-TS
+asciidoc: Formatter/translator for text files to numerous formats
+asciidoctor: Text processor and publishing toolchain for AsciiDoc
+asdf: Extendable version manager with support for Ruby, Node.js, Erlang & more
+aspell: Spell checker with better logic than ispell
+assimp: Portable library for importing many well-known 3D model formats
+autoconf: Automatic configure script builder
+automake: Tool for generating GNU Standards-compliant Makefiles
+awk: Text processing scripting language
+awscli: Official Amazon AWS command-line interface
+bash: Bourne-Again SHell, a UNIX command interpreter
+bat: Clone of cat(1) with syntax highlighting and Git integration
+bdw-gc: Garbage collector for C and C++
+berkeley-db@5: High performance key/value database
+boost: Collection of portable C++ source libraries
+brotli: Generic-purpose lossless compression algorithm by Google
+c-ares: Asynchronous DNS library
+ca-certificates: Mozilla CA certificate store
+cairo: Vector graphics library with cross-device output support
+cffi: C Foreign Function Interface for Python
+chezmoi: Manage your dotfiles across multiple diverse machines, securely
+chezscheme: Implementation of the Chez Scheme language
+cjson: Ultralightweight JSON parser in ANSI C
+cloc: Statistics utility to count lines of code
+clojure: Dynamic, general-purpose programming language
+clojure-lsp: Language Server (LSP) for Clojure
+coreutils: GNU File, Shell, and Text utilities
+emacs-plus@29: GNU Emacs text editor
+datamash: Tool to perform numerical, textual & statistical operations
+dav1d: AV1 decoder targeted to be small and fast
+dbus: Message bus system, providing inter-application communication
+diffutils: File comparison utilities
+direnv: Load/unload environment variables based on $PWD
+docbook: Standard SGML representation system for technical documents
+docbook-xsl: XML vocabulary to create presentation-neutral documents
+docutils: Text processing system for reStructuredText
+double-conversion: Binary-decimal and decimal-binary routines for IEEE doubles
+edencommon: Shared library for Watchman and Eden projects
+eza: Modern, maintained replacement for ls
+fb303: Thrift functions for querying information from a service
+fd: Simple, fast and user-friendly alternative to find
+ffmpeg: Play, record, convert, and stream audio and video
+fish: User-friendly command-line shell for UNIX-like operating systems
+fizz: C++14 implementation of the TLS-1.3 standard
+flac: Free lossless audio codec
+fmt: Open-source formatting library for C++
+folly: Collection of reusable C++ library artifacts developed at Facebook
+fontconfig: XML-based font configuration API for X Windows
+freetype: Software library to render fonts
+frei0r: Minimalistic plugin API for video effects
+fribidi: Implementation of the Unicode BiDi algorithm
+gcc: GNU compiler collection
+gd: Graphics library to dynamically manipulate images
+gdk-pixbuf: Toolkit for image loading and pixel buffer manipulation
+gettext: GNU internationalization (i18n) and localization (l10n) library
+gflags: Library for processing command-line flags
+gh: GitHub command-line tool
+ghostscript: Interpreter for PostScript and PDF
+giflib: Library and utilities for processing GIFs
+gist: Command-line utility for uploading Gists
+git: Distributed revision control system
+git-absorb: Automatic git commit --fixup
+git-big-picture: Visualization tool for Git repositories
+git-cal: GitHub-like contributions calendar but on the command-line
+git-cliff: Highly customizable changelog generator
+git-crypt: Enable transparent encryption/decryption of files in a git repo
+git-delta: Syntax-highlighting pager for git and diff output
+git-extras: Small git utilities
+git-lfs: Git extension for versioning large files
+git-machete: Git repository organizer & rebase workflow automation tool
+git-multipush: Push a branch to multiple remotes in one command
+git-open: Open GitHub webpages from a terminal
+git-quick-stats: Simple and efficient way to access statistics in git
+gitlint: Linting for your git commit messages
+glib: Core application library for C
+glog: Application-level logging library
+gmp: GNU multiple precision arithmetic library
+gnu-getopt: Command-line option parsing utility
+gnu-sed: GNU implementation of the famous stream editor
+gnu-tar: GNU version of the tar archiving utility
+gnu-units: GNU unit conversion tool
+gnupg: GNU Pretty Good Privacy (PGP) package
+gnuplot: Command-driven, interactive function plotting
+gnutls: GNU Transport Layer Security (TLS) Library
+gpgme: Library access to GnuPG
+graphite2: Smart font renderer for non-Roman scripts
+graphviz: Graph visualization software from AT&T and Bell Labs
+grc: Colorize logfiles and command output
+grep: GNU grep, egrep and fgrep
+grip: GitHub Markdown previewer
+gts: GNU triangulated surface library
+guile: GNU Ubiquitous Intelligent Language for Extensions
+harfbuzz: OpenType text shaping engine
+highway: Performance-portable, length-agnostic SIMD with runtime dispatch
+huggingface-cli: Client library for huggingface.co hub
+hunspell: Spell checker and morphological analyzer
+hwloc: Portable abstraction of the hierarchical topology of modern architectures
+icu4c: C/C++ and Java libraries for Unicode and globalization
+imagemagick: Tools and libraries to manipulate images in many formats
+imath: Library of 2D and 3D vector, matrix, and math operations
+isl: Integer Set Library for the polyhedral model
+ispell: International Ispell
+jansson: C library for encoding, decoding, and manipulating JSON
+jasper: Library for manipulating JPEG-2000 images
+jbig2dec: JBIG2 decoder and library (for monochrome documents)
+jc: Serializes the output of command-line tools to structured JSON output
+jet: Type safe SQL builder with code generation and auto query result data mapping
+jpeg: Image manipulation library
+jpeg-turbo: JPEG image codec that aids compression and decompression
+jpeg-xl: New file format for still image compression
+jq: Lightweight and flexible command-line JSON processor
+jsonlint: JSON parser and validator with a CLI
+lame: High quality MPEG Audio Layer III (MP3) encoder
+lefthook: Fast and powerful Git hooks manager for any type of projects
+leiningen: Build tool for Clojure
+leptonica: Image processing and image analysis library
+lesspipe: Input filter for the pager less
+libarchive: Multi-format archive and compression library
+libass: Subtitle renderer for the ASS/SSA subtitle format
+libassuan: Assuan IPC Library
+libavif: Library for encoding and decoding .avif files
+libb2: Secure hashing function
+libbluray: Blu-Ray disc playback library for media players like VLC
+libcerf: Numeric library for complex error functions
+libde265: Open h.265 video codec implementation
+libevent: Asynchronous event library
+libgccjit: JIT library for the GNU compiler collection
+libgcrypt: Cryptographic library based on the code from GnuPG
+libgit2: C library of Git core methods that is re-entrant and linkable
+libgpg-error: Common error values for all GnuPG components
+libheif: ISO/IEC 23008-12:2017 HEIF file format decoder and encoder
+libice: X.Org: Inter-Client Exchange Library
+libidn: International domain name library
+libidn2: International domain name library (IDNA2008, Punycode and TR46)
+libksba: X.509 and CMS library
+liblinear: Library for large linear classification
+liblqr: C/C++ seam carving library
+libmicrohttpd: Light HTTP/1.1 server library
+libmng: MNG/JNG reference library
+libmpc: C library for the arithmetic of high precision complex numbers
+libnghttp2: HTTP/2 C Library
+libogg: Ogg Bitstream Library
+libomp: LLVM's OpenMP runtime library
+libpng: Library for manipulating PNG images
+libraw: Library for reading RAW files from digital photo cameras
+librist: Reliable Internet Stream Transport (RIST)
+librsvg: Library to render SVG files using Cairo
+libsamplerate: Library for sample rate conversion of audio data
+libsm: X.Org: X Session Management Library
+libsndfile: C library for files containing sampled sound
+libsodium: NaCl networking and cryptography library
+libsoxr: High quality, one-dimensional sample-rate conversion library
+libssh: C library SSHv1/SSHv2 client and server protocols
+libssh2: C library implementing the SSH2 protocol
+libtasn1: ASN.1 structure parser library
+libtiff: TIFF library and utilities
+libtool: Generic library support script
+libunibreak: Implementation of the Unicode line- and word-breaking algorithms
+libunistring: C string library for manipulating Unicode strings
+libusb: Library for USB device access
+libuv: Multi-platform support library with a focus on asynchronous I/O
+libvidstab: Transcode video stabilization plugin
+libvmaf: Perceptual video quality assessment based on multi-method fusion
+libvorbis: Vorbis General Audio Compression Codec
+libvpx: VP8/VP9 video codec
+libx11: X.Org: Core X11 protocol client library
+libxau: X.Org: A Sample Authorization Protocol for X
+libxaw: X.Org: X Athena Widget Set
+libxcb: X.Org: Interface to the X Window System protocol
+libxdmcp: X.Org: X Display Manager Control Protocol library
+libxext: X.Org: Library for common extensions to the X11 protocol
+libxft: X.Org: X FreeType library
+libxinerama: X.Org: API for Xinerama extension to X11 Protocol
+libxmu: X.Org: X miscellaneous utility routines library
+libxpm: X.Org: X Pixmap (XPM) image file format library
+libxrender: X.Org: Library for the Render Extension to the X11 protocol
+libxt: X.Org: X Toolkit Intrinsics library
+libyaml: YAML Parser
+little-cms2: Color management engine supporting ICC profiles
+llvm: Next-gen compiler infrastructure
+lnav: Curses-based tool for viewing and analyzing log files
+lorem: Python generator for the console
+lua: Powerful, lightweight programming language
+lz4: Extremely Fast Compression algorithm
+lzo: Real-time data compression library
+m4: Macro processing language
+magic-wormhole: Securely transfers data between computers
+make: Utility for directing compilation
+markdown: Text-to-HTML conversion tool
+markdownlint-cli: CLI for Node.js style checker and lint tool for Markdown files
+maven: Java-based project management
+mbedtls: Cryptographic & SSL/TLS library
+md4c: C Markdown parser. Fast. SAX-like interface
+mpdecimal: Library for decimal floating point arithmetic
+mpfr: C library for multiple-precision floating-point computations
+mpg123: MP3 player for Linux and UNIX
+ncurses: Text-based UI library
+netcat: Utility for managing network connections
+netpbm: Image manipulation
+nettle: Low-level cryptographic library
+nmap: Port scanning utility for large networks
+node: Platform built on V8 to build network applications
+npth: New GNU portable threads library
+nspr: Platform-neutral API for system-level and libc-like functions
+nss: Libraries for security-enabled client and server applications
+numpy: Package for scientific computing with Python
+ollama: Create, run, and share large language models (LLMs)
+oniguruma: Regular expressions library
+openblas: Optimized BLAS library
+opencore-amr: Audio codecs extracted from Android open source project
+openexr: High dynamic-range image file format
+openjdk: Development kit for the Java programming language
+openjpeg: Library for JPEG-2000 image manipulation
+openldap: Open source suite of directory software
+openssl@3: Cryptography and SSL/TLS Toolkit
+openvino: Open Visual Inference And Optimization toolkit for AI inference
+opus: Audio codec
+p11-kit: Library to load and enumerate PKCS#11 modules
+pandoc: Swiss-army knife of markup format conversion
+pango: Framework for layout and rendering of i18n text
+parallel: Shell command parallelization utility
+pcre2: Perl compatible regular expressions library with a new API
+pinentry: Passphrase entry dialog utilizing the Assuan protocol
+pixman: Low-level library for pixel manipulation
+pkg-config: Manage compile and link flags for libraries
+pngpaste: Paste PNG into files
+poppler: PDF rendering library (based on the xpdf-3.0 code base)
+psgrep: Shortcut for the 'ps aux | grep' idiom
+pstree: Show ps output as a tree
+pugixml: Light-weight C++ XML processing library
+pycparser: C parser in Python
+pygments: Generic syntax highlighter
+python-brotli: Python bindings for the Brotli compression library
+python-certifi: Mozilla CA bundle for Python
+python-click: Python composable command-line interface toolkit
+python-cryptography: Cryptographic recipes and primitives for Python
+python-dateutil: Useful extensions to the standard Python datetime features
+python-markdown: Python implementation of Markdown
+python-markupsafe: Implements a XML/HTML/XHTML Markup safe string for Python
+python-mutagen: Python module for handling audio metadata
+python-packaging: Core utilities for Python packages
+python-pathspec: Utility library for gitignore style pattern matching of file paths
+python-setuptools: Easily download, build, install, upgrade, and uninstall Python packages
+python-typing-extensions: Backported and experimental type hints for Python
+python@3.11: Interpreted, interactive, object-oriented programming language
+python@3.12: Interpreted, interactive, object-oriented programming language
+pyyaml: YAML framework for Python
+qt: Cross-platform application and UI framework
+rav1e: Fastest and safest AV1 video encoder
+readline: Library for command-line editing
+ripgrep: Search tool like grep and The Silver Searcher
+rlwrap: Readline wrapper: adds readline support to tools that lack it
+rubberband: Audio time stretcher tool and library
+ruby: Powerful, clean, object-oriented scripting language
+sbcl: Steel Bank Common Lisp system
+sdl2: Low-level access to audio, keyboard, mouse, joystick, and graphics
+shared-mime-info: Database of common MIME types
+shellcheck: Static analysis and lint tool, for (ba)sh scripts
+shfmt: Autoformat shell script source code
+six: Python 2 and 3 compatibility utilities
+snappy: Compression/decompression library aiming for high speed
+sops: Editor of encrypted files
+source-highlight: Source-code syntax highlighter
+speex: Audio codec designed for speech
+sqlite: Command-line interface for SQLite
+srt: Secure Reliable Transport
+ssh-copy-id: Add a public key to a remote machine's authorized_keys file
+starship: Cross-shell prompt for astronauts
+stockfish: Strong open-source chess engine
+stow: Organize software neatly under a single directory tree (e.g. /usr/local)
+stylelint: Modern CSS linter
+svt-av1: AV1 encoder
+swi-prolog: ISO/Edinburgh-style Prolog interpreter
+tbb: Rich and complete approach to parallelism in C++
+tcl-tk: Tool Command Language
+terminal-notifier: Send macOS User Notifications from the command-line
+tesseract: OCR (Optical Character Recognition) engine
+texinfo: Official documentation format of the GNU project
+theora: Open video compression format
+tokei: Program that allows you to count code, quickly
+tree: Display directories as trees (with optional color/HTML output)
+tree-sitter: Parser generator tool and incremental parsing library
+unbound: Validating, recursive, caching DNS resolver
+unixodbc: ODBC 3 connectivity for UNIX
+vale: Syntax-aware linter for prose
+wangle: Modular, composable client/server abstractions framework
+watch: Executes a program periodically, showing output fullscreen
+watchman: Watch files and take action when they change
+webp: Image format providing lossless and lossy compression for web images
+wget: Internet file retriever
+whisper-cpp: Port of OpenAI's Whisper model in C/C++
+wordnet: Lexical database for the English language
+x264: H.264/AVC encoder
+x265: H.265/HEVC encoder
+xmlto: Convert XML to another format (based on XSL or other tools)
+xorgproto: X.Org: Protocol Headers
+xterm: Terminal emulator for the X Window System
+xvid: High-performance, high-quality MPEG-4 video library
+xz: General-purpose data compression with high compression ratio
+yamllint: Linter for YAML files
+yarn: JavaScript package manager
+yq: Process YAML, JSON, XML, CSV and properties documents from the CLI
+yt-dlp: Fork of youtube-dl with additional features and fixes
+z3: High-performance theorem prover
+zeromq: High-performance, asynchronous messaging library
+zimg: Scaling, colorspace conversion, and dithering library
+zlib: General-purpose lossless data-compression library
+zstd: Zstandard is a real-time compression algorithm

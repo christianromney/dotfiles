@@ -1,0 +1,17 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("org-capture-last-stored"
+ (filename . "~/Documents/personal/notes/content/roam/20240202105014-ai_papers.org")
+ (front-context-string . "\n* Reading Notes")
+ (rear-context-string . "title: AI Papers")
+ (position . 86)
+ (last-modified 26045 3921 149892 0))
+("org-refile-last-stored"
+ (filename . "~/src/study/ai/diagrammer/readme.org")
+ (front-context-string . "** Enivronment S")
+ (rear-context-string . "ing assistants.\n")
+ (position . 76)
+ (last-modified 26050 56710 552125 0))
+)

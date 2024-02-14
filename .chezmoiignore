@@ -1,3 +1,4 @@
+.git/**
 .config/chezmoi/**
 .config/emacs/.local/cache/autosave/**
 .config/emacs/.local/cache/comp/**

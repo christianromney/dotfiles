@@ -49,3 +49,6 @@ alias ll='eza -lah'
 alias rf='rm -rf'
 alias save-brews="list-brews | tee $HOME/.config/homebrew/formulae.txt"
 alias save-casks="list-casks | tee $HOME/.config/homebrew/casks.txt"
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+

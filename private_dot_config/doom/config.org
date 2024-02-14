@@ -875,6 +875,9 @@ ChatGPT emacs front-end with a nicer UI.
   (setq gptel-api-key openai-key
         gptel-default-mode 'org-mode)
   (add-hook 'gptel-post-response-hook 'gptel-end-of-response)
+  (add-to-list 'gptel-directives
+               '(executive-summary .
+                 "You are a writing assistant preparing an executive summary. Summarize the main ideas from the text, focusing on strategic elements, impact, value, and metrics. Write professionally, simply, and with concision."))
   (message "  ...gptel..."))
 
 (map! :desc "ChatGPT" "C-c C-|" #'gptel)
@@ -904,17 +907,40 @@ Generate code for me to correct.
 (message "  ...CodeGPT...")
 #+end_src
 *** org-ai
-For speech-to-text to work, I need to give emacs access to the microphone. I typed this at the shell:
+**** Security
+For speech-to-text to work, I need to give emacs access to the microphone. Emacs
+doesn't know how to do this at the moment.
+***** Development Support
+The correct way to do this is to request the
+[[https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_device_audio-input][com.apple.security.device.audio-input]] [[https://developer.apple.com/documentation/bundleresources/entitlements][Entitlement]].
+
+The Apple Developer documentation says:
+
+#+begin_quote
+To add this entitlement to your app, first enable the Hardened Runtime
+capability in Xcode, and then under Resource Access, select Audio Input.
+#+end_quote
+
+This approach would require modifying the build process to use this approach,
+possibly based on a new build configuration switch e.g.
+`--with-audio-input-entitlement`
+***** Hacky, Dangerous Workaround
+Warning: *The utility below is not confirmed to work on Sonoma* 14.3.1.
+
+First, one would need to disable [[https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection/][System Integrity Protection]].
+Then, one could use a utility like the [[https://github.com/DocSystem/tccutil][tccutil]] to modify the
+[[https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive][Apple TCC database]] directly.
 
 #+begin_example
 cd ~/src/open
 git clone https://github.com/DocSystem/tccutil
 cd tccutil
-sudo python ./tccutil.py -p /usr/local/Cellar/emacs-plus@29/29.1/Emacs.app -e --microphone
+sudo python3 ./tccutil.py --id org.gnu.Emacs -e --microphone
 #+end_example
 
-Now I can configure org-ai to use speech-to-text. I also use the premium Apple
-voice "Jamie" for text-to-speech via the ~say~ utility.
+**** Configuration
+I configure Mac OS accessibility to use the premium Apple voice "Jamie" for
+text-to-speech via the ~say~ utility.
 
 #+begin_src elisp
 (use-package! org-ai
@@ -935,7 +961,6 @@ voice "Jamie" for text-to-speech via the ~say~ utility.
 
 #+RESULTS:
 | org-zotxt-mode | +lookup--init-org-mode-handlers-h | (closure (t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | org-ai-mode | org-glossary-mode | doom-disable-show-paren-mode-h | doom-disable-show-trailing-whitespace-h | +org-make-last-point-visible-h | toc-org-enable | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | writegood-mode | +literate-enable-recompile-h |
-
 ** Programming Modes
 Configuration for additional programming modes.
 

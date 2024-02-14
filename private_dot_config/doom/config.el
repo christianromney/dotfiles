@@ -728,6 +728,9 @@ Doom loads early."
   (setq gptel-api-key openai-key
         gptel-default-mode 'org-mode)
   (add-hook 'gptel-post-response-hook 'gptel-end-of-response)
+  (add-to-list 'gptel-directives
+               '(executive-summary .
+                 "You are a writing assistant preparing an executive summary. Summarize the main ideas from the text, focusing on strategic elements, impact, value, and metrics. Write professionally, simply, and with concision."))
   (message "  ...gptel..."))
 
 (map! :desc "ChatGPT" "C-c C-|" #'gptel)

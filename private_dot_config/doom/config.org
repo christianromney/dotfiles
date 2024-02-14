@@ -924,12 +924,17 @@ capability in Xcode, and then under Resource Access, select Audio Input.
 This approach would require modifying the build process to use this approach,
 possibly based on a new build configuration switch e.g.
 `--with-audio-input-entitlement`
-***** Hacky, Dangerous Workaround
+
+***** Hacky, Dangerous Workaround?
 Warning: *The utility below is not confirmed to work on Sonoma* 14.3.1.
 
-First, one would need to disable [[https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection/][System Integrity Protection]].
+First, one would need to disable [[https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection/][System Integrity Protection]] (SIP).
+One can check whether SIP is enabled at the CLI with: ~csrutil status~.
+
 Then, one could use a utility like the [[https://github.com/DocSystem/tccutil][tccutil]] to modify the
-[[https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive][Apple TCC database]] directly.
+[[https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive][Apple Transparency, Consent and Control (TCC) database]] directly.
+
+More info on TCC is available in [[https://eclecticlight.co/2023/02/09/should-you-reset-its-database-or-delete-it-the-woes-of-tcc/][this blog post]].
 
 #+begin_example
 cd ~/src/open

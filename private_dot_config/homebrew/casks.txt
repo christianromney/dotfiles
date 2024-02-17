@@ -12,6 +12,7 @@ font-noto-color-emoji: (Noto Color Emoji) [no description]
 font-roboto-condensed: (Roboto Condensed) [no description]
 font-roboto-mono: (Roboto Mono) [no description]
 keybase: (Keybase) End-to-end encryption software
+kindle: (Kindle for Mac) Interface for reading and syncing eBooks
 mactex: (MacTeX) Full TeX Live distribution with GUI applications
 macwhisper: (MacWhisper) Speech recognition tool
 miniconda: (Miniconda) Minimal installer for conda

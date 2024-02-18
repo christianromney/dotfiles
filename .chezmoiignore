@@ -15,3 +15,4 @@
 .config/emacs/eln-cache/**
 .config/op/**
 .config/raycast/**
+.config/emacs/.local/cache/forge/**

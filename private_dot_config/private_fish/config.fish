@@ -45,6 +45,7 @@ end
 source /Users/christian/.config/op/plugins.sh
 alias cm='chezmoi'
 alias cma='chezmoi add -q -r --secrets error'
+alias cms='chezmoi status'
 alias ls='eza'
 alias ll='eza -lah'
 alias rf='rm -rf'

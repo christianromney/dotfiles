@@ -50,6 +50,7 @@ fontconfig: XML-based font configuration API for X Windows
 freetype: Software library to render fonts
 frei0r: Minimalistic plugin API for video effects
 fribidi: Implementation of the Unicode BiDi algorithm
+fzf: Command-line fuzzy finder written in Go
 gcc: GNU compiler collection
 gd: Graphics library to dynamically manipulate images
 gdk-pixbuf: Toolkit for image loading and pixel buffer manipulation
@@ -225,6 +226,7 @@ pixman: Low-level library for pixel manipulation
 pkg-config: Manage compile and link flags for libraries
 pngpaste: Paste PNG into files
 poppler: PDF rendering library (based on the xpdf-3.0 code base)
+prettier: Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
 psgrep: Shortcut for the 'ps aux | grep' idiom
 pstree: Show ps output as a tree
 pugixml: Light-weight C++ XML processing library
@@ -305,4 +307,5 @@ z3: High-performance theorem prover
 zeromq: High-performance, asynchronous messaging library
 zimg: Scaling, colorspace conversion, and dithering library
 zlib: General-purpose lossless data-compression library
+zoxide: Shell extension to navigate your filesystem faster
 zstd: Zstandard is a real-time compression algorithm

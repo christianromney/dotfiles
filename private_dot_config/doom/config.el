@@ -788,6 +788,16 @@ Doom loads early."
 
 (message "  ...smartparens...")
 
+(use-package! ediff
+  :defer t
+  :config
+  (setq ediff-split-window-function 'split-window-horizontally
+        ediff-window-setup-function 'ediff-setup-windows-plain)
+  (setq ediff-keep-variants nil
+        ediff-make-buffers-readonly-at-startup nil
+        ediff-merge-revisions-with-ancestor t
+        ediff-show-clashes-only t))
+
 (after! projectile
   (cr/mkdirp (expand-file-name "projectile" doom-cache-dir))
 

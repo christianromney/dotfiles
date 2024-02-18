@@ -83,3 +83,5 @@
 	required = true
 [init]
 	defaultBranch = master
+[github]
+	user = christianromney

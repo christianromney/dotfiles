@@ -247,6 +247,7 @@ python-typing-extensions: Backported and experimental type hints for Python
 python@3.11: Interpreted, interactive, object-oriented programming language
 python@3.12: Interpreted, interactive, object-oriented programming language
 pyyaml: YAML framework for Python
+qrencode: QR Code generation
 qt: Cross-platform application and UI framework
 rav1e: Fastest and safest AV1 video encoder
 readline: Library for command-line editing

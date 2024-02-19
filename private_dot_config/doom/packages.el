@@ -15,7 +15,7 @@
 (package! clojure-snippets)
 
 ;; -----------------------------------------------------------------------------
-;; Open AI
+;; AI
 ;; -----------------------------------------------------------------------------
 (package! gptel)
 (package! greader)
@@ -23,6 +23,7 @@
 (package! codegpt :recipe (:host github :repo "emacs-openai/codegpt")) ;; code
 (package! dall-e  :recipe (:host github :repo "emacs-openai/dall-e"))  ;; draw
 (package! whisper :recipe (:host github :repo "natrys/whisper.el"))
+
 ;; ------------------------------------------------------------------------------
 ;; Org
 ;; ------------------------------------------------------------------------------
@@ -32,7 +33,7 @@
 (package! brazilian-holidays)
 (package! consult-org-roam :recipe(:host github :repo "jgru/consult-org-roam"))
 (package! org-glossary :recipe (:host github :repo "tecosaur/org-glossary"))
-(package! zotxt)
+(package! qrencode :recipe (:host github :repo "ruediger/qrencode-el"))
 
 ;; ------------------------------------------------------------------------------
 ;; Utilities

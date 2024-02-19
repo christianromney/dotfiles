@@ -285,8 +285,20 @@ Doom loads early."
     ;; Hide the modeline of the Embark live/completions buffers
     (add-to-list 'display-buffer-alist
                  '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+                   nil
+                   (window-parameters (mode-line-format . none)))))
+
+  (defun cr/org-link-qrencode (url)
+    "Display a QR code for URL in a buffer. Taken from Sacha Chua's config."
+    (let ((buf (save-window-excursion (qrencode--encode-to-buffer url))))
+      (display-buffer-in-side-window buf '((side . right)))))
+
+  (use-package! qrencode
+    :after (embark)
+    :config
+    (map!
+     (:map embark-org-link-map
+      :desc "QR encode stored link" "q" #'cr/org-link-qrencode)))
 
   ;; Consult users will also want the embark-consult package.
   (use-package! embark-consult

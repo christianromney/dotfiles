@@ -422,13 +422,11 @@ Set up all directory and file paths.
 (setq org-agenda-file-regexp     "\\`[^.].*\\.org\\(\\.gpg\\)?\\'"
       org-agenda-files           (directory-files-recursively org-directory "\\.org$"))
 
-;; (setq warning-suppress-types (append warning-suppress-types '((org-element-cache))))
-
 (after! org
-    (add-hook 'org-agenda-mode-hook
-              (lambda ()
-                (setq org-agenda-files
-                      (directory-files-recursively org-directory "\\.org$")))))
+  (add-hook 'org-agenda-mode-hook
+            (lambda ()
+              (setq org-agenda-files
+                    (directory-files-recursively org-directory "\\.org$")))))
 
 ;; capture
 (setq +org-capture-changelog-file "changelog.org"
@@ -439,7 +437,6 @@ Set up all directory and file paths.
 
 (message "  ...org directories and files...")
 #+end_src
-
 *** Markup Functions
 These commands let me markup org words quickly.
 

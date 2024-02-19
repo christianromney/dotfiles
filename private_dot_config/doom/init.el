@@ -22,7 +22,6 @@
        (vertico +icons)    ; the search engine of the future
 
        :ui
-       deft
        doom                ; what makes DOOM look the way it does
        ;;doom-dashboard    ; a nifty splash screen for Emacs
        (emoji +unicode)    ; 🙂

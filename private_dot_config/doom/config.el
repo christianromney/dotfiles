@@ -728,6 +728,10 @@ Doom loads early."
   (require 'openai)
   (setq gptel-api-key openai-key
         gptel-default-mode 'org-mode)
+  (gptel-make-ollama "Ollama"
+    :host "localhost:11434"
+    :stream t
+    :models '("mixtral:latest"))
   (add-hook 'gptel-post-response-hook 'gptel-end-of-response)
   (add-to-list 'gptel-directives
                '(executive-summary .
@@ -804,7 +808,8 @@ Doom loads early."
   (setq projectile-cache-file
         (expand-file-name "projectile/projectile.cache" doom-cache-dir)
         projectile-known-projects-file
-        (expand-file-name "projectile/projectile.projects" doom-cache-dir))
+        (expand-file-name "projectile/projectile.projects" doom-cache-dir)
+        projectile-project-search-path '("~/src/"))
 
   (pushnew! projectile-project-root-files "project.clj" "deps.edn"))
 

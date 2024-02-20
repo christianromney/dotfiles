@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -e
+if [[ $# -lt 1 ]]; then
+  printf "usage: new-project <dirname> [options]\n\nOPTIONS:\n\n  --python\t init new conda environment"
+  exit 1
+fi
+
+parentpath="$(realpath $(dirname $1))"
+dirname="$(basename $1)"
+fullpath="${parentpath}/${dirname}"
+args="$*"
+
+echo "Initializing new project '${dirname}' in ${parentpath}"
+mkdir -p "${fullpath}"
+
+cd "${fullpath}"
+echo "Changing directory to $(pwd)"
+
+# ------------------------------------------------------------------
+# git
+if [[ ! -d ".git" ]]; then
+    echo "Initializing Git"
+    git init
+fi
+
+if [[ ! -d ".git-crypt" ]]; then
+    git crypt init
+    git crypt add-gpg-user christian.a.romney@gmail.com
+    git crypt add-gpg-user christian.romney@nubank.com.br
+    git crypt add-gpg-user christian.romney@cognitect.com
+fi
+
+if [[ ! -f ".gitattributes" ]]; then
+    echo ".envrc filter=git-crypt diff=git-crypt" >> .gitattributes
+    git add .gitattributes
+fi
+
+# ------------------------------------------------------------------
+# direnv
+if [[ ! -f ".envrc" ]]; then
+    echo "Initializing project environment"
+    echo "export PROJECT_NAME=${dirname}" >> .envrc
+
+    # optional python
+    if [[ "${args}" == *"--python"* ]]; then
+        echo "Initializing python project"
+        conda create -q -y --name "${dirname}"
+        echo "layout conda ${dirname}" >> .envrc
+    fi
+    direnv allow
+fi

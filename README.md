@@ -7,10 +7,29 @@ tweaks.
 
 I use [Chezmoi](https://www.chezmoi.io/) to manage the symlinks in
 this repository, and [Homebrew](https://brew.sh/) as my package manager.
-These are my installed [formulae](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/formulae.txt) and [casks](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/casks.txt).
 
+Tools
+=====
+These are the tools I use most often:
 
-I use [Fish Shell](https://fishshell.com/) with the [Fisher](https://github.com/jorgebucaran/fisher) plugin manager.
+- launcher: [raycast](https://www.raycast.com/)
+- shell: [Fish](https://fishshell.com/) with [Fisher](https://github.com/jorgebucaran/fisher)
+  - terminal emulator: [iTerm2](https://iterm2.com/)
+  - prompt manager: [starship](https://starship.rs/)
+  - project environment: [direnv](https://direnv.net/)
+  - navigation: [zoxide](https://github.com/ajeetdsouza/zoxide) with [fzf](https://github.com/junegunn/fzf)
+- editor: [emacs](https://www.gnu.org/software/emacs/) specifically, [emacs-plus](https://github.com/d12frosted/homebrew-emacs-plus) 
+  - notes: [org-mode](https://orgmode.org/) and [org-roam](https://www.orgroam.com/)
+    - reference manager: [BibDesk](https://bibdesk.sourceforge.io/) via [MacTeX](https://www.tug.org/mactex/)
+- font: [JetBrains Mono](https://www.jetbrains.com/lp/mono/)
+- programming languages: 
+  - [clojure](https://clojure.org) (preferred)
+  - [python](https://python.org)
+    - environment [miniconda](https://docs.anaconda.com/free/miniconda/)
+- local LLMs: [ollama](https://ollama.com/)
+- containers: [orbstack](https://orbstack.dev/)
+
+See the full list of installed [formulae](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/formulae.txt) and [casks](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/casks.txt).
 
 
 License

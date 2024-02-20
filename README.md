@@ -19,6 +19,7 @@ These are the tools I use most often:
   - project environment: [direnv](https://direnv.net/)
   - navigation: [zoxide](https://github.com/ajeetdsouza/zoxide) with [fzf](https://github.com/junegunn/fzf)
 - editor: [emacs](https://www.gnu.org/software/emacs/) specifically, [emacs-plus](https://github.com/d12frosted/homebrew-emacs-plus) 
+  - configuration framework: [Doom](https://github.com/doomemacs/doomemacs)
   - notes: [org-mode](https://orgmode.org/) and [org-roam](https://www.orgroam.com/)
     - reference manager: [BibDesk](https://bibdesk.sourceforge.io/) via [MacTeX](https://www.tug.org/mactex/)
 - font: [JetBrains Mono](https://www.jetbrains.com/lp/mono/)

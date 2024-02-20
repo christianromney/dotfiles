@@ -784,6 +784,10 @@ Doom loads early."
         "You are a helpful, succinct research and coding assistant running in Emacs.")
   (message "  ...org-ai..."))
 
+(setq python-indent-offset
+      2
+      lisp-indent-offset 2)
+
 (setq blink-matching-paren t
       show-paren-mode t
       show-paren-style 'parenthesis

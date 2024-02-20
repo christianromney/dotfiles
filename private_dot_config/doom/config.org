@@ -925,39 +925,12 @@ Generate code for me to correct.
 #+end_src
 *** org-ai
 **** Security
-For speech-to-text to work, I need to give emacs access to the microphone. Emacs
-doesn't know how to do this at the moment.
-***** Development Support
-The correct way to do this is to request the
-[[https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_device_audio-input][com.apple.security.device.audio-input]] [[https://developer.apple.com/documentation/bundleresources/entitlements][Entitlement]].
-
-The Apple Developer documentation says:
-
-#+begin_quote
-To add this entitlement to your app, first enable the Hardened Runtime
-capability in Xcode, and then under Resource Access, select Audio Input.
-#+end_quote
-
-This approach would require modifying the build process to use this approach,
-possibly based on a new build configuration switch e.g.
-`--with-audio-input-entitlement`
-
-***** Hacky, Dangerous Workaround?
-Warning: *The utility below is not confirmed to work on Sonoma* 14.3.1.
-
-First, one would need to disable [[https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection/][System Integrity Protection]] (SIP).
-One can check whether SIP is enabled at the CLI with: ~csrutil status~.
-
-Then, one could use a utility like the [[https://github.com/DocSystem/tccutil][tccutil]] to modify the
-[[https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive][Apple Transparency, Consent and Control (TCC) database]] directly.
-
-More info on TCC is available in [[https://eclecticlight.co/2023/02/09/should-you-reset-its-database-or-delete-it-the-woes-of-tcc/][this blog post]].
+For speech-to-text to work, I need to give emacs access to the microphone. Add
+the following xml after the Camera usage description in Emacs' Info.plist:
 
 #+begin_example
-cd ~/src/open
-git clone https://github.com/DocSystem/tccutil
-cd tccutil
-sudo python3 ./tccutil.py --id org.gnu.Emacs -e --microphone
+<key>NSMicrophoneUsageDescription</key>
+<string>Emacs needs permission to access the microphone.</string>
 #+end_example
 
 **** Configuration
@@ -981,10 +954,16 @@ text-to-speech via the ~say~ utility.
   (message "  ...org-ai..."))
 #+end_src
 
-#+RESULTS:
-| org-zotxt-mode | +lookup--init-org-mode-handlers-h | (closure (t) (&rest _) (add-hook 'before-save-hook 'org-encrypt-entries nil t)) | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | org-ai-mode | org-glossary-mode | doom-disable-show-paren-mode-h | doom-disable-show-trailing-whitespace-h | +org-make-last-point-visible-h | toc-org-enable | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | writegood-mode | +literate-enable-recompile-h |
 ** Programming Modes
 Configuration for additional programming modes.
+*** Indentation
+Always 2 spaces for every language I use.
+
+#+begin_src elisp
+(setq python-indent-offset
+      2
+      lisp-indent-offset 2)
+#+end_src
 
 *** Paren Matching
 Highlight and blink matching parentheses.
@@ -1223,7 +1202,6 @@ Inferior clojure mode keybindings.
 
 (message "  ...clojure repl...")
 #+end_src
-
 ** Miscellaneous
 Every Emacs configuration contains a few little odds and ends.
 #+begin_src elisp

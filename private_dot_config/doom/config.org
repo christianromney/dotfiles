@@ -926,7 +926,7 @@ Generate code for me to correct.
 *** org-ai
 **** Security
 For speech-to-text to work, I need to give emacs access to the microphone. Add
-the following xml after the Camera usage description in Emacs' Info.plist:
+the following xml after the Camera usage description in [[https://github.com/d12frosted/homebrew-emacs-plus/pull/666][Emacs' Info.plist]]:
 
 #+begin_example
 <key>NSMicrophoneUsageDescription</key>

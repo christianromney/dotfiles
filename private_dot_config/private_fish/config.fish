@@ -52,6 +52,8 @@ alias rf='rm -rf'
 alias save-brews="list-brews | tee $HOME/.config/homebrew/formulae.txt"
 alias save-casks="list-casks | tee $HOME/.config/homebrew/casks.txt"
 
+abbr --add np new-project
+
 # iTerm2 shell tools (e.g. imgcat)
 test -e "$HOME/.iterm2_shell_integration.fish"; and source "$HOME/.iterm2_shell_integration.fish"
 

@@ -16,8 +16,10 @@ mkdir -p "${fullpath}"
 cd "${fullpath}"
 echo "Changing directory to $(pwd)"
 
-# ------------------------------------------------------------------
-# git
+# +----------------------------------------------------------------+
+# | git                                                            |
+# +----------------------------------------------------------------+
+
 if [[ ! -d ".git" ]]; then
     echo "Initializing Git"
     git init
@@ -35,13 +37,17 @@ if [[ ! -f ".gitattributes" ]]; then
     git add .gitattributes
 fi
 
-# ------------------------------------------------------------------
-# direnv
+# +----------------------------------------------------------------+
+# | direnv                                                         |
+# +----------------------------------------------------------------+
+
 if [[ ! -f ".envrc" ]]; then
     echo "Initializing project environment"
     echo "export PROJECT_NAME=${dirname}" >> .envrc
 
-    # optional python
+#   +--------------------------------------------------------------+
+#   | python (optional)                                            |
+#   +--------------------------------------------------------------+
     if [[ "${args}" == *"--python"* ]]; then
         echo "Initializing python project"
         conda create -q -y --name "${dirname}"

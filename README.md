@@ -7,7 +7,7 @@ tweaks.
 
 I use [Chezmoi](https://www.chezmoi.io/) to manage the symlinks in
 this repository, and [Homebrew](https://brew.sh/) as my package manager.
-These are my installed [formulae](blob/main/private_dot_config/homebrew/formulae.txt) and [casks](blob/main/private_dot_config/homebrew/casks.txt).
+These are my installed [formulae](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/formulae.txt) and [casks](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/casks.txt).
 
 
 I use [Fish Shell](https://fishshell.com/) with the [Fisher](https://github.com/jorgebucaran/fisher) plugin manager.

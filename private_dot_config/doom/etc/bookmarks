@@ -3,15 +3,15 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
- (filename . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")
- (front-context-string . "\n* Notes and Res")
- (rear-context-string . "ial Intelligence")
- (position . 116)
- (last-modified 26061 28737 661374 0))
+  (filename . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")
+  (front-context-string . "\n* Notes and Res")
+  (rear-context-string . "ial Intelligence")
+  (position . 116)
+  (last-modified 26061 28737 661374 0))
 ("org-refile-last-stored"
- (filename . "~/src/study/ai/diagrammer/readme.org")
- (front-context-string . "** Enivronment S")
- (rear-context-string . "ing assistants.\n")
- (position . 76)
- (last-modified 26050 56710 552125 0))
+  (filename . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")
+  (front-context-string . "** Local Develop")
+  (rear-context-string . "io/][weaviate]]\n")
+  (position . 1659)
+  (last-modified 26070 33929 623369 0))
 )

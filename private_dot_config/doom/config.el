@@ -503,6 +503,16 @@ Doom loads early."
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WIP(w)" "PAUSE(p)" "|" "DONE(d)" "KILL(k)" "ASSIGNED(a)")))
 
+  ;; roam
+  (add-to-list 'display-buffer-alist
+        '("\\*org-roam\\*"
+           (display-buffer-in-side-window)
+           (side . right)
+           (slot . 0)
+           (window-width . 0.33)
+           (window-parameters . ((no-other-window . t)
+                                 (no-delete-other-windows . t)))))
+
   ;; tags
   (setq org-tag-alist
         '((:startgrouptag)
@@ -637,6 +647,11 @@ Doom loads early."
       (setq citar-bibliography bib))
     (citar-capf-setup))
   (message "  ...org citations, citar..."))
+
+;; (use-package! org-auto-tangle
+;;   :hook (org-mode . org-auto-tangle-mode)
+;;   :config
+;;   (setq org-auto-tangle-default t))
 
 (use-package! graphviz-dot-mode
   :defer t

@@ -579,6 +579,16 @@ capture, appearance, tags, todos, and refiling.
   (setq org-todo-keywords
         '((sequence "TODO(t)" "WIP(w)" "PAUSE(p)" "|" "DONE(d)" "KILL(k)" "ASSIGNED(a)")))
 
+  ;; roam
+  (add-to-list 'display-buffer-alist
+        '("\\*org-roam\\*"
+           (display-buffer-in-side-window)
+           (side . right)
+           (slot . 0)
+           (window-width . 0.33)
+           (window-parameters . ((no-other-window . t)
+                                 (no-delete-other-windows . t)))))
+
   ;; tags
   (setq org-tag-alist
         '((:startgrouptag)
@@ -742,11 +752,12 @@ Org-mode's [[https://orgmode.org/worg/org-contrib/babel/][Babel]] feature allows
 configuration file is a prime example) for literate programming. Tangling
 exports code blocks into separate files which can be compiled or interpreted by
 the relevant program.
-# #+begin_src elisp
-# (after! org
-#   (setq org-auto-tangle-default t)
-#   (add-hook 'org-mode-hook #'org-auto-tangle-mode))
-# #+end_src
+#+begin_src elisp
+;; (use-package! org-auto-tangle
+;;   :hook (org-mode . org-auto-tangle-mode)
+;;   :config
+;;   (setq org-auto-tangle-default t))
+#+end_src
 
 #+begin_comment
 If tangling gives an error about "pdf-info-process-assert-running" re-compile

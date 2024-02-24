@@ -648,11 +648,10 @@ Doom loads early."
 (message "  ...org glossary...")
 
 (when (modulep! :tools biblio)
-  (after! citar-org-roam
+  (after! org
     (let ((bib (list (expand-file-name "bibliography.bib" +info-dir)))
-           lib-path (list +papers-dir) ; what is the lib path?
-           notes-path +papers-notes-dir) ; what notes path?
-      citar-notes-source
+          (lib-path (list +papers-dir))
+          (notes-path +papers-notes-dir))
       ;; set paths for bibtex and citar
       (setq!
         org-cite-global-bibliography bib
@@ -666,11 +665,6 @@ Doom loads early."
     (citar-capf-setup))
   (message "  ...org citations, citar..."))
 
-;; (use-package! org-auto-tangle
-;;   :hook (org-mode . org-auto-tangle-mode)
-;;   :config
-;;   (setq org-auto-tangle-default t))
-
 (use-package! graphviz-dot-mode
   :defer t
   :config
@@ -679,6 +673,7 @@ Doom loads early."
 (after! org
   (when (modulep! :lang plantuml)
     (setq plantuml-default-exec-mode 'jar))
+
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -690,6 +685,7 @@ Doom loads early."
      (java       . t)
      (js         . t)
      (makefile   . t)
+     (mermaid    . t)
      (plantuml   . t)
      (prolog     . t)
      (python     . t)

@@ -746,11 +746,10 @@ Bibliography management and citation embedding via with [[https://github.com/ema
 
 #+begin_src elisp
 (when (modulep! :tools biblio)
-  (after! citar-org-roam
+  (after! org
     (let ((bib (list (expand-file-name "bibliography.bib" +info-dir)))
-           lib-path (list +papers-dir) ; what is the lib path?
-           notes-path +papers-notes-dir) ; what notes path?
-      citar-notes-source
+          (lib-path (list +papers-dir))
+          (notes-path +papers-notes-dir))
       ;; set paths for bibtex and citar
       (setq!
         org-cite-global-bibliography bib
@@ -770,13 +769,6 @@ Org-mode's [[https://orgmode.org/worg/org-contrib/babel/][Babel]] feature allows
 configuration file is a prime example) for literate programming. Tangling
 exports code blocks into separate files which can be compiled or interpreted by
 the relevant program.
-#+begin_src elisp
-;; (use-package! org-auto-tangle
-;;   :hook (org-mode . org-auto-tangle-mode)
-;;   :config
-;;   (setq org-auto-tangle-default t))
-#+end_src
-
 #+begin_comment
 If tangling gives an error about "pdf-info-process-assert-running" re-compile
 pdf-tools with ~M-x pdf-tools-install~.
@@ -796,6 +788,7 @@ tangled code files in sync on save.
   (when (modulep! :lang plantuml)
     (setq plantuml-default-exec-mode 'jar))
 
+
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((clojure    . t)
@@ -806,6 +799,7 @@ tangled code files in sync on save.
      (java       . t)
      (js         . t)
      (makefile   . t)
+     (mermaid    . t)
      (plantuml   . t)
      (prolog     . t)
      (python     . t)

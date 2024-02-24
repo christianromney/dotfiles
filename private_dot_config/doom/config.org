@@ -523,6 +523,7 @@ capture, appearance, tags, todos, and refiling.
         ol-docview
         ol-doi
         org-id
+        org-info
         org-tempo))
 
 (after! org

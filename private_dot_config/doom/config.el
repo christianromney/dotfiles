@@ -447,6 +447,7 @@ Doom loads early."
         ol-docview
         ol-doi
         org-id
+        org-info
         org-tempo))
 
 (after! org

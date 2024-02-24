@@ -433,7 +433,8 @@ Set up all directory and file paths.
 
 (setq org-directory      (expand-file-name "content" +info-dir)
   org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
-  +papers-notes-dir      (expand-file-name "papers" org-directory))
+  +papers-notes-dir      (expand-file-name "papers" org-directory)
+  org-download-image-dir (expand-file-name "image-downloads" org-directory))
 
 ;; roam notes
 (setq org-roam-directory     (expand-file-name "roam" org-directory)
@@ -744,6 +745,7 @@ the definition in the minibuffer whenever the cursor is over a glossary term.
 (message "  ...org glossary...")
 #+end_src
 
+
 *** Citations
 Bibliography management and citation embedding via with [[https://github.com/emacs-citar/citar][Citar]] and [[https://www.zotero.org/][Zotero]]
 (primarily for computer science paper references from my notes).
@@ -768,6 +770,14 @@ Bibliography management and citation embedding via with [[https://github.com/ema
   (message "  ...org citations, citar..."))
 #+end_src
 
+*** Downloads
+Download image files and store them in notes folder.
+#+begin_src elisp
+(use-package! org-download
+  :hook org-mode
+  :config
+  (add-hook 'dired-mode-hook 'org-download-enable))
+#+end_src
 *** Literate Programming (org-babel)
 Org-mode's [[https://orgmode.org/worg/org-contrib/babel/][Babel]] feature allows mixing of prose and language blocks (this
 configuration file is a prime example) for literate programming. Tangling

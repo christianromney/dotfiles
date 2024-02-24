@@ -367,7 +367,8 @@ Doom loads early."
 
 (setq org-directory      (expand-file-name "content" +info-dir)
   org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
-  +papers-notes-dir      (expand-file-name "papers" org-directory))
+  +papers-notes-dir      (expand-file-name "papers" org-directory)
+  org-download-image-dir (expand-file-name "image-downloads" org-directory))
 
 ;; roam notes
 (setq org-roam-directory     (expand-file-name "roam" org-directory)
@@ -665,6 +666,11 @@ Doom loads early."
         citar-notes-paths (list notes-path)))
     (citar-capf-setup))
   (message "  ...org citations, citar..."))
+
+(use-package! org-download
+  :hook org-mode
+  :config
+  (add-hook 'dired-mode-hook 'org-download-enable))
 
 (use-package! graphviz-dot-mode
   :defer t

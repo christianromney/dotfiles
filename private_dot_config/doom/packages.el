@@ -35,7 +35,7 @@
 (package! org-glossary :recipe (:host github :repo "tecosaur/org-glossary"))
 (package! qrencode :recipe (:host github :repo "ruediger/qrencode-el"))
 (package! ob-mermaid)
-;; get org-download
+(package! org-download)
 
 ;; ------------------------------------------------------------------------------
 ;; Utilities

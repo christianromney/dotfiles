@@ -356,33 +356,40 @@ Doom loads early."
                 (expand-file-name "aspell.en.pws" spell-fu-directory))))))
 
 ;; main directory
-(defvar +info-dir "~/Documents/personal/notes"
+(defvar +docs-dir "~/Documents/"
+  "Root for all documents")
+(defvar +papers-dir (expand-file-name "academic-papers" +docs-dir)
+  "Location of academic papers downloaded by BibDesk")
+(defvar +personal-dir (expand-file-name "personal" +docs-dir)
+  "Location of my personal documents")
+(defvar +info-dir (expand-file-name "notes" +personal-dir)
   "The root for all notes, calendars, agendas, todos, attachments, and bibliographies.")
 
-(setq org-directory              (expand-file-name "content" +info-dir)
-      org-clock-persist-file     (expand-file-name "etc/org-clock-save.el" doom-cache-dir))
+(setq org-directory      (expand-file-name "content" +info-dir)
+  org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
+  +papers-notes-dir      (expand-file-name "papers" org-directory))
 
 ;; roam notes
-(setq org-roam-directory         (expand-file-name "roam" org-directory)
-      org-roam-dailies-directory "journal/"
-      org-roam-db-location       (expand-file-name ".org-roam.db" org-directory ))
+(setq org-roam-directory     (expand-file-name "roam" org-directory)
+  org-roam-dailies-directory "journal/"
+  org-roam-db-location       (expand-file-name ".org-roam.db" org-directory ))
 
 ;; agenda
-(setq org-agenda-file-regexp     "\\`[^.].*\\.org\\(\\.gpg\\)?\\'"
-      org-agenda-files           (directory-files-recursively org-directory "\\.org$"))
+(setq org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'"
+  org-agenda-files           (directory-files-recursively org-directory "\\.org$"))
 
 (after! org
   (add-hook 'org-agenda-mode-hook
-            (lambda ()
-              (setq org-agenda-files
-                    (directory-files-recursively org-directory "\\.org$")))))
+    (lambda ()
+      (setq org-agenda-files
+        (directory-files-recursively org-directory "\\.org$")))))
 
 ;; capture
 (setq +org-capture-changelog-file "changelog.org"
-      +org-capture-notes-file     "notes.org"
-      +org-capture-projects-file  "projects.org"
-      +org-capture-todo-file      "todo.org"
-      +org-capture-journal-file   "journal.org")
+  +org-capture-notes-file     "notes.org"
+  +org-capture-projects-file  "projects.org"
+  +org-capture-todo-file      "todo.org"
+  +org-capture-journal-file   "journal.org")
 
 (message "  ...org directories and files...")
 
@@ -641,10 +648,21 @@ Doom loads early."
 (message "  ...org glossary...")
 
 (when (modulep! :tools biblio)
-  (after! org
-    (let ((bib (list (expand-file-name "references.bib" +info-dir))))
-      (setq bibtex-completion-bibliography bib)
-      (setq citar-bibliography bib))
+  (after! citar-org-roam
+    (let ((bib (list (expand-file-name "bibliography.bib" +info-dir)))
+           lib-path (list +papers-dir) ; what is the lib path?
+           notes-path +papers-notes-dir) ; what notes path?
+      citar-notes-source
+      ;; set paths for bibtex and citar
+      (setq!
+        org-cite-global-bibliography bib
+        citar-library-file-extensions (list "pdf")
+        bibtex-completion-bibliography bib
+        citar-bibliography bib
+        bibtex-completion-library-path lib-path
+        bibtex-completion-notes-path notes-path
+        citar-library-paths lib-path
+        citar-notes-paths (list notes-path)))
     (citar-capf-setup))
   (message "  ...org citations, citar..."))
 

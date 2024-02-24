@@ -1,5 +1,7 @@
 .git/**
 .config/chezmoi/**
+.config/emacs/.local/cache/recentf
+.config/emacs/.local/cache/saveplace
 .config/emacs/.local/env
 .config/emacs/.local/cache/autosave/**
 .config/emacs/.local/cache/comp/**

@@ -170,11 +170,11 @@ Doom loads early."
 (setq default-frame-alist
       '((fullscreen . maximized)))
 
-(setq display-line-numbers-type       nil
-      doom-theme 'doom-tomorrow-day
-      doom-font (font-spec :family "JetBrains Mono" :size 20)
-      doom-variable-pitch-font (font-spec :family "Metropolis" :size 18)
-      doom-serif-font (font-spec :family "Times New Roman" :size 20)
+(setq display-line-numbers-type   nil
+      doom-theme                  'doom-tomorrow-day
+      doom-font                   (font-spec :family "JetBrains Mono" :size 20)
+      doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
+      doom-serif-font             (font-spec :family "Times New Roman" :size 20)
       doom-themes-enable-bold     t
       doom-themes-enable-italic   t
       doom-themes-padded-modeline t)
@@ -566,8 +566,6 @@ Doom loads early."
                  '((default :weight normal :foreground "#86b300")))
   (face-spec-set 'org-agenda-date-today
                  '((default :foreground "#f07171" :slant italic :weight normal)))
-  (face-spec-set 'org-modern-tag
-                 '((default :weight normal :background "#d1bce5")))
   (set-face-background 'fringe (face-attribute 'default :background))
 
   ;; keybindings
@@ -587,9 +585,11 @@ Doom loads early."
 
 ;; org-modern-star (appearance)
 (after! org
-  (setq org-modern-star
-        '("◉" "○" "▣" "□" "◈" "◇" "✦" "✧" "✻" "✾"))
-  (global-org-modern-mode))
+  (doom-themes-org-config)
+  (setq org-modern-star '("◉" "○" "▣" "□" "◈" "◇"))
+  (with-eval-after-load 'org (global-org-modern-mode))
+  (set-face-attribute 'org-modern-symbol nil :family "Apple Symbols")
+  (face-spec-set 'org-modern-tag '((default :weight normal :background "#d1bce5"))))
 (message "  ...org appearance...")
 
 (defface +calendar-holiday

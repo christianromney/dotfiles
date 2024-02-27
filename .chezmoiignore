@@ -1,6 +1,8 @@
 .git/**
 .config/chezmoi/**
+.config/emacs/.local/cache/**
 .config/emacs/.local/cache/recentf
+.config/emacs/.local/cache/.cache/copilot/**
 .config/emacs/.local/cache/saveplace
 .config/emacs/.local/env
 .config/emacs/.local/cache/autosave/**

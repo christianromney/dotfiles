@@ -240,12 +240,15 @@ python-certifi: Mozilla CA bundle for Python
 python-click: Python composable command-line interface toolkit
 python-cryptography: Cryptographic recipes and primitives for Python
 python-dateutil: Useful extensions to the standard Python datetime features
+python-hatchling: Modern, extensible Python build backend
 python-markdown: Python implementation of Markdown
 python-markupsafe: Implements a XML/HTML/XHTML Markup safe string for Python
 python-mutagen: Python module for handling audio metadata
 python-packaging: Core utilities for Python packages
 python-pathspec: Utility library for gitignore style pattern matching of file paths
+python-pluggy: Minimalist production ready plugin system
 python-setuptools: Easily download, build, install, upgrade, and uninstall Python packages
+python-trove-classifiers: Canonical source for classifiers on PyPI
 python-typing-extensions: Backported and experimental type hints for Python
 python@3.11: Interpreted, interactive, object-oriented programming language
 python@3.12: Interpreted, interactive, object-oriented programming language

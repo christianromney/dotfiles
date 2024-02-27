@@ -31,7 +31,6 @@
 (package! brazilian-holidays)
 (package! consult-org-roam :recipe(:host github :repo "jgru/consult-org-roam"))
 (package! org-glossary :recipe (:host github :repo "tecosaur/org-glossary"))
-(package! org-download)
 (package! qrencode :recipe (:host github :repo "ruediger/qrencode-el"))
 (package! graphviz-dot-mode) ;; graphviz diagrams
 (package! ob-mermaid)        ;; even more diagrams

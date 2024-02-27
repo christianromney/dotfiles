@@ -434,7 +434,7 @@ Set up all directory and file paths.
 (setq org-directory      (expand-file-name "content" +info-dir)
   org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
   +papers-notes-dir      (expand-file-name "papers" org-directory)
-  org-download-image-dir (expand-file-name "image-downloads" org-directory))
+  org-download-image-dir (expand-file-name "image-downloads" org-directory)) ;; +dragndrop
 
 ;; roam notes
 (setq org-roam-directory     (expand-file-name "roam" org-directory)
@@ -762,28 +762,25 @@ Bibliography management and citation embedding via with [[https://github.com/ema
 (when (modulep! :tools biblio)
   (after! org
     (let ((bib (list (expand-file-name "bibliography.bib" +info-dir)))
-          (lib-path (list +papers-dir))
-          (notes-path +papers-notes-dir))
-      ;; set paths for bibtex and citar
+           (lib-path (list +papers-dir))
+           (notes-path +papers-notes-dir))
       (setq!
         org-cite-global-bibliography bib
         citar-library-file-extensions (list "pdf")
+        citar-file-variable "Local-Url"
         bibtex-completion-bibliography bib
         citar-bibliography bib
         bibtex-completion-library-path lib-path
         bibtex-completion-notes-path notes-path
         citar-library-paths lib-path
-        citar-notes-paths (list notes-path)))
+        citar-notes-paths (list notes-path)
+        citar-file-open-functions
+        (list
+          '("pdf"  . citar-file-open-external) ;; use preview
+          '("html" . citar-file-open-external)
+          '(t      . find-file))))
     (citar-capf-setup))
   (message "  ...org citations, citar..."))
-#+end_src
-
-*** Downloads
-Download image files and store them in notes folder.
-
-#+begin_src elisp
-(after! org
-  (add-hook 'dired-mode-hook 'org-download-enable))
 #+end_src
 
 *** Literate Programming (org-babel)

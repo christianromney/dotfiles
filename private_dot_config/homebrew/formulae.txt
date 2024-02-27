@@ -259,6 +259,7 @@ rlwrap: Readline wrapper: adds readline support to tools that lack it
 rubberband: Audio time stretcher tool and library
 ruby: Powerful, clean, object-oriented scripting language
 ruff: Extremely fast Python linter, written in Rust
+rye: Experimental Package Management Solution for Python
 sbcl: Steel Bank Common Lisp system
 sdl2: Low-level access to audio, keyboard, mouse, joystick, and graphics
 shared-mime-info: Database of common MIME types

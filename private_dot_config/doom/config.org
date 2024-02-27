@@ -937,10 +937,13 @@ Experiment with Copilot for Python coding.
 (use-package! copilot
   :hook (python-mode . copilot-mode)
   :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("M-TAB" . 'copilot-accept-completion-by-word)
-              ("M-<tab>" . 'copilot-accept-completion-by-word)))
+          ("<tab>" . 'copilot-accept-completion)
+          ("TAB" . 'copilot-accept-completion)
+          ("M-TAB" . 'copilot-accept-completion-by-word)
+          ("M-<tab>" . 'copilot-accept-completion-by-word))
+  :config
+  ;; wait two seconds before suggesting
+  (setq copilot-idle-delay 2))
 #+end_src
 
 *** Speech (Text-to-Speech and Speech-to-Text)
@@ -1016,9 +1019,14 @@ Configuration for additional programming modes.
 Always 2 spaces for every language I use.
 
 #+begin_src elisp
-(setq python-indent-offset
-      2
-      lisp-indent-offset 2)
+(let ((n 2))
+  (setq standard-indent n
+    python-indent-offset n
+    lisp-indent-offset n
+    fish-indent-offset n ;; some autoformatter on save is not respecting this
+    smie-indent-basic n
+    sh-indentation n
+    markdown-list-indent-width n))
 #+end_src
 
 *** Paren Matching
@@ -1100,12 +1108,14 @@ I use source control for everything, and enjoy a few extras for [[https://magit.
 
 
 *** Python
+For AI framework projects.
+
 #+begin_src elisp
 (use-package! apheleia
-  :config
-  ;;(add-to-list 'apheleia-mode-alist '(python-mode . ruff))
-  (apheleia-global-mode +1))
+  :defer t
+  :hook (python-mode . apheleia-mode))
 #+end_src
+
 *** Clojure
 Doom's Clojure support provides Cider. I prefer the lightweight [[https://github.com/clojure-emacs/inf-clojure][inf-clojure]]
 mode, so I bring my own packages and configuration. [[https://clojure-lsp.io/][LSP]] mode provides lots of

@@ -784,10 +784,13 @@ Doom loads early."
 (use-package! copilot
   :hook (python-mode . copilot-mode)
   :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("M-TAB" . 'copilot-accept-completion-by-word)
-              ("M-<tab>" . 'copilot-accept-completion-by-word)))
+          ("<tab>" . 'copilot-accept-completion)
+          ("TAB" . 'copilot-accept-completion)
+          ("M-TAB" . 'copilot-accept-completion-by-word)
+          ("M-<tab>" . 'copilot-accept-completion-by-word))
+  :config
+  ;; wait two seconds before suggesting
+  (setq copilot-idle-delay 2))
 
 (use-package! greader
   :defer t
@@ -833,9 +836,14 @@ Doom loads early."
         "You are a helpful, succinct research and coding assistant running in Emacs.")
   (message "  ...org-ai..."))
 
-(setq python-indent-offset
-      2
-      lisp-indent-offset 2)
+(let ((n 2))
+  (setq standard-indent n
+    python-indent-offset n
+    lisp-indent-offset n
+    fish-indent-offset n ;; some autoformatter on save is not respecting this
+    smie-indent-basic n
+    sh-indentation n
+    markdown-list-indent-width n))
 
 (setq blink-matching-paren t
       show-paren-mode t
@@ -887,9 +895,8 @@ Doom loads early."
 (message "  ...magit...")
 
 (use-package! apheleia
-  :config
-  ;;(add-to-list 'apheleia-mode-alist '(python-mode . ruff))
-  (apheleia-global-mode +1))
+  :defer t
+  :hook (python-mode . apheleia-mode))
 
 (use-package! clojure-mode
   :defer t

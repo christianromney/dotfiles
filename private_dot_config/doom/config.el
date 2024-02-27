@@ -886,6 +886,11 @@ Doom loads early."
 
 (message "  ...magit...")
 
+(use-package! apheleia
+  :config
+  ;;(add-to-list 'apheleia-mode-alist '(python-mode . ruff))
+  (apheleia-global-mode +1))
+
 (use-package! clojure-mode
   :defer t
   :hook (clojure-mode . rainbow-delimiters-mode)

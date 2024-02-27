@@ -1098,6 +1098,14 @@ I use source control for everything, and enjoy a few extras for [[https://magit.
 (message "  ...magit...")
 #+end_src
 
+
+*** Python
+#+begin_src elisp
+(use-package! apheleia
+  :config
+  ;;(add-to-list 'apheleia-mode-alist '(python-mode . ruff))
+  (apheleia-global-mode +1))
+#+end_src
 *** Clojure
 Doom's Clojure support provides Cider. I prefer the lightweight [[https://github.com/clojure-emacs/inf-clojure][inf-clojure]]
 mode, so I bring my own packages and configuration. [[https://clojure-lsp.io/][LSP]] mode provides lots of

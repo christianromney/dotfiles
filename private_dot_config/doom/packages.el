@@ -13,7 +13,7 @@
 (when (modulep! :checkers syntax)
   (package! flycheck-clj-kondo :pin "ff7bed2315755cfe02ef471edf522e27b78cd5ca"))
 (package! clojure-snippets)
-
+(package! apheleia)
 ;; ----------------------------------------------------------------------------------
 ;; AI
 ;; ----------------------------------------------------------------------------------

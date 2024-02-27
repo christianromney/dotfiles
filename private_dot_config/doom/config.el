@@ -441,6 +441,15 @@ Doom loads early."
 (message "  ...org custom markup functions...")
 
 ;; which modules to load when org starts
+;; org-habit
+;; org-toc
+;; org-annotate-file
+;; org-eval
+;; org-expiry
+;; org-interactive-query
+;; org-collector
+;; org-panel
+;; org-acreen
 (setq org-modules
       '(ol-bibtex
         ol-bookmark
@@ -667,9 +676,7 @@ Doom loads early."
     (citar-capf-setup))
   (message "  ...org citations, citar..."))
 
-(use-package! org-download
-  :hook org-mode
-  :config
+(after! org
   (add-hook 'dired-mode-hook 'org-download-enable))
 
 (use-package! graphviz-dot-mode
@@ -728,13 +735,59 @@ Doom loads early."
 (message "  ...org reveal...")
 
 (defvar gpt-default-model "gpt-4-turbo-preview"
-  "My preferred Open AI GPT model.")
+  "My preferred Open AI chat model.")
 
-(use-package! openai
+(defvar gpt-default-embedding "text-embedding-3-small"
+  "My preferred Open AI embedding model.")
+
+(defvar llm-local-chat-model "mixtral"
+  "Default local model to use for chat.")
+
+(defvar llm-local-embedding-model "nomic-embed-text"
+  "Default local model to use for embeddings.")
+
+(use-package! ellama
   :defer t
-  :config
-  (setq openai-key (cr/keychain-api-token-for-host "api.openai.com"))
-  (message "  ...openai..."))
+  :init
+  (require 'llm-ollama)
+  (require 'llm-openai)
+  (let ((default-ollama (make-llm-ollama
+                          :chat-model llm-local-chat-model
+                          :embedding-model llm-local-embedding-model)))
+    (setopt ellama-enable-keymap t)
+    (setopt ellama-keymap-prefix "C-|")
+    (setopt ellama-language "English")
+    (setopt ellama-provider default-ollama)
+    (setopt ellama-user-nick (car (string-split user-full-name)))
+    (setopt ellama-providers
+      '(("dolphin" . (make-llm-ollama
+                       :chat-model "dolphin-mixtral"
+                       :embedding-model llm-local-embedding-model))
+         ("gemma"   . (make-llm-ollama
+                        :chat-model "gemma:latest"
+                        :embedding-model "gemma:text"))
+         ("mistral" . (make-llm-ollama
+                        :chat-model "mistral"
+                        :embedding-model llm-local-embedding-model))
+         ("mixtral" . default-ollama)
+         ("chatgpt" . (make-llm-openai
+                        :key (cr/keychain-api-token-for-host "api.openai.com")
+                        :chat-model gpt-default-model
+                        :embedding-model gpt-default-embedding))))
+
+    (setopt ellama-naming-provider default-ollama)
+    (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
+    (setopt ellama-translation-provider (make-llm-ollama
+                                          :chat-model "neural-chat"
+                                          :embedding-model "nomic-embed-text"))))
+
+(use-package! copilot
+  :hook (python-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("M-TAB" . 'copilot-accept-completion-by-word)
+              ("M-<tab>" . 'copilot-accept-completion-by-word)))
 
 (use-package! greader
   :defer t
@@ -746,16 +799,16 @@ Doom loads early."
   :commands (whisper-run)
   :config
   (setq whisper-install-directory
-        (cr/mkdirp (expand-file-name "whisper" doom-cache-dir))
-        whisper-model "small"
-        whisper-language "en"
-        whisper-translate nil)
+    (cr/mkdirp (expand-file-name "whisper" doom-cache-dir))
+    whisper-model "small"
+    whisper-language "en"
+    whisper-translate nil)
 
   (when IS-MAC
     (let ((mic (cr/microphone-name
-                (cl-some #'identity
-                         (list (cr/re-find-microphone "rode")
-                               (cr/re-find-microphone "mac"))))))
+                 (cl-some #'identity
+                   (list (cr/re-find-microphone "rode")
+                     (cr/re-find-microphone "mac"))))))
       (message (format " using microphone: %s" mic))
       (rk/select-default-audio-device mic))
 
@@ -764,46 +817,6 @@ Doom loads early."
   (message "  ...whisper..."))
 
 (map! :desc "Whisper" "C-s-\\" #'whisper-run)
-
-(use-package! gptel
-  :defer t
-  :commands (gptel)
-  :init
-  (setq gptel-model gpt-default-model)
-  :config
-  (require 'openai)
-  (setq gptel-api-key openai-key
-        gptel-default-mode 'org-mode)
-  (gptel-make-ollama "Ollama"
-    :host "localhost:11434"
-    :stream t
-    :models '("mixtral:latest"))
-  (add-hook 'gptel-post-response-hook 'gptel-end-of-response)
-  (add-to-list 'gptel-directives
-               '(executive-summary .
-                 "You are a writing assistant preparing an executive summary. Summarize the main ideas from the text, focusing on strategic elements, impact, value, and metrics. Write professionally, simply, and with concision."))
-  (message "  ...gptel..."))
-
-(map! :desc "ChatGPT" "C-c C-|" #'gptel)
-;; sends everything up to (point) or the active region
-(map! :desc "Send to ChatGPT" "C->" #'gptel-send)
-
-(use-package! codegpt
-  :defer t
-  :commands (codegpt codegpt-doc codegpt-explain codegpt-fix codegpt-improve)
-  :config
-  (require 'openai)
-  (setq codegpt-tunnel 'chat
-        codegpt-model  gpt-default-model))
-
-(map!
-   :prefix ("C-c M-h o" . "coding assistant")
-   :desc "CodeGPT"        "g" #'codegpt
-   :desc "Document code"  "d" #'codegpt-doc
-   :desc "Explain code"   "e" #'codegpt-explain
-   :desc "Fix code"       "f" #'codegpt-fix
-   :desc "Improve code"   "i" #'codegpt-improve)
-(message "  ...CodeGPT...")
 
 (use-package! org-ai
   :defer t

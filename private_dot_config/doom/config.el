@@ -678,7 +678,9 @@ Doom loads early."
           '("pdf"  . citar-file-open-external) ;; use preview
           '("html" . citar-file-open-external)
           '(t      . find-file))))
-    (citar-capf-setup))
+    (citar-capf-setup)
+    (map! :map general-override-mode-map
+      "C-c n b" #'citar-open))
   (message "  ...org citations, citar..."))
 
 (use-package! graphviz-dot-mode

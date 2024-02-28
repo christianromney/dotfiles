@@ -1,0 +1,93 @@
+set fish_greeting ">>> Welcome back, "(whoami)". <<<"
+
+# configure homebrew environment and add to path
+set PATH $HOME/bin $HOME/.config/emacs/bin $PATH
+set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)
+{{ if eq .chezmoi.hostname "mint"  }}
+set -gx HOMEBREW_PREFIX "/opt/homebrew";
+set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar";
+set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
+! set -q PATH; and set PATH ''; set -gx PATH "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/homebrew/opt/grep/libexec/gnubin/" $PATH;
+! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
+! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
+
+# conda python environment manager
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
+    eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
+else
+    if test -f "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+        . "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+    else
+        set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
+    end
+end
+# <<< conda initialize <<<
+
+{{ else }}
+set -gx HOMEBREW_PREFIX "/usr/local";
+set -gx HOMEBREW_CELLAR "/usr/local/Cellar";
+set -gx HOMEBREW_REPOSITORY "/usr/local";
+! set -q PATH; and set PATH ''; set -gx PATH "/usr/local/bin" "/usr/local/sbin" "/usr/local/opt/grep/libexec/gnubin/" $PATH;
+! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/usr/local/share/man" $MANPATH;
+! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/usr/local/share/info" $INFOPATH;
+# conda python environment manager
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
+    eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
+else
+    if test -f "/usr/local/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+        . "/usr/local/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+    else
+        set -x PATH "/usr/local/Caskroom/miniconda/base/bin" $PATH
+    end
+end
+# <<< conda initialize <<<
+{{ end }}
+
+# ensure ssh and gpg are initialized
+gpgconf --launch gpg-agent
+set -x GPG_TTY (tty)
+set -x GPG_AGENT_INFO "~/.gnupg/S.gpg-agent:"(pgrep gpg-agent)":1"
+ssh-add -q
+
+# configure development environment
+set EDITOR emacs
+if test -f $HOME/.nurc
+  bass source $HOME/.nurc
+end
+
+# asdf general purpose environment manager
+status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish"
+
+# envionrment vars per directory
+direnv hook fish | source
+
+# configure prompt
+if status is-interactive
+ starship init fish | source
+end
+
+# additional cli tools
+set -l opplugins /Users/christian/.config/op/plugins.sh
+test -f $opplugins; and source $opplugins
+
+alias cm='chezmoi'
+alias cma='chezmoi add -q -r --secrets error'
+alias cms='chezmoi status'
+alias ls='eza'
+alias ll='eza -lah'
+alias rf='rm -rf'
+alias save-brews="list-brews | tee $HOME/.config/homebrew/formulae.txt"
+alias save-casks="list-casks | tee $HOME/.config/homebrew/casks.txt"
+
+abbr --add np new-project
+
+# iTerm2 shell tools (e.g. imgcat)
+set -l itermshell "$HOME/.iterm2_shell_integration.fish"
+test -e $itermshell; and source $itermshell
+
+# zoxide & fzf
+zoxide init fish --cmd=cd | source

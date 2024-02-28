@@ -168,16 +168,26 @@ Doom loads early."
 
 (message "  ...appearance...")
 (setq default-frame-alist
-      '((fullscreen . maximized)))
+  '((fullscreen . maximized)))
 
 (setq display-line-numbers-type   nil
-      doom-theme                  'doom-tomorrow-day
-      doom-font                   (font-spec :family "JetBrains Mono" :size 20)
-      doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
-      doom-serif-font             (font-spec :family "Times New Roman" :size 20)
-      doom-themes-enable-bold     t
-      doom-themes-enable-italic   t
-      doom-themes-padded-modeline t)
+  doom-theme                  'doom-ayu-light
+  doom-font                   (font-spec :family "JetBrains Mono" :size 20)
+  doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
+  doom-serif-font             (font-spec :family "Times New Roman" :size 20)
+  doom-themes-enable-bold     t
+  doom-themes-enable-italic   t
+  doom-themes-padded-modeline t)
+
+;; change faces
+(dolist (face '(window-divider
+                window-divider-first-pixel
+                window-divider-last-pixel))
+  (face-spec-reset-face face)
+  (set-face-foreground face (face-attribute 'default :background)))
+
+(face-spec-set 'font-lock-comment-face
+  '((default :foreground "#ababab")))
 
 (setq-default tab-width 2)
 (setq-default cursor-type 'bar)
@@ -198,8 +208,9 @@ Doom loads early."
 
 ;; file locations
 (setq doom-cache-dir user-emacs-directory)
-(setq +file-templates-dir (cr/mkdirp (expand-file-name "snippets" doom-private-dir)))
 (setq +default-want-RET-continue-comments nil)
+(setq +file-templates-dir (cr/mkdirp (expand-file-name "snippets" doom-private-dir)))
+(setq yas--default-user-snippets-dir +file-templates-dir)
 
 (message "  ...built-ins...")
 (setq abbrev-file-name (expand-file-name  "etc/abbrev_defs" doom-private-dir)
@@ -442,160 +453,152 @@ Doom loads early."
 
 ;; which modules to load when org starts
 ;; org-habit
-;; org-toc
-;; org-annotate-file
 ;; org-eval
 ;; org-expiry
 ;; org-interactive-query
 ;; org-collector
 ;; org-panel
-;; org-acreen
 (setq org-modules
-      '(ol-bibtex
-        ol-bookmark
-        org-checklist
-        ol-docview
-        ol-doi
-        org-id
-        org-info
-        org-tempo))
+  '(ol-bibtex
+     ol-bookmark
+     org-checklist
+     ol-docview
+     ol-doi
+     org-expiry
+     org-id
+     org-tempo))
 
 (after! org
   ;; startup configuration
   (setq org-startup-with-inline-images t
-        org-startup-with-latex-preview t
-        org-M-RET-may-split-line       t)
+    org-startup-with-latex-preview t
+    org-M-RET-may-split-line       t)
 
   ;; behaviors
   (setq org-export-html-postamble          nil
-        org-hide-emphasis-markers          t
-        org-html-validation-link           nil
-        org-log-done                       nil
-        org-outline-path-complete-in-steps nil
-        org-return-follows-link            t
-        org-src-window-setup               'current-window
-        org-use-fast-todo-selection        t
-        org-use-sub-superscripts           "{}")
+    org-hide-emphasis-markers          t
+    org-html-validation-link           nil
+    org-log-done                       nil
+    org-outline-path-complete-in-steps nil
+    org-return-follows-link            t
+    org-src-window-setup               'current-window
+    org-use-fast-todo-selection        t
+    org-use-sub-superscripts           "{}")
 
   ;; agenda
   (setq org-agenda-tags-column            0
-        org-agenda-block-separator        ?─
-        org-agenda-window-setup           'current-window
-        org-agenda-include-diary          t
-        org-agenda-show-log               t
-        org-agenda-skip-deadline-if-done  t
-        org-agenda-skip-scheduled-if-done t
-        org-agenda-skip-timestamp-if-done t
-        org-agenda-start-on-weekday       1
-        org-agenda-todo-ignore-deadlines  t
-        org-agenda-todo-ignore-scheduled  t
-        org-agenda-use-tag-inheritance    nil
-        org-agenda-custom-commands
-        '(("d" "Dashboard"
-           ((agenda "" ((org-agenda-span 10)))
-            (tags-todo "+PRIORITY=\"A\"")
-            (tags-todo "work")
-            (tags-todo "personal")))
-          ("n" "Agenda and all TODOs"
-           ((agenda "" ((org-agenda-span 10)))
-            (alltodo ""))))
-        org-agenda-time-grid
-        '((daily today require-timed)
-          (800 1000 1200 1400 1600 1800 2000)
-          " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
-        org-agenda-current-time-string
-        "⭠ now ─────────────────────────────────────────────────")
+    org-agenda-block-separator        ?─
+    org-agenda-window-setup           'current-window
+    org-agenda-include-diary          t
+    org-agenda-show-log               t
+    org-agenda-skip-deadline-if-done  t
+    org-agenda-skip-scheduled-if-done t
+    org-agenda-skip-timestamp-if-done t
+    org-agenda-start-on-weekday       1
+    org-agenda-todo-ignore-deadlines  t
+    org-agenda-todo-ignore-scheduled  t
+    org-agenda-use-tag-inheritance    nil
+    org-agenda-custom-commands
+    '(("d" "Dashboard"
+        ((agenda "" ((org-agenda-span 10)))
+          (tags-todo "+PRIORITY=\"A\"")
+          (tags-todo "work")
+          (tags-todo "personal")))
+       ("n" "Agenda and all TODOs"
+         ((agenda "" ((org-agenda-span 10)))
+           (alltodo ""))))
+    org-agenda-time-grid
+    '((daily today require-timed)
+       (800 1000 1200 1400 1600 1800 2000)
+       " ┄┄┄┄┄ " "┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄")
+    org-agenda-current-time-string
+    "⭠ now ─────────────────────────────────────────────────")
 
   ;; refiling
   (setq org-refile-use-cache                   t ;; use C-0 C-c C-w to clear cache
-        org-refile-use-outline-path            t
-        org-refile-allow-creating-parent-nodes t
-        org-refile-targets                     '((nil :maxlevel . 5)
-                                                 (org-agenda-files :maxlevel . 5)))
+    org-refile-use-outline-path            t
+    org-refile-allow-creating-parent-nodes t
+    org-refile-targets                     '((nil :maxlevel . 5)
+                                              (org-agenda-files :maxlevel . 5)))
   ;; capture
   (setq org-capture-templates
-        `(("t" "Todo" entry (file+headline "todo.org" "Todos")
-           "* TODO %^{Task} %^G")))
+    `(("t" "Todo" entry (file+headline "todo.org" "Todos")
+        "* TODO %^{Task} %^G")))
 
   ;; todos
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "WIP(w)" "PAUSE(p)" "|" "DONE(d)" "KILL(k)" "ASSIGNED(a)")))
+    '((sequence "TODO(t)" "WIP(w)" "PAUSE(p)" "|" "DONE(d)" "KILL(k)" "ASSIGNED(a)")))
 
   ;; roam
   (add-to-list 'display-buffer-alist
-        '("\\*org-roam\\*"
-           (display-buffer-in-side-window)
-           (side . right)
-           (slot . 0)
-           (window-width . 0.33)
-           (window-parameters . ((no-other-window . t)
-                                 (no-delete-other-windows . t)))))
+    '("\\*org-roam\\*"
+       (display-buffer-in-side-window)
+       (side . right)
+       (slot . 0)
+       (window-width . 0.33)
+       (window-parameters . ((no-other-window . t)
+                              (no-delete-other-windows . t)))))
 
   ;; tags
   (setq org-tag-alist
-        '((:startgrouptag)
-          ("study"      . ?s)
-          (:grouptags)
-          ("book"       . ?b)
-          ("paper"      . ?a)
-          (:endgrouptag)
-          (:startgrouptag)
-          ("work"       . ?w)
-          ("personal"   . ?m)
-          ("FLAGGED"    . ?f)))
+    '((:startgrouptag)
+       ("study"      . ?s)
+       (:grouptags)
+       ("book"       . ?b)
+       ("paper"      . ?a)
+       (:endgrouptag)
+       (:startgrouptag)
+       ("work"       . ?w)
+       ("personal"   . ?m)
+       ("FLAGGED"    . ?f)))
 
   ;; visual appearance
   (setq org-ellipsis                       "…"
-        org-fontify-done-headline          t
-        org-fontify-emphasized-text        t
-        org-fontify-quote-and-verse-blocks t
-        org-fontify-whole-heading-line     t
-        org-pretty-entities                t
-        org-hide-emphasis-markers t
-        org-src-fontify-natively           t
-        org-src-tab-acts-natively          t
-        org-auto-align-tags nil
-        org-tags-column 0
-        org-catch-invisible-edits 'show-and-error
-        org-special-ctrl-a/e t
-        org-insert-heading-respect-content t
-        org-startup-folded                 t
-        org-startup-indented               t)
-
-  (dolist (face '(window-divider
-                  window-divider-first-pixel
-                  window-divider-last-pixel))
-    (face-spec-reset-face face)
-    (set-face-foreground face (face-attribute 'default :background)))
-
-  ;; change faces
-  (face-spec-set 'org-agenda-date
-                 '((default :weight normal)))
-  (face-spec-set 'org-agenda-date-weekend
-                 '((default :foreground "#399ee6" :weight normal)))
-  (face-spec-set 'org-agenda-diary
-                 '((default :weight normal :foreground "#86b300")))
-  (face-spec-set 'org-agenda-date-today
-                 '((default :foreground "#f07171" :slant italic :weight normal)))
-  (set-face-background 'fringe (face-attribute 'default :background))
+    org-fontify-done-headline          t
+    org-fontify-emphasized-text        t
+    org-fontify-quote-and-verse-blocks t
+    org-fontify-whole-heading-line     t
+    org-pretty-entities                t
+    org-hide-emphasis-markers t
+    org-src-fontify-natively           t
+    org-src-tab-acts-natively          t
+    org-auto-align-tags nil
+    org-tags-column 0
+    org-catch-invisible-edits 'show-and-error
+    org-special-ctrl-a/e t
+    org-insert-heading-respect-content t
+    org-startup-folded                 t
+    org-startup-indented               t)
 
   ;; keybindings
   (map!
-   (:map org-mode-map
-    :desc "org markup"
-    :prefix ("C-, o" . "org markup word")
-    :desc "bold"            "b" #'cr/org-bold-word
-    :desc "code"            "c" #'cr/org-code-word
-    :desc "italics"         "i" #'cr/org-italicize-word
-    :desc "strikethrough"   "s" #'cr/org-strike-word
-    :desc "underline"       "u" #'cr/org-underline-word
-    :desc "verbatim"        "v" #'cr/org-verbatim-word
+    (:map org-mode-map
+      :desc "org markup"
+      :prefix ("C-, o" . "org markup word")
+      :desc "bold"            "b" #'cr/org-bold-word
+      :desc "code"            "c" #'cr/org-code-word
+      :desc "italics"         "i" #'cr/org-italicize-word
+      :desc "strikethrough"   "s" #'cr/org-strike-word
+      :desc "underline"       "u" #'cr/org-underline-word
+      :desc "verbatim"        "v" #'cr/org-verbatim-word
 
-    )))
+      )))
 (message "  ...org startup, bindings, agenda, tags, todos...")
 
-;; org-modern-star (appearance)
 (after! org
+  (face-spec-set 'org-agenda-date
+    '((default :weight normal)))
+  (face-spec-set 'org-block
+    '((default :foreground "#5c6166" :background "#f5f7f9")))
+
+  (face-spec-set 'org-agenda-date-weekend
+    '((default :foreground "#399ee6" :weight normal)))
+  (face-spec-set 'org-agenda-diary
+    '((default :weight normal :foreground "#86b300")))
+  (face-spec-set 'org-agenda-date-today
+    '((default :foreground "#f07171" :slant italic :weight normal)))
+  (set-face-background 'fringe (face-attribute 'default :background))
+
   (doom-themes-org-config)
   (setq org-modern-star '("◉" "○" "▣" "□" "◈" "◇"))
   (with-eval-after-load 'org (global-org-modern-mode))

@@ -58,7 +58,7 @@ set -x GPG_AGENT_INFO "~/.gnupg/S.gpg-agent:"(pgrep gpg-agent)":1"
 ssh-add -q
 
 # configure development environment
-set -gxEDITOR emacs
+set -gx EDITOR emacs
 
 # asdf general purpose environment manager
 status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish"

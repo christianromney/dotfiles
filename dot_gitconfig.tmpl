@@ -1,7 +1,7 @@
 [user]
   name = Christian Romney
-  email = christian.a.romney@gmail.com
-	signingkey = 350131637E802173F7707485A0FA17A0540AAC06
+  email = {{- .email -}}
+  signingkey = {{- .gpgSigningKey -}}
 [core]
   autocrlf = input
   excludesfile = ~/.gitignore_global

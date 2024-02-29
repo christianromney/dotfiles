@@ -1095,19 +1095,26 @@ Have projectile save things where I want them.
 #+end_src
 
 
-*** Magit
-I use source control for everything, and enjoy a few extras for [[https://magit.vc/][Magit]].
+*** Git
+I use source control for everything, and enjoy a few extras for [[https://magit.vc/][Magit]]. Also,
+Doom dropped the ~gist~ tool, so I grab it directly from Github.
 
 #+begin_src elisp
 (after! magit
   (setq magit-revision-show-gravatars t
-        forge-database-file
-        (expand-file-name "forge/forge-database.sqlite" doom-cache-dir)
-        magit-no-confirm '(stage-all-changes unstage-all-changes)))
+    forge-database-file
+    (expand-file-name "forge/forge-database.sqlite" doom-cache-dir)
+    magit-no-confirm '(stage-all-changes unstage-all-changes)))
+
+(use-package! gist
+  :config
+  (map!
+    "C-M-g l" #'gist-list
+    "C-M-g b" #'gist-region-or-buffer
+    "C-M-g p" #'gist-region-or-buffer-private))
 
 (message "  ...magit...")
 #+end_src
-
 
 *** Python
 For AI framework projects.

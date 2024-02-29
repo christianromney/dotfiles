@@ -1,2 +1,7 @@
 
+apis
+datomic
+directionality
+gpus
 iain
+sharded

@@ -895,9 +895,16 @@ Doom loads early."
 
 (after! magit
   (setq magit-revision-show-gravatars t
-        forge-database-file
-        (expand-file-name "forge/forge-database.sqlite" doom-cache-dir)
-        magit-no-confirm '(stage-all-changes unstage-all-changes)))
+    forge-database-file
+    (expand-file-name "forge/forge-database.sqlite" doom-cache-dir)
+    magit-no-confirm '(stage-all-changes unstage-all-changes)))
+
+(use-package! gist
+  :config
+  (map!
+    "C-M-g l" #'gist-list
+    "C-M-g b" #'gist-region-or-buffer
+    "C-M-g p" #'gist-region-or-buffer-private))
 
 (message "  ...magit...")
 

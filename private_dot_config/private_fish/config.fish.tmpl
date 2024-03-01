@@ -1,7 +1,6 @@
 set fish_greeting ">>> Welcome back, "(whoami)". <<<"
 
 # configure homebrew environment and add to path
-set PATH $HOME/bin $HOME/.config/emacs/bin $PATH
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)
 {{ if eq .chezmoi.hostname "mint"  }}
 set -gx HOMEBREW_PREFIX "/opt/homebrew";
@@ -44,6 +43,7 @@ else
     end
 end
 # <<< conda initialize <<<
+set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH
 
 # nubank
 if test -f $HOME/.nurc

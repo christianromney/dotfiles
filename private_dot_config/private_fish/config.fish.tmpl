@@ -2,7 +2,9 @@ set fish_greeting ">>> Welcome back, "(whoami)". <<<"
 
 # configure homebrew environment and add to path
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)
+
 {{ if eq .chezmoi.hostname "mint"  }}
+# mint configuration
 echo "Mint"
 set -gx HOMEBREW_PREFIX "/opt/homebrew";
 set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar";
@@ -29,7 +31,10 @@ else
     end
 end
 # <<< conda initialize <<<
+
 {{ else }}
+
+# nubank configuration
 echo "Not Mint? {{ .chezmoi.hostname }} "
 set -gx HOMEBREW_PREFIX "/usr/local";
 set -gx HOMEBREW_CELLAR "/usr/local/Cellar";
@@ -50,13 +55,14 @@ else
     end
 end
 # <<< conda initialize <<<
-set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH
 
 # nubank
 if test -f $HOME/.nurc
   bass source $HOME/.nurc
 end
 {{ end }}
+
+set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH
 
 # ensure ssh and gpg are initialized
 gpgconf --launch gpg-agent

@@ -3,6 +3,7 @@ set fish_greeting ">>> Welcome back, "(whoami)". <<<"
 # configure homebrew environment and add to path
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)
 {{ if eq .chezmoi.hostname "mint"  }}
+echo "Mint"
 set -gx HOMEBREW_PREFIX "/opt/homebrew";
 set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar";
 set -gx HOMEBREW_REPOSITORY "/opt/homebrew";

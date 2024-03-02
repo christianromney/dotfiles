@@ -22,7 +22,6 @@ else
     set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
   end
 end
-set -x PATH (dirname $CONDA_PYTHON_EXE) $PATH
 # <<< conda initialize <<<
 {{ else }}
 # nubank configuration
@@ -51,7 +50,8 @@ if test -f $HOME/.nurc
   bass source $HOME/.nurc
 end
 {{ end }}
-
+# ensure conda python and pip are on the path
+set -x PATH (dirname $CONDA_PYTHON_EXE) $PATH
 # add home/bin and Doom to path
 set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH
 

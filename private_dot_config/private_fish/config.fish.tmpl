@@ -14,11 +14,16 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
-    eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
+  echo "Found conda"
+  eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | bat
+  eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
 else
+    echo "Else conda"
     if test -f "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+        echo "Found fish conda"
         . "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
     else
+        echo "Else add to path"
         set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
     end
 end

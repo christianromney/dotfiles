@@ -82,17 +82,6 @@ end
 set -l opplugins /Users/christian/.config/op/plugins.sh
 test -f $opplugins; and source $opplugins
 
-alias cm='chezmoi'
-alias cma='chezmoi add -q -r --secrets error'
-alias cms='chezmoi status'
-alias ls='eza'
-alias ll='eza -lah'
-alias rf='rm -rf'
-alias save-brews="list-brews | tee $HOME/.config/homebrew/formulae.txt"
-alias save-casks="list-casks | tee $HOME/.config/homebrew/casks.txt"
-
-abbr --add np new-project
-
 # iTerm2 shell tools (e.g. imgcat)
 set -l itermshell "$HOME/.iterm2_shell_integration.fish"
 test -e $itermshell; and source $itermshell

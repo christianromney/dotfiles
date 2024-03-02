@@ -2,38 +2,29 @@ set fish_greeting ">>> Welcome back, "(whoami)". <<<"
 
 # configure homebrew environment and add to path
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)
-
 {{ if eq .chezmoi.hostname "mint"  }}
 # mint configuration
-echo "Mint"
 set -gx HOMEBREW_PREFIX "/opt/homebrew";
 set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar";
 set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 ! set -q PATH; and set PATH ''; set -gx PATH "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/homebrew/opt/grep/libexec/gnubin/" $PATH;
 ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
 ! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
-
 # conda python environment manager
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
-  echo "Found conda"
-  eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | bat
   eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
 else
     echo "Else conda"
     if test -f "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
-        echo "Found fish conda"
-        . "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+      source "/opt/homebrew/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
     else
-        echo "Else add to path"
-        set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
+      set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
     end
 end
 # <<< conda initialize <<<
-
 {{ else }}
-
 # nubank configuration
 echo "Not Mint? {{ .chezmoi.hostname }} "
 set -gx HOMEBREW_PREFIX "/usr/local";
@@ -48,11 +39,11 @@ set -gx HOMEBREW_REPOSITORY "/usr/local";
 if test -f /opt/homebrew/Caskroom/miniconda/base/bin/conda
     eval /opt/homebrew/Caskroom/miniconda/base/bin/conda "shell.fish" "hook" $argv | source
 else
-    if test -f "/usr/local/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
-        . "/usr/local/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
-    else
-        set -x PATH "/usr/local/Caskroom/miniconda/base/bin" $PATH
-    end
+  if test -f "/usr/local/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+     source "/usr/local/Caskroom/miniconda/base/etc/fish/conf.d/conda.fish"
+  else
+     set -x PATH "/usr/local/Caskroom/miniconda/base/bin" $PATH
+  end
 end
 # <<< conda initialize <<<
 
@@ -62,6 +53,7 @@ if test -f $HOME/.nurc
 end
 {{ end }}
 
+# add home/bin and Doom to path
 set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH
 
 # ensure ssh and gpg are initialized

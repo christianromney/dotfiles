@@ -22,6 +22,7 @@ else
     set -x PATH "/opt/homebrew/Caskroom/miniconda/base/bin" $PATH
   end
 end
+set -x PATH (dirname $CONDA_PYTHON_EXE) $PATH
 # <<< conda initialize <<<
 {{ else }}
 # nubank configuration

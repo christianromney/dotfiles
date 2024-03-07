@@ -369,12 +369,14 @@ Doom loads early."
 ;; main directory
 (defvar +docs-dir "~/Documents/"
   "Root for all documents")
-(defvar +papers-dir (expand-file-name "academic-papers" +docs-dir)
-  "Location of academic papers downloaded by BibDesk")
+
 (defvar +personal-dir (expand-file-name "personal" +docs-dir)
   "Location of my personal documents")
 (defvar +info-dir (expand-file-name "notes" +personal-dir)
   "The root for all notes, calendars, agendas, todos, attachments, and bibliographies.")
+
+(defvar +papers-dir (expand-file-name "academic-papers" +info-dir)
+  "Location of academic papers downloaded by BibDesk")
 
 (setq org-directory      (expand-file-name "content" +info-dir)
   org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
@@ -663,31 +665,70 @@ Doom loads early."
 
 (message "  ...org glossary...")
 
-(when (modulep! :tools biblio)
-  (after! org
-    (let ((bib (list (expand-file-name "bibliography.bib" +info-dir)))
-           (lib-path (list +papers-dir))
-           (notes-path +papers-notes-dir))
-      (setq!
-        org-cite-global-bibliography bib
-        citar-library-file-extensions (list "pdf")
-        citar-file-variable "Local-Url"
-        bibtex-completion-bibliography bib
-        citar-bibliography bib
-        reftex-default-bibliography bib
-        bibtex-completion-library-path lib-path
-        bibtex-completion-notes-path notes-path
-        citar-library-paths lib-path
-        citar-notes-paths (list notes-path)
-        citar-file-open-functions
-        (list
-          '("pdf"  . citar-file-open-external) ;; use preview
-          '("html" . citar-file-open-external)
-          '(t      . find-file))))
-    (citar-capf-setup)
-    (map! :map general-override-mode-map
-      "C-c n b" #'citar-open))
-  (message "  ...org citations, citar..."))
+(use-package! citar
+  :after org
+  :if (modulep! :tools biblio)
+  :init
+  (setq! citar-indicators
+    (list
+      (citar-indicator-create
+        :symbol (nerd-icons-faicon
+                  "nf-fa-file_pdf_o"
+                  :face 'nerd-icons-dred)
+        :function #'citar-has-files
+        :padding " "
+        :tag "has:files")
+      (citar-indicator-create
+        :symbol (nerd-icons-codicon
+                  "nf-cod-link"
+                  :face 'nerd-icons-dblue)
+        :function #'citar-has-links
+        :padding " "
+        :tag "has:links")
+      (citar-indicator-create
+        :symbol (nerd-icons-codicon
+                  "nf-cod-note"
+                  :face 'nerd-icons-dgreen)
+        :function #'citar-has-notes
+        :padding " "
+        :tag "has:notes")
+      (citar-indicator-create
+        :symbol (nerd-icons-codicon
+                  "nf-cod-references"
+                  :face 'nerd-icons-purple)
+        :function #'citar-is-cited
+        :padding "  "
+        :tag "is:cited")))
+
+  (setq! citar-templates
+    '((main . "${author editor:10%sn} ${date year issued:4} ${title:64}")
+       (suffix . "  ${=key= id:20}  ${=type=:8} ${tags keywords keywords:*}")
+       (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.")
+       (note . "Notes on ${author editor:%etal}, ${title}")))
+  :config
+  (let ((bib (list (expand-file-name "bibliography.bib" +info-dir)))
+         (lib-path (list +papers-dir))
+         (notes-path +papers-notes-dir))
+    (setq!
+      org-cite-global-bibliography bib
+      reftex-default-bibliography bib
+      bibtex-completion-bibliography bib
+      bibtex-completion-library-path lib-path
+      bibtex-completion-notes-path notes-path
+      citar-bibliography bib
+      citar-file-variable "Local-Url"
+      citar-library-file-extensions (list "pdf")
+      citar-library-paths lib-path
+      citar-notes-paths (list notes-path)
+      citar-file-open-functions
+      (list
+        '("pdf"  . citar-file-open-external) ;; use preview
+        '("html" . citar-file-open-external)
+        '(t      . find-file))))
+  (citar-capf-setup)
+  (map! :map general-override-mode-map
+    "C-c n b" #'citar-open))
+(message "  ...org citations, citar...")
 
 (use-package! graphviz-dot-mode
   :defer t

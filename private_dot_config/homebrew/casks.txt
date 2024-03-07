@@ -13,6 +13,7 @@ font-roboto-condensed: (Roboto Condensed) [no description]
 font-roboto-mono: (Roboto Mono) [no description]
 keybase: (Keybase) End-to-end encryption software
 kindle: (Kindle for Mac) Interface for reading and syncing eBooks
+lm-studio: (LM Studio) Discover, download, and run local LLMs
 mactex: (MacTeX) Full TeX Live distribution with GUI applications
 macwhisper: (MacWhisper) Speech recognition tool
 miniconda: (Miniconda) Minimal installer for conda
@@ -26,3 +27,4 @@ visualvm: (VisualVM) All-in-One Java Troubleshooting Tool
 vlc: (VLC media player) Multimedia player
 vuescan: (VueScan) App that provides drivers for older model scanners that are no longer supported
 zoom: (Zoom) Video communication and virtual meeting platform
+zulip: (Zulip) Desktop client for the Zulip team chat platform

@@ -9,12 +9,12 @@
 ;; Languages
 ;; ----------------------------------------------------------------------------------
 (package! adoc-mode)
-(package! gist :recipe (:host github :repo "defunkt/gist.el"))
-(package! inf-clojure :pin "b153e5126419910c38691088aab569b7c281068c")
+(package! gist :recipe (:host github :repo "KarimAziev/gist.el"))
+(package! inf-clojure)
 (when (modulep! :checkers syntax)
-  (package! flycheck-clj-kondo :pin "ff7bed2315755cfe02ef471edf522e27b78cd5ca"))
+  (package! flycheck-clj-kondo))
 (package! clojure-snippets)
-(package! apheleia)
+;;(package! apheleia)
 ;; ----------------------------------------------------------------------------------
 ;; AI
 ;; ----------------------------------------------------------------------------------

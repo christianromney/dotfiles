@@ -476,6 +476,7 @@ Doom loads early."
 
   ;; behaviors
   (setq org-export-html-postamble          nil
+    org-export-with-latex              t
     org-hide-emphasis-markers          t
     org-html-validation-link           nil
     org-log-done                       nil
@@ -483,6 +484,7 @@ Doom loads early."
     org-return-follows-link            t
     org-src-window-setup               'current-window
     org-use-fast-todo-selection        t
+    org-preview-latex-default-process  'dvipng ; 'dvisvgm
     org-use-sub-superscripts           "{}")
 
   ;; agenda
@@ -553,19 +555,19 @@ Doom loads early."
        ("FLAGGED"    . ?f)))
 
   ;; visual appearance
-  (setq org-ellipsis                       "…"
+  (setq org-ellipsis                   "…"
     org-fontify-done-headline          t
     org-fontify-emphasized-text        t
     org-fontify-quote-and-verse-blocks t
     org-fontify-whole-heading-line     t
     org-pretty-entities                t
-    org-hide-emphasis-markers t
+    org-hide-emphasis-markers          t
     org-src-fontify-natively           t
     org-src-tab-acts-natively          t
-    org-auto-align-tags nil
-    org-tags-column 0
-    org-catch-invisible-edits 'show-and-error
-    org-special-ctrl-a/e t
+    org-auto-align-tags                nil
+    org-tags-column                    0
+    org-catch-invisible-edits          'show-and-error
+    org-special-ctrl-a/e               t
     org-insert-heading-respect-content t
     org-startup-folded                 t
     org-startup-indented               t)
@@ -672,6 +674,7 @@ Doom loads early."
         citar-file-variable "Local-Url"
         bibtex-completion-bibliography bib
         citar-bibliography bib
+        reftex-default-bibliography bib
         bibtex-completion-library-path lib-path
         bibtex-completion-notes-path notes-path
         citar-library-paths lib-path

@@ -26,7 +26,7 @@ These are the tools I use most often:
 - programming languages: 
   - [clojure](https://clojure.org) (preferred)
   - [python](https://python.org)
-    - environment ~venv~ via direnv stdlib ~layout python3~
+    - environment ~miniconda~ `venv` via direnv stdlib `layout python3`
 - local LLMs: [ollama](https://ollama.com/)
 - containers: [orbstack](https://orbstack.dev/)
 

@@ -1,5 +1,4 @@
 set fish_greeting "[ 󰈺 ] Welcome back, "(whoami)"."
-echo
 # configure homebrew environment and add to path
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)
 {{ if eq .chezmoi.hostname "mint"  }}
@@ -39,6 +38,7 @@ set -gx EDITOR emacs
 status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish"
 
 # envionrment vars per directory
+echo
 direnv hook fish | source
 
 # additional cli tools

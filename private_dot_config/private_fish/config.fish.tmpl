@@ -1,4 +1,4 @@
-set fish_greeting (set_color brmagenta)"[ 󰈺 ]"(set_color white)" Welcome back, "(set_color blue)(whoami)"."(set_color normal)
+set fish_greeting (set_color brmagenta)"[ 󰈺 ]"(set_color brgreen)" Welcome back, "(set_color blue)(whoami)(set_color brgreen)"."(set_color normal)
 # configure homebrew environment and add to path
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)
 {{ if eq .chezmoi.hostname "mint"  }}

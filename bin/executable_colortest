@@ -1,10 +1,11 @@
-#!/bin/bash
-
-echo "$(tput setaf 0; tput setab 7)BLACK$(tput sgr0)"
-echo "$(tput setaf 1)RED$(tput sgr0)"
-echo "$(tput setaf 2)GREEN$(tput sgr0)"
-echo "$(tput setaf 3)YELLOW$(tput sgr0)"
-echo "$(tput setaf 4)BLUE$(tput sgr0)"
-echo "$(tput setaf 5)MAGENTA$(tput sgr0)"
-echo "$(tput setaf 6)CYAN$(tput sgr0)"
-echo "$(tput setaf 7)WHITE$(tput sgr0)"
+#!/usr/bin/env fish
+set -l pad 10
+echo (set_color red) (string pad -w $pad "RED") " |" (set_color brred) BRIGHT RED
+echo (set_color yellow) (string pad -w $pad "YELLOW") " |" (set_color bryellow) BRIGHT YELLOW
+echo (set_color green) (string pad -w $pad "GREEN") " |" (set_color brgreen) BRIGHT GREEN
+echo (set_color cyan) (string pad -w $pad "CYAN") " |" (set_color brcyan) BRIGHT CYAN
+echo (set_color blue) (string pad -w $pad "BLUE") " |" (set_color brblue) BRIGHT BLUE
+echo (set_color magenta) (string pad -w $pad "MAGENTA") " |" (set_color brmagenta) BRIGHT MAGENTA
+echo (set_color black) (string pad -w $pad "BLACK") " |" (set_color brblack) BRIGHT BLACK
+echo (set_color white) (string pad -w $pad "WHITE") " |" (set_color brwhite) BRIGHT WHITE
+echo (set_color normal)

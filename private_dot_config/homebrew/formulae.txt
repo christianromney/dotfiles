@@ -19,6 +19,7 @@ brotli: Generic-purpose lossless compression algorithm by Google
 c-ares: Asynchronous DNS library
 ca-certificates: Mozilla CA certificate store
 cairo: Vector graphics library with cross-device output support
+certifi: Mozilla CA bundle for Python
 cffi: C Foreign Function Interface for Python
 chezmoi: Manage your dotfiles across multiple diverse machines, securely
 chezscheme: Implementation of the Chez Scheme language
@@ -229,7 +230,6 @@ pkg-config: Manage compile and link flags for libraries
 pngpaste: Paste PNG into files
 poetry: Python package management tool
 poppler: PDF rendering library (based on the xpdf-3.0 code base)
-pre-commit: Framework for managing multi-language pre-commit hooks
 prettier: Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
 psgrep: Shortcut for the 'ps aux | grep' idiom
 pstree: Show ps output as a tree
@@ -237,7 +237,6 @@ pugixml: Light-weight C++ XML processing library
 pycparser: C parser in Python
 pygments: Generic syntax highlighter
 python-brotli: Python bindings for the Brotli compression library
-python-certifi: Mozilla CA bundle for Python
 python-click: Python composable command-line interface toolkit
 python-cryptography: Cryptographic recipes and primitives for Python
 python-dateutil: Useful extensions to the standard Python datetime features

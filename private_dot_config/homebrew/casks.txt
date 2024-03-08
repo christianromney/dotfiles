@@ -7,6 +7,7 @@ dropbox: (Dropbox) Client for the Dropbox cloud storage service
 expressvpn: (ExpressVPN) VPN client for secure internet access and private browsing
 github: (GitHub Desktop) Desktop client for GitHub repositories
 font-jetbrains-mono: (JetBrains Mono) Typeface made for developers
+font-jetbrains-mono-nerd-font: (JetBrainsMono Nerd Font families (JetBrains Mono)) Developer targeted fonts with a high number of glyphs
 font-metropolis: (Metropolis) Modern, geometric typeface
 font-noto-color-emoji: (Noto Color Emoji) [no description]
 font-roboto-condensed: (Roboto Condensed) [no description]
@@ -16,7 +17,6 @@ kindle: (Kindle for Mac) Interface for reading and syncing eBooks
 lm-studio: (LM Studio) Discover, download, and run local LLMs
 mactex: (MacTeX) Full TeX Live distribution with GUI applications
 macwhisper: (MacWhisper) Speech recognition tool
-miniconda: (Miniconda) Minimal installer for conda
 ollama: (Ollama) Get up and running with large language models locally
 onyx: (OnyX) Verify system files structure, run miscellaneous maintenance and more
 orbstack: (OrbStack) Replacement for Docker Desktop

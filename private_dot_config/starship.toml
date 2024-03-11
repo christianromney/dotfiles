@@ -3,28 +3,26 @@ format = """
 [  ](bg:#4A235A  fg:#ffffff)\
 $username\
 $hostname\
-[](bg:#283747 fg:#4A235A)\
+[](bg:#154360 fg:#4A235A)\
 $directory\
-[](fg:#283747 bg:#154360)\
+[](fg:#154360 bg:#1A5276)\
 $git_branch\
 $git_commit\
 $git_state\
 $git_status\
 $git_metrics\
-[](fg:#154360 bg:#1A5276)\
+[](fg:#1A5276 bg:#1F618D)\
 $python\
 $java\
 $custom\
-$env_var\
-[](fg:#1A5276 bg:#1F618D)\
+[](fg:#1F618D bg:#424949)\
 $docker_context\
-[](fg:#1F618D)\
+[](fg:#424949)\
 $line_break\
 $battery\
 $time\
 $character
 """
-# docker_context bg:#33658A
 # Disable the blank line at the start of the prompt
 # add_newline = false
 
@@ -44,7 +42,7 @@ format = '[@$ssh_symbol$hostname ]($style)'
 style = "bg:#4A235A"
 
 [directory]
-style = "bg:#283747"
+style = "bg:#154360"
 format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
@@ -59,45 +57,45 @@ truncation_symbol = "…/"
 
 [git_branch]
 symbol = ""
-style = "bg:#154360"
-format = '[ $symbol $branch ]($style)'
+style = "bg:#1A5276"
+format = '[ $symbol](fg:#F39C12  $style)[ $branch ]($style)'
 
 [git_status]
-style = "bg:#154360"
+style = "bg:#1A5276"
 format = '[$all_status$ahead_behind ]($style)'
 
 [git_commit]
-style = "bg:#154360"
+style = "bg:#1A5276"
 commit_hash_length = 8
 
 [git_metrics]
-added_style = "bg:#154360 fg:#58D68D"
-deleted_style = "bg:#154360 fg:#fC7063"
-format = '[⁺⁺$added]($added_style)[,](bg:#154360 fg:#ffffff)[$deleted⁻⁻]($deleted_style)'
+added_style = "bg:#1A5276 fg:#58D68D"
+deleted_style = "bg:#1A5276 fg:#fC7063"
+format = '[⁺⁺$added]($added_style)[·](bg:#1A5276 fg:#ffffff)[$deleted⁻⁻]($deleted_style)'
 disabled = false
 
 [python]
-style = "bg:#1A5276"
+style = "bg:#1F618D"
 symbol = " "
-format = '[ ${symbol}(${version} )(\($virtualenv\) )]($style)'
+format = '[ ${symbol}]($style fg:#F1C40F)[(${version} )(\($virtualenv\) )]($style)'
 
 [java]
 symbol = " "
-style = "bg:#1A5276"
-format = '[ $symbol ($version) ]($style)'
+style = "bg:#1F618D"
+format = '[ $symbol]($style fg:#FFC90C)[($version) ]($style)'
 
 [custom.clj]
-command = "clojure-version"  # shows output of command
+command = "clojure -version 2>&1 | cut -d' ' -f4"  # shows output of command
 ignore_timeout = true
 files = ["deps.edn"]       # can specify filters
-symbol = " clojure"
-style = "bg:#1A5276"
-format = "[$symbol $output]($style) "
+symbol = ""
+style = "bg:#1F618D"
+format = "[$symbol](fg:#58D68D $style)[ $output]($style)"
 
 [docker_context]
 symbol = "󰡨"
-style = "bg:#1F618D"
-format = '[ $symbol $context ]($style)'
+style = "bg:#424949"
+format = '[ $symbol](bold fg:#3498DB $style)[ $context ]($style)'
 
 [battery]
 full_symbol = "󰁹 "

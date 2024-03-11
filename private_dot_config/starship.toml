@@ -125,10 +125,10 @@ style = 'bold red'
 
 [time]
 disabled = false
-time_format = "%R" # Hour:Minute Format
+time_format = "%r" # https://docs.rs/chrono/0.4.7/chrono/format/strftime/index.html
 style = "fg:#AF7AC5 " # bg:#33658A style = "bg:"
 format = '[ $time ]($style)'
 
 [character]
-success_symbol = "[➜](bold green) "
-error_symbol = "[➜](bold red) "
+success_symbol = "[⮕](bold fg:#58D68D) "
+error_symbol = "[⮕](bold fg:#E74C3C) "

@@ -952,10 +952,6 @@ Doom loads early."
 
 (message "  ...magit...")
 
-(use-package! apheleia
-  :defer t
-  :hook (python-mode . apheleia-mode))
-
 (use-package! clojure-mode
   :defer t
   :hook (clojure-mode . rainbow-delimiters-mode)

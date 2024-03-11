@@ -1,73 +1,134 @@
-
 format = """
+[](#4A235A )\
+[  ](bg:#4A235A  fg:#ffffff)\
+$username\
+$hostname\
+[](bg:#283747 fg:#4A235A)\
 $directory\
+[](fg:#283747 bg:#154360)\
 $git_branch\
 $git_commit\
 $git_state\
 $git_status\
 $git_metrics\
-$docker_context\
+[](fg:#154360 bg:#1A5276)\
 $python\
 $java\
 $custom\
 $env_var\
+[](fg:#1A5276 bg:#1F618D)\
+$docker_context\
+[](fg:#1F618D)\
 $line_break\
-$jobs\
 $battery\
 $time\
-$status\
-$character\
+$character
 """
+# docker_context bg:#33658A
+# Disable the blank line at the start of the prompt
+# add_newline = false
 
-[battery]
-full_symbol = "󰁹"
-charging_symbol = "󰂇 "
+# You can also replace your username with a neat symbol like   or disable this
+# and use the os module below
+[username]
+show_always = true
+style_user = "bg:#4A235A"
+style_root = "bg:#CB4335"
+format = '[$user]($style)'
+disabled = false
 
-[[battery.display]]
-threshold = 60
-discharging_symbol = '󰁿'
-style = 'bold green'
+[hostname]
+disabled = false
+ssh_only = false
+format = '[@$ssh_symbol$hostname ]($style)'
+style = "bg:#4A235A"
 
-[[battery.display]]
-threshold = 30
-discharging_symbol = '󰁼'
-style = 'bold yellow'
+[directory]
+style = "bg:#283747"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
 
-[[battery.display]]
-threshold = 15
-discharging_symbol = '󰁺'
-style = 'bold red'
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
 
-[[battery.display]]
-threshold = 5
-discharging_symbol = '󰂎'
-style = 'bold red'
+[git_branch]
+symbol = ""
+style = "bg:#154360"
+format = '[ $symbol $branch ]($style)'
 
-[character]
-success_symbol = "[➜](bold green) "
-error_symbol = "[➜](bold red) "
-
-[docker_context]
-format = "via [🐳 $context](blue bold)"
+[git_status]
+style = "bg:#154360"
+format = '[$all_status$ahead_behind ]($style)'
 
 [git_commit]
+style = "bg:#154360"
 commit_hash_length = 8
 
 [git_metrics]
-format = '[+$added]($added_style)/[-$deleted]($deleted_style) '
+added_style = "bg:#154360 fg:#58D68D"
+deleted_style = "bg:#154360 fg:#fC7063"
+format = '[⁺⁺$added]($added_style)[,](bg:#154360 fg:#ffffff)[$deleted⁻⁻]($deleted_style)'
 disabled = false
+
+[python]
+style = "bg:#1A5276"
+symbol = " "
+format = '[ ${symbol}(${version} )(\($virtualenv\) )]($style)'
+
+[java]
+symbol = " "
+style = "bg:#1A5276"
+format = '[ $symbol ($version) ]($style)'
 
 [custom.clj]
 command = "clojure-version"  # shows output of command
 ignore_timeout = true
 files = ["deps.edn"]       # can specify filters
 symbol = " clojure"
-style = "bold green"
+style = "bg:#1A5276"
 format = "[$symbol $output]($style) "
+
+[docker_context]
+symbol = "󰡨"
+style = "bg:#1F618D"
+format = '[ $symbol $context ]($style)'
+
+[battery]
+full_symbol = "󰁹 "
+charging_symbol = "󰂇 "
+
+[[battery.display]]
+threshold = 60
+discharging_symbol = '󰁿 '
+style = 'bold green'
+
+[[battery.display]]
+threshold = 30
+discharging_symbol = '󰁼 '
+style = 'bold yellow'
+
+[[battery.display]]
+threshold = 15
+discharging_symbol = '󰁺 '
+style = 'bold red'
+
+[[battery.display]]
+threshold = 5
+discharging_symbol = '󰂎 '
+style = 'bold red'
 
 [time]
 disabled = false
-format = '[\[$time\]]($style) '
-time_format = '%T'
-utc_time_offset = '-5'
-#time_range = '10:00:00-14:00:00'
+time_format = "%R" # Hour:Minute Format
+style = "fg:#AF7AC5 " # bg:#33658A style = "bg:"
+format = '[ $time ]($style)'
+
+[character]
+success_symbol = "[➜](bold green) "
+error_symbol = "[➜](bold red) "

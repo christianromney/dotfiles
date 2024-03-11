@@ -50,9 +50,9 @@ if [[ ! -f ".envrc" ]]; then
 #   +--------------------------------------------------------------+
     if [[ "${args}" == *"--python"* ]]; then
         echo "Initializing python project"
-        conda create -q -y --name "${dirname}"
-        echo "layout conda ${dirname}" >> .envrc
+        echo "layout python3" >> .envrc
     fi
+    git add .envrc
     direnv allow
 fi
 
@@ -60,5 +60,7 @@ fi
 # | README                                                         |
 # +----------------------------------------------------------------+
 
-printf "#+TITLE: ${dirname} Project\n\n* Overview\n- Add documentation\n\n" > README.org
+if [[ ! -f "README.org" ]]; then
+printf "#+TITLE: ${dirname} Project\n\n* Overview\n** TODO Add documentation\n\n" > README.org
 git add README.org
+fi

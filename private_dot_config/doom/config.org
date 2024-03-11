@@ -1161,13 +1161,7 @@ Doom dropped the ~gist~ tool, so I grab it directly from Github.
 #+end_src
 
 *** Python
-For AI framework projects.
-
-#+begin_src elisp
-(use-package! apheleia
-  :defer t
-  :hook (python-mode . apheleia-mode))
-#+end_src
+TODO
 
 *** Clojure
 Doom's Clojure support provides Cider. I prefer the lightweight [[https://github.com/clojure-emacs/inf-clojure][inf-clojure]]

@@ -6,6 +6,7 @@ discord: (Discord) Voice and text chat software
 dropbox: (Dropbox) Client for the Dropbox cloud storage service
 expressvpn: (ExpressVPN) VPN client for secure internet access and private browsing
 github: (GitHub Desktop) Desktop client for GitHub repositories
+google-chrome: (Google Chrome) Web browser
 font-jetbrains-mono: (JetBrains Mono) Typeface made for developers
 font-jetbrains-mono-nerd-font: (JetBrainsMono Nerd Font families (JetBrains Mono)) Developer targeted fonts with a high number of glyphs
 font-metropolis: (Metropolis) Modern, geometric typeface
@@ -22,6 +23,7 @@ onyx: (OnyX) Verify system files structure, run miscellaneous maintenance and mo
 orbstack: (OrbStack) Replacement for Docker Desktop
 raycast: (Raycast) Control your tools with a few keystrokes
 temurin: (Eclipse Temurin Java Development Kit) JDK from the Eclipse Foundation (Adoptium)
+toinane-colorpicker: (Colorpicker) Get and save colour codes
 transmission: (Transmission) Open-source BitTorrent client
 visualvm: (VisualVM) All-in-One Java Troubleshooting Tool
 vlc: (VLC media player) Multimedia player

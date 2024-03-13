@@ -28,6 +28,7 @@ cloc: Statistics utility to count lines of code
 clojure: Dynamic, general-purpose programming language
 clojure-lsp: Language Server (LSP) for Clojure
 coreutils: GNU File, Shell, and Text utilities
+cryptography: Cryptographic recipes and primitives for Python
 emacs-plus@29: GNU Emacs text editor
 datamash: Tool to perform numerical, textual & statistical operations
 dav1d: AV1 decoder targeted to be small and fast
@@ -238,7 +239,6 @@ pycparser: C parser in Python
 pygments: Generic syntax highlighter
 python-brotli: Python bindings for the Brotli compression library
 python-click: Python composable command-line interface toolkit
-python-cryptography: Cryptographic recipes and primitives for Python
 python-dateutil: Useful extensions to the standard Python datetime features
 python-hatchling: Modern, extensible Python build backend
 python-markdown: Python implementation of Markdown

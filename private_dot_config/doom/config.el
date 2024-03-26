@@ -325,7 +325,7 @@ Doom loads early."
   (setq pulsar-pulse t
         pulsar-delay 0.065
         pulsar-iterations 9
-        pulsar-face 'pulsar-green
+        pulsar-face 'pulsar-cyan
         pulsar-highlight-face 'pulsar-red)
   (pulsar-global-mode t)
   :config
@@ -547,7 +547,7 @@ Doom loads early."
        ("FLAGGED"    . ?f)))
 
   ;; visual appearance
-  (setq org-ellipsis                   "…"
+  (setq org-ellipsis                   "»"
     org-fontify-done-headline          t
     org-fontify-emphasized-text        t
     org-fontify-quote-and-verse-blocks t
@@ -582,9 +582,6 @@ Doom loads early."
 (after! org
   (face-spec-set 'org-agenda-date
     '((default :weight normal)))
-  (face-spec-set 'org-block
-    '((default :foreground "#5c6166" :background "#f5f7f9")))
-
   (face-spec-set 'org-agenda-date-weekend
     '((default :foreground "#399ee6" :weight normal)))
   (face-spec-set 'org-agenda-diary
@@ -602,57 +599,57 @@ Doom loads early."
 (message "  ...org appearance...")
 
 (defface +calendar-holiday
-  '((t . (:inherit pulsar-cyan)))
+  '((t . (:foreground "black" :background "systemYellowColor")))
   "Face for holidays in calendar.")
 
 (defface +calendar-today
-  '((t . (:foreground "violet red" :box t)))
+  '((t . (:foreground "systemBlueColor" :box t)))
   "Face for the current day in calendar.")
 
 (defface +calendar-appointment
-  '((t . (:inherit pulsar-yellow)))
+  '((t . (:foreground "white"  :background "systemIndigoColor")))
   "Face for appointment diary entries in calendar.")
 
 (after! org
   (require 'brazilian-holidays)
   (setq calendar-week-start-day              0
-        calendar-mark-holidays-flag          t
-        calendar-mark-diary-entries-flag     t
-        calendar-christian-all-holidays-flag nil
-        calendar-holiday-marker              '+calendar-holiday
-        calendar-today-marker                '+calendar-today
-        diary-entry-marker                   '+calendar-appointment
-        cal-html-directory                   "~/Desktop"
-        cal-html-holidays                    t
-        diary-file
-        (expand-file-name "appointment-diary" org-directory)
+    calendar-mark-holidays-flag          t
+    calendar-mark-diary-entries-flag     t
+    calendar-christian-all-holidays-flag nil
+    calendar-holiday-marker              '+calendar-holiday
+    calendar-today-marker                '+calendar-today
+    diary-entry-marker                   '+calendar-appointment
+    cal-html-directory                   "~/Desktop"
+    cal-html-holidays                    t
+    diary-file
+    (expand-file-name "appointment-diary" org-directory)
 
-        calendar-holidays
-        (append holiday-general-holidays
-                holiday-local-holidays
-                holiday-other-holidays
-                holiday-christian-holidays
-                holiday-solar-holidays
-                brazilian-holidays--general-holidays
-                brazilian-holidays-sp-holidays))
+    calendar-holidays
+    (append holiday-general-holidays
+      holiday-local-holidays
+      holiday-other-holidays
+      holiday-christian-holidays
+      holiday-solar-holidays
+      brazilian-holidays--general-holidays
+      brazilian-holidays-sp-holidays))
   (add-hook 'calendar-today-visible-hook #'calendar-mark-today))
-  (message "...org calendar...")
+(message "...org calendar...")
 
 (use-package! org-glossary
   :defer t
   :hook (org-mode . org-glossary-mode)
   :init
   (defface org-glossary-term
-  '((default :inherit (popup-tip-face)
-     :weight normal))
-  "Base face used for term references.")
+    '((default :foreground "black" :background "lemon chiffon"
+        :weight normal))
+    "Base face used for term references.")
   :config
   (setq org-glossary-fontify-types-differently nil)
   (map!
-   (:map org-mode-map
-    :prefix ("C-c y" . "glossary")
-    :desc "define term"     "d" #'org-glossary-create-definition
-    :desc "goto definition" "g" #'org-glossary-goto-term-definition)))
+    (:map org-mode-map
+      :prefix ("C-c y" . "glossary")
+      :desc "define term"     "d" #'org-glossary-create-definition
+      :desc "goto definition" "g" #'org-glossary-goto-term-definition)))
 
 (message "  ...org glossary...")
 

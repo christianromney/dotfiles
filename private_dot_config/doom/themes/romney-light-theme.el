@@ -29,6 +29,19 @@ determine the exact padding."
   :group 'romney-light-theme
   :type '(choice integer boolean))
 
+(defvar romney-light-color-red        "#d5353c")
+(defvar romney-light-color-orange     "#ef8c3d")
+(defvar romney-light-color-green      "#7FC151")
+(defvar romney-light-color-teal       "#4db5bd")
+(defvar romney-light-color-yellow     "#f2ae49")
+(defvar romney-light-color-blue       "#2ea8e6")
+(defvar romney-light-color-dark-blue  "#46739E")
+(defvar romney-light-color-magenta    "#a67fce")
+(defvar romney-light-color-violet     "#7B78B4")
+(defvar romney-light-color-cyan       "#0184bc")
+(defvar romney-light-color-dark-cyan  "#005478")
+(defvar romney-light-color-dark-grey  "#63686C")
+
 (def-doom-theme romney-light
   "A light theme inspired by Ayu Light."
 
@@ -40,13 +53,13 @@ determine the exact padding."
    ;; but can also be useful as a basis for subtle highlights (e.g. for hl-line
    ;; or region), especially when paired with the `doom-darken', `doom-lighten',
    ;; and `doom-blend' helper functions.
-   (bg-alt     '("#f0f0f0" "white"   "white"        ))
+   (bg-alt     '("#fcfcfc" "white"   "white"        ))
    (fg-alt     '("#c7c7c7" "#c7c7c7" "brightblack"  ))
 
    ;; These should represent a spectrum from bg to fg, where base0 is a starker
    ;; bg and base8 is a starker fg. For example, if bg is light grey and fg is
    ;; dark grey, base0 should be white and base8 should be black.
-   (base0      '("#f0f0f0" "#f0f0f0" "white"        ))
+   (base0      '("#fcfcfc" "#f0f0f0" "white"        ))
    (base1      '("#e7e7e7" "#e7e7e7" "brightblack"  ))
    (base2      '("#dfdfdf" "#dfdfdf" "brightblack"  ))
    (base3      '("#c6c7c7" "#c6c7c7" "brightblack"  ))
@@ -79,7 +92,7 @@ determine the exact padding."
    (comments       (if romney-light-brighter-comments base2 base4))
    (doc-comments   (doom-darken comments 0.15))
    (constants      green)
-   (functions      yellow)
+   (functions      cyan)
    (keywords       orange)
    (methods        yellow)
    (operators      orange)
@@ -161,17 +174,17 @@ determine the exact padding."
    ;;;; outline <built-in>
    ((outline-1 &override) :foreground violet)
    ((outline-2 &override) :foreground magenta)
-   ((outline-3 &override) :foreground dark-cyan)
-   ((outline-4 &override) :foreground cyan)
-   ((outline-5 &override) :foreground dark-blue)
-   ((outline-6 &override) :foreground blue)
-   ((outline-7 &override) :foreground teal)
-   ((outline-8 &override) :foreground green)
+   ((outline-3 &override) :foreground dark-blue)
+   ((outline-4 &override) :foreground blue)
+   ((outline-5 &override) :foreground cyan)
+   ((outline-6 &override) :foreground teal)
+   ((outline-7 &override) :foreground green)
+   ((outline-8 &override) :foreground yellow)
 
    ;;;; org <built-in>
-   ((org-block &override) :background base1)
+    ((org-block &override) :background (doom-darken bg 0.04))
    ((org-block-begin-line &override) :foreground fg :slant 'italic)
-   (org-ellipsis :underline nil :background bg :foreground orange)
+   (org-ellipsis :underline nil :background bg :foreground base3)
    ((org-quote &override) :background base1)
    ;;;; posframe
    (ivy-posframe :background base0)

@@ -29,24 +29,24 @@ determine the exact padding."
   :group 'romney-light-theme
   :type '(choice integer boolean))
 
-(defvar romney-light-color-red        "#d5353c")
-(defvar romney-light-color-orange     "#ef8c3d")
-(defvar romney-light-color-green      "#7FC151")
-(defvar romney-light-color-teal       "#4db5bd")
-(defvar romney-light-color-yellow     "#f2ae49")
-(defvar romney-light-color-blue       "#2ea8e6")
-(defvar romney-light-color-dark-blue  "#46739E")
-(defvar romney-light-color-magenta    "#a67fce")
-(defvar romney-light-color-violet     "#7B78B4")
-(defvar romney-light-color-cyan       "#0184bc")
-(defvar romney-light-color-dark-cyan  "#005478")
-(defvar romney-light-color-dark-grey  "#63686C")
+(defvar romney-light-color-red        "#e07875") ;
+(defvar romney-light-color-orange     "#eb9250") ;
+(defvar romney-light-color-green      "#8fb236") ;
+(defvar romney-light-color-teal       "#6dbd9b") ;
+(defvar romney-light-color-yellow     "#e8b15c") ;
+(defvar romney-light-color-blue       "#46739E") ;
+(defvar romney-light-color-dark-blue  "#005478") ;
+(defvar romney-light-color-magenta    "#9d7cc7") ;
+(defvar romney-light-color-violet     "#7b78b4") ;
+(defvar romney-light-color-cyan       "#579ce0") ;
+(defvar romney-light-color-dark-cyan  "#3295BE") ;
+(defvar romney-light-color-dark-grey  "#63686C") ;
 
 (def-doom-theme romney-light
   "A light theme inspired by Ayu Light."
 
   ;; name        default   256       16
-  ((bg         '("#fcfcfc" "white"   "white"        ))
+  ((bg         '("#f8f9fa" "white"   "white"        ))
    (fg         '("#63686C" "#63686C" "black"        ))
 
    ;; These are off-color variants of bg/fg, used primarily for `solaire-mode',
@@ -70,17 +70,17 @@ determine the exact padding."
    (base8      '("#1b2229" "black"   "black"        ))
 
    (grey       base4)
-   (red        '("#d5353c" "#d5353c" "red"          ))
-   (orange     '("#ef8c3d" "#ef8c3d" "brightred"    ))
-   (green      '("#7FC151" "#7FC151" "green"        ))
-   (teal       '("#4db5bd" "#44b9b1" "brightgreen"  ))
-   (yellow     '("#f2ae49" "#f2ae49" "yellow"       ))
-   (blue       '("#2ea8e6" "#2ea8e6" "brightblue"   ))
-   (dark-blue  '("#46739E" "#46739E" "blue"         ))
-   (magenta    '("#a67fce" "#a67fce" "magenta"      ))
-   (violet     '("#7B78B4" "#7B78B4" "brightmagenta"))
-   (cyan       '("#0184bc" "#0184bc" "brightcyan"   ))
-   (dark-cyan  '("#005478" "#005478" "cyan"         ))
+   (red        '("#e07875" "#e07875" "red"          ))
+   (orange     '("#eb9250" "#eb9250" "brightred"    ))
+   (yellow     '("#e8b15c" "#e8b15c" "yellow"       ))
+   (green      '("#8fb236" "#8fb236" "green"        ))
+   (teal       '("#6dbd9b" "#6dbd9b" "brightgreen"  ))
+   (blue       '("#46739E" "#46739E" "brightblue"   ))
+   (dark-blue  '("#005478" "#005478" "blue"         ))
+   (cyan       '("#579CE0" "#579CE0" "brightcyan"   ))
+   (dark-cyan  '("#3295BE" "#3295BE" "cyan"         ))
+   (magenta    '("#9d7cc7" "#9d7cc7" "magenta"      ))
+   (violet     '("#7b78b4" "#7b78b4" "brightmagenta"))
 
    ;; These are the "universal syntax classes" that doom-themes establishes.
    ;; These *must* be included in every doom themes, or your theme will throw an
@@ -88,18 +88,18 @@ determine the exact padding."
    (highlight      dark-blue)
    (vertical-bar   (doom-darken base2 0.1))
    (selection      dark-blue)
-   (builtin        magenta)
    (comments       (if romney-light-brighter-comments base2 base4))
    (doc-comments   (doom-darken comments 0.15))
-   (constants      yellow)
-   (functions      blue)
+   (builtin        red)
+   (constants      magenta)
    (keywords       orange)
-   (methods        yellow)
    (operators      orange)
-   (type           blue)
+   (type           cyan)
+   (functions      yellow)
+   (methods        yellow)
    (strings        green)
+   (numbers        magenta)
    (variables      fg)
-   (numbers        cyan)
    (region         `(,(doom-darken (car bg-alt) 0.1) ,@(doom-darken (cdr base0) 0.3)))
    (error          red)
    (warning        yellow)
@@ -131,6 +131,7 @@ determine the exact padding."
   (((font-lock-comment-face &override)
     :background (if romney-light-brighter-comments base0 'unspecified))
    ((font-lock-doc-face &override) :slant 'italic)
+   ((font-lock-escape-face &override) :foreground teal)
    ((line-number &override) :foreground (doom-lighten base4 0.15))
    ((line-number-current-line &override) :foreground base8)
    (mode-line
@@ -152,11 +153,21 @@ determine the exact padding."
    (css-selector             :foreground blue)
    ;;;; doom-modeline
    (doom-modeline-bar :background (if romney-light-brighter-modeline modeline-bg highlight))
+
+   ;;;; dired
+   ((dired-header &override)  :foreground orange :weight 'bold)
+   ((dired-directory &override)  :foreground green)
+
+
    ;;;; ediff <built-in>
    (ediff-current-diff-A        :foreground red   :background (doom-lighten red 0.8))
    (ediff-current-diff-B        :foreground green :background (doom-lighten green 0.8))
    (ediff-current-diff-C        :foreground blue  :background (doom-lighten blue 0.8))
    (ediff-current-diff-Ancestor :foreground teal  :background (doom-lighten teal 0.8))
+
+   ;;;; fringe
+   ((fringe &override) :background bg)
+
    ;;;; helm
    (helm-candidate-number :background blue :foreground bg)
    ;;;; lsp-mode
@@ -172,20 +183,35 @@ determine the exact padding."
    (mmm-default-submode-face :background base1)
 
    ;;;; outline <built-in>
-   ((outline-1 &override) :foreground violet)
-   ((outline-2 &override) :foreground magenta)
-   ((outline-3 &override) :foreground dark-blue)
-   ((outline-4 &override) :foreground blue)
-   ((outline-5 &override) :foreground cyan)
-   ((outline-6 &override) :foreground teal)
-   ((outline-7 &override) :foreground green)
-   ((outline-8 &override) :foreground yellow)
+   ((outline-1 &override) :foreground orange)
+   ((outline-2 &override) :foreground cyan)
+   ((outline-3 &override) :foreground magenta)
+   ((outline-4 &override) :foreground yellow)
+   ((outline-5 &override) :foreground green)
+   ((outline-6 &override) :foreground red)
+   ((outline-7 &override) :foreground teal)
+   ((outline-8 &override) :foreground dark-cyan)
 
    ;;;; org <built-in>
-    ((org-block &override) :background (doom-darken bg 0.04))
+   ((org-agenda-date &override) :weight 'normal)
+   ((org-agenda-date-today &override) :foreground red :slant 'italic :weight 'normal)
+   ((org-agenda-date-weekend &override) :foreground green :weight 'normal)
+   ((org-agenda-diary &override) :foreground green :weight 'bold)
+   ((org-block &override) :background (doom-darken bg 0.04))
    ((org-block-begin-line &override) :foreground fg :slant 'italic)
    (org-ellipsis :underline nil :background bg :foreground base3)
    ((org-quote &override) :background base1)
+   ((org-modern-symbol &override) :family "Apple Symbols")
+   ((org-modern-tag &override) :background magenta :weight 'normal)
+
+   ;;; pulsar
+   ((pulsar-red &override) :background (doom-lighten red 0.6))
+   ((pulsar-blue &override) :background (doom-lighten blue 0.7))
+   ((pulsar-cyan &override) :background (doom-lighten cyan 0.5))
+   ((pulsar-green &override) :background (doom-lighten green 0.6))
+   ((pulsar-yellow &override) :background (doom-lighten yellow 0.5))
+   ((pulsar-magenta &override) :background (doom-lighten magenta 0.6))
+
    ;;;; posframe
    (ivy-posframe :background base0)
    ;;;; selectrum

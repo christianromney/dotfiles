@@ -325,7 +325,7 @@ Doom loads early."
   (setq pulsar-pulse t
         pulsar-delay 0.065
         pulsar-iterations 9
-        pulsar-face 'pulsar-cyan
+        pulsar-face 'pulsar-yellow
         pulsar-highlight-face 'pulsar-red)
   (pulsar-global-mode t)
   :config
@@ -584,35 +584,26 @@ Doom loads early."
 (message "  ...org startup, bindings, agenda, tags, todos...")
 
 (after! org
-  (face-spec-set 'org-agenda-date
-    '((default :weight normal)))
-  (face-spec-set 'org-agenda-date-weekend
-    '((default :foreground "#399ee6" :weight normal)))
-  (face-spec-set 'org-agenda-diary
-    '((default :weight normal :foreground "#86b300")))
-  (face-spec-set 'org-agenda-date-today
-    '((default :foreground "#f07171" :slant italic :weight normal)))
-  (set-face-background 'fringe (face-attribute 'default :background))
-
   (doom-themes-org-config)
-  ;;(setq org-modern-star '("◉" "○" "▣" "□" "◈" "◇" "▶" "▷" "✚" "✜" "✱" "✲"))
   (setq org-modern-star '("➊" "➋" "➌" "➍" "➎" "➏" "➐" "➑" "➒" "➓"))
-  (with-eval-after-load 'org (global-org-modern-mode))
-  (set-face-attribute 'org-modern-symbol nil :family "Apple Symbols")
-  (face-spec-set 'org-modern-tag '((default :weight normal :background "#d1bce5"))))
+  (with-eval-after-load 'org (global-org-modern-mode)))
 (message "  ...org appearance...")
 
 (defface +calendar-holiday
-  '((t . (:foreground "black" :background "systemYellowColor")))
+  '((t . (:foreground "#8fb236")))
   "Face for holidays in calendar.")
 
 (defface +calendar-today
-  '((t . (:foreground "systemBlueColor" :box t)))
+  '((t . (:foreground "#e07875" :slant italic)))
   "Face for the current day in calendar.")
 
 (defface +calendar-appointment
-  '((t . (:foreground "white"  :background "systemIndigoColor")))
+  '((t . (:foreground "white"  :background "#9d7cc7")))
   "Face for appointment diary entries in calendar.")
+
+(defface +calendar-weekend-header
+  '((t . (:foreground "#eb9250")))
+  "Face for calender weekend days of the week")
 
 (after! org
   (require 'brazilian-holidays)
@@ -622,6 +613,7 @@ Doom loads early."
     calendar-christian-all-holidays-flag nil
     calendar-holiday-marker              '+calendar-holiday
     calendar-today-marker                '+calendar-today
+    calendar-weekend-header              '+calendar-weekend-header
     diary-entry-marker                   '+calendar-appointment
     cal-html-directory                   "~/Desktop"
     cal-html-holidays                    t
@@ -644,8 +636,8 @@ Doom loads early."
   :hook (org-mode . org-glossary-mode)
   :init
   (defface org-glossary-term
-    '((default :foreground "black" :background "lemon chiffon"
-        :weight normal))
+    '((default :foreground "black" :background "#e8b15c"
+       :weight normal))
     "Base face used for term references.")
   :config
   (setq org-glossary-fontify-types-differently nil)
@@ -666,21 +658,21 @@ Doom loads early."
       (citar-indicator-create
         :symbol (nerd-icons-faicon
                   "nf-fa-file_pdf_o"
-                  :face 'nerd-icons-dred)
+                  :face 'nerd-icons-red)
         :function #'citar-has-files
         :padding " "
         :tag "has:files")
       (citar-indicator-create
         :symbol (nerd-icons-codicon
                   "nf-cod-link"
-                  :face 'nerd-icons-dblue)
+                  :face 'nerd-icons-blue)
         :function #'citar-has-links
         :padding " "
         :tag "has:links")
       (citar-indicator-create
         :symbol (nerd-icons-codicon
                   "nf-cod-note"
-                  :face 'nerd-icons-dgreen)
+                  :face 'nerd-icons-green)
         :function #'citar-has-notes
         :padding " "
         :tag "has:notes")
@@ -712,6 +704,7 @@ Doom loads early."
       citar-library-file-extensions (list "pdf")
       citar-library-paths lib-path
       citar-notes-paths (list notes-path)
+      citar-notes-source 'citar-file
       citar-file-open-functions
       (list
         '("pdf"  . citar-file-open-external) ;; use preview

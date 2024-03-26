@@ -171,23 +171,13 @@ Doom loads early."
   '((fullscreen . maximized)))
 
 (setq display-line-numbers-type   nil
-  doom-theme                  'doom-ayu-light
+  doom-theme                  'romney-light
   doom-font                   (font-spec :family "JetBrains Mono" :size 20)
   doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
   doom-serif-font             (font-spec :family "Times New Roman" :size 20)
   doom-themes-enable-bold     t
   doom-themes-enable-italic   t
   doom-themes-padded-modeline t)
-
-;; change faces
-(dolist (face '(window-divider
-                window-divider-first-pixel
-                window-divider-last-pixel))
-  (face-spec-reset-face face)
-  (set-face-foreground face (face-attribute 'default :background)))
-
-(face-spec-set 'font-lock-comment-face
-  '((default :foreground "#ababab")))
 
 (setq-default tab-width 2)
 (setq-default cursor-type 'bar)
@@ -604,7 +594,8 @@ Doom loads early."
   (set-face-background 'fringe (face-attribute 'default :background))
 
   (doom-themes-org-config)
-  (setq org-modern-star '("◉" "○" "▣" "□" "◈" "◇"))
+  ;;(setq org-modern-star '("◉" "○" "▣" "□" "◈" "◇" "▶" "▷" "✚" "✜" "✱" "✲"))
+  (setq org-modern-star '("➊" "➋" "➌" "➍" "➎" "➏" "➐" "➑" "➒" "➓"))
   (with-eval-after-load 'org (global-org-modern-mode))
   (set-face-attribute 'org-modern-symbol nil :family "Apple Symbols")
   (face-spec-set 'org-modern-tag '((default :weight normal :background "#d1bce5"))))

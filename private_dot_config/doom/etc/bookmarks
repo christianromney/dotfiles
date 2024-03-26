@@ -3,11 +3,11 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
-  (filename . "~/Documents/personal/notes/content/roam/20240303075353-discrete_mathematics.org")
-  (front-context-string . "\n* LaTeX\n\\sqrt[3")
-  (rear-context-string . "rete Mathematics")
-  (position . 97)
-  (last-modified 26084 29446 517637 0))
+  (filename . "~/Documents/personal/notes/content/roam/20240314093226-haystack_ai.org")
+  (front-context-string . "\n* Overview\n** C")
+  (rear-context-string . "tle: Haystack AI")
+  (position . 88)
+  (last-modified 26098 64628 736675 0))
 ("org-refile-last-stored"
   (filename . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")
   (front-context-string . "** Local Develop")

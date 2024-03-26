@@ -92,7 +92,7 @@ determine the exact padding."
    (comments       (if romney-light-brighter-comments base2 base4))
    (doc-comments   (doom-darken comments 0.15))
    (constants      green)
-   (functions      cyan)
+   (functions      blue)
    (keywords       orange)
    (methods        yellow)
    (operators      orange)

@@ -340,8 +340,12 @@ Doom loads early."
   (advice-add 'isearch-backward :after #'pulsar-recenter-middle)
   (advice-add 'isearch-repeat-backward :after #'pulsar-recenter-middle)
 
+  ;; integration with C-v / M-v page scrolling
+  (advice-add 'scroll-up-command :after #'pulsar-recenter-middle)
+  (advice-add 'scroll-down-command :after #'pulsar-recenter-middle)
+
   ;; integration with the built-in `imenu':
-  (add-hook 'imenu-after-jump-hook #'pulsar-recenter-top)
+  (add-hook 'imenu-after-jump-hook #'pulsar-recenter-middle)
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry))
 
 (when (modulep! :checkers spell)

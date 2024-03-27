@@ -652,43 +652,6 @@ Doom loads early."
 (use-package! citar
   :after org
   :if (modulep! :tools biblio)
-  :init
-  (setq! citar-indicators
-    (list
-      (citar-indicator-create
-        :symbol (nerd-icons-faicon
-                  "nf-fa-file_pdf_o"
-                  :face 'nerd-icons-red)
-        :function #'citar-has-files
-        :padding " "
-        :tag "has:files")
-      (citar-indicator-create
-        :symbol (nerd-icons-codicon
-                  "nf-cod-link"
-                  :face 'nerd-icons-blue)
-        :function #'citar-has-links
-        :padding " "
-        :tag "has:links")
-      (citar-indicator-create
-        :symbol (nerd-icons-codicon
-                  "nf-cod-note"
-                  :face 'nerd-icons-green)
-        :function #'citar-has-notes
-        :padding " "
-        :tag "has:notes")
-      (citar-indicator-create
-        :symbol (nerd-icons-codicon
-                  "nf-cod-references"
-                  :face 'nerd-icons-purple)
-        :function #'citar-is-cited
-        :padding "  "
-        :tag "is:cited")))
-
-  (setq! citar-templates
-    '((main . "${author editor:10%sn} ${date year issued:4} ${title:64}")
-       (suffix . "  ${=key= id:20}  ${=type=:8} ${tags keywords keywords:*}")
-       (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.")
-       (note . "Notes on ${author editor:%etal}, ${title}")))
   :config
   (let ((bib (list (expand-file-name "bibliography.bib" +info-dir)))
          (lib-path (list +papers-dir))
@@ -713,6 +676,45 @@ Doom loads early."
   (citar-capf-setup)
   (map! :map general-override-mode-map
     "C-c n b" #'citar-open))
+
+(after! citar
+  (citar-org-roam-mode -1)
+  (setq! citar-indicators
+    (list
+      (citar-indicator-create
+        :symbol (nerd-icons-faicon
+                  "nf-fa-file_pdf_o"
+                  :face 'nerd-icons-red)
+        :function #'citar-has-files
+        :padding " "
+        :tag "has:files")
+      (citar-indicator-create
+        :symbol (nerd-icons-codicon
+                  "nf-cod-link"
+                  :face 'nerd-icons-cyan)
+        :function #'citar-has-links
+        :padding " "
+        :tag "has:links")
+      (citar-indicator-create
+        :symbol (nerd-icons-codicon
+                  "nf-cod-note"
+                  :face 'nerd-icons-green)
+        :function #'citar-has-notes
+        :padding " "
+        :tag "has:notes")
+      (citar-indicator-create
+        :symbol (nerd-icons-codicon
+                  "nf-cod-references"
+                  :face 'nerd-icons-yellow)
+        :function #'citar-is-cited
+        :padding "  "
+        :tag "is:cited")))
+  (setq! citar-templates
+    '((main . "${author editor:10%sn} ${date year issued:4} ${title:64}")
+       (suffix . "  ${=key= id:20}  ${=type=:8} ${tags keywords keywords:*}")
+       (preview . "${author editor:%etal} (${year issued date}) ${title}, ${journal journaltitle publisher container-title collection-title}.")
+       (note . "Notes on ${author editor:%etal}, ${title}"))))
+
 (message "  ...org citations, citar...")
 
 (use-package! graphviz-dot-mode

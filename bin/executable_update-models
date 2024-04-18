@@ -1,0 +1,6 @@
+#!/usr/bin/env fish
+ollama list | awk '!/(^NAME)/ {print $1}' | while read -l item
+  echo "Checking for $item updates"
+  ollama pull $item
+end
+echo "Done."

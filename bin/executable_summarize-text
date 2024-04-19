@@ -1,0 +1,8 @@
+#!/usr/bin/env fish
+set -l text (cat $argv[1])
+set -l prompt "Prepare an executive summary of the most important points in the following text"
+if set -q argv[2]
+  set -l prompt $argv[2] $prompt
+end
+
+ollama run llama3 "$prompt: $text"

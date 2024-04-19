@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+set -l file (echo $argv[1] | string split . -f1)
+set -l whisper_path $HOME/src/open/whisper.cpp
+set -l whisper $whisper_path/whisper-cpp
+set -l whisper_model $whisper_path/models/ggml-large-v3.bin
+
+$whisper --language auto \
+  --model $whisper_model \
+  -otxt \
+  -of $file \
+  -f $file.wav

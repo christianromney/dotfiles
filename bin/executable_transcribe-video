@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+set -l file (echo $argv[1] | string split . -f1)
+
+if not test -e $file.wav
+  echo "Extracting audio"$file.wav
+  extract-audio $argv[1]
+end
+
+echo "Transcribing audio"
+transcribe-audio $file.wav

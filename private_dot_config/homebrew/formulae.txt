@@ -296,12 +296,12 @@ tree-sitter: Parser generator tool and incremental parsing library
 unbound: Validating, recursive, caching DNS resolver
 unixodbc: ODBC 3 connectivity for UNIX
 vale: Syntax-aware linter for prose
+volta: JavaScript toolchain manager for reproducible environments
 wangle: Modular, composable client/server abstractions framework
 watch: Executes a program periodically, showing output fullscreen
 watchman: Watch files and take action when they change
 webp: Image format providing lossless and lossy compression for web images
 wget: Internet file retriever
-whisper-cpp: Port of OpenAI's Whisper model in C/C++
 wordnet: Lexical database for the English language
 x264: H.264/AVC encoder
 x265: H.265/HEVC encoder
@@ -313,7 +313,7 @@ xz: General-purpose data compression with high compression ratio
 yamllint: Linter for YAML files
 yarn: JavaScript package manager
 yq: Process YAML, JSON, XML, CSV and properties documents from the CLI
-yt-dlp: Fork of youtube-dl with additional features and fixes
+yt-dlp: Feature-rich command-line audio/video downloader
 z3: High-performance theorem prover
 zeromq: High-performance, asynchronous messaging library
 zimg: Scaling, colorspace conversion, and dithering library

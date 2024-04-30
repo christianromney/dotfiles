@@ -9,3 +9,8 @@ $whisper --language auto \
   -otxt \
   -of $file \
   -f $file.wav
+
+# Whisper often repeats lines during transcription
+uniq < $file > $file.uniq
+rm $file
+mv $file.uniq $file

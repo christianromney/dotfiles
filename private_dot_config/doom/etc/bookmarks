@@ -3,11 +3,11 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
-  (filename . "~/Documents/personal/notes/content/roam/2023.05:murali-acasfdmme:aa.org")
-  (front-context-string)
-  (rear-context-string . "hods evaluation\n")
-  (position . 354)
-  (last-modified 26115 23783 804287 0))
+  (filename . "~/Documents/personal/notes/content/roam/20240424110539-rotating_menu_ideas.org")
+  (front-context-string . "\n* Main Dishes\n*")
+  (rear-context-string . "ating Menu Ideas")
+  (position . 96)
+  (last-modified 26153 8267 492881 0))
 ("org-refile-last-stored"
   (filename . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")
   (front-context-string . "** Local Develop")

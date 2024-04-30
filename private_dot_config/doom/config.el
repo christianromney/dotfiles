@@ -778,7 +778,7 @@ Doom loads early."
 (defvar gpt-default-embedding "text-embedding-3-small"
   "My preferred Open AI embedding model.")
 
-(defvar llm-local-chat-model "mixtral"
+(defvar llm-local-chat-model "llama3"
   "Default local model to use for chat.")
 
 (defvar llm-local-embedding-model "nomic-embed-text"
@@ -798,9 +798,9 @@ Doom loads early."
     (setopt ellama-provider default-ollama)
     (setopt ellama-user-nick (car (string-split user-full-name)))
     (setopt ellama-providers
-      '(("dolphin" . (make-llm-ollama
-                       :chat-model "dolphin-mixtral"
-                       :embedding-model llm-local-embedding-model))
+      '(("llama3"   . (make-llm-ollama
+                        :chat-model "llama3"
+                        :embedding-model llm-local-embedding-model))
          ("gemma"   . (make-llm-ollama
                         :chat-model "gemma:latest"
                         :embedding-model "gemma:text"))
@@ -1083,26 +1083,42 @@ with large files for some reason."
 (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
 
 (message "  ...global keybindings...")
-(map! "<s-left>"  #'sp-forward-barf-sexp
-      "<s-right>" #'sp-forward-slurp-sexp
-      "C-'"       #'avy-goto-line
-      "C-:"       #'avy-goto-char
-      "C-M-%"     #'anzu-query-replace-regexp
-      "C-c M-t"   #'transpose-sentences
-      "C-c a"     #'org-agenda
-      "C-c g"     #'google-this
-      "C-e"       #'move-end-of-line
-      "C-x M-s"   #'transpose-sexps
-      "C-x M-t"   #'transpose-paragraphs
-      "C-x P"     #'print-buffer
-      "C-x \\"    #'align-regexp
-      "C-x g"     #'magit-status
-      "C-x r I"   #'string-insert-rectangle
-      "M-%"       #'anzu-query-replace
-      "M-/"       #'hippie-expand
-      "M-SPC"     #'cr/just-one-space
-      "M-\\"      #'cr/delete-horizontal-space
-      "M-o"       #'other-window
-      "M-p"       #'fill-paragraph)
+(map!
+  "<s-left>"  #'sp-forward-barf-sexp
+  "<s-right>" #'sp-forward-slurp-sexp
+  "C-'"       #'avy-goto-line
+  "C-:"       #'avy-goto-char
+  "C-M-%"     #'anzu-query-replace-regexp
+  "C-c M-t"   #'transpose-sentences
+  "C-c a"     #'org-agenda
+  "C-c g"     #'google-this
+  "C-e"       #'move-end-of-line
+  "C-x M-s"   #'transpose-sexps
+  "C-x M-t"   #'transpose-paragraphs
+  "C-x P"     #'print-buffer
+  "C-x \\"    #'align-regexp
+  "C-x g"     #'magit-status
+  "C-x r I"   #'string-insert-rectangle
+  "M-%"       #'anzu-query-replace
+  "M-/"       #'hippie-expand
+  "M-SPC"     #'cr/just-one-space
+  "M-\\"      #'cr/delete-horizontal-space
+  "M-o"       #'other-window
+  "M-p"       #'fill-paragraph
+
+  ;; ellama
+  ;; ask
+  "C-M-? a a" #'ellama-ask-about     ;; selected region or buffer
+  "C-M-? a l" #'ellama-ask-line      ;; send current line
+  "C-M-? a s" #'ellama-ask-selection ;; selected region or buffer
+
+  ;; improve
+  "C-M-? i w" #'ellama-improve-wording
+  "C-M-? i c" #'ellama-improve-conciseness
+
+  ;; code
+  "C-M-? c i" #'ellama-code-improve
+  "C-M-? c r" #'ellama-code-review
+  "C-M-? c c" #'ellama-code-complete)
 
 (message "> Emacs initialization complete.")

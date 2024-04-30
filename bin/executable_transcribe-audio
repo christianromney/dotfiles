@@ -11,6 +11,6 @@ $whisper --language auto \
   -f $file.wav
 
 # Whisper often repeats lines during transcription
-uniq < $file > $file.uniq
-rm $file
-mv $file.uniq $file
+uniq < $file.txt > $file.uniq
+rm $file.txt
+mv $file.uniq $file.txt

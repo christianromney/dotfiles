@@ -1,2 +1,0 @@
-#!/usr/bin/env fish
-diff -u (list-brews | psub) ~/.config/homebrew/formulae.txt | awk '/^\+/ {print }' | sed -e 's/\+//g' -e 's/://g'

@@ -2,23 +2,17 @@ set fish_greeting (set_color brmagenta)"[ 󰈺 ]"(set_color brgreen)" Welcome ba
 # configure homebrew environment and add to path
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)
 set -gx HOMEBREW_NO_ENV_HINTS 1
-{{ if eq .chezmoi.hostname "mint"  }}
-# mint configuration
 set -gx HOMEBREW_PREFIX "/opt/homebrew";
 set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar";
 set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 ! set -q PATH; and set PATH ''; set -gx PATH "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/homebrew/opt/grep/libexec/gnubin/" $PATH;
 ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
 ! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
+{{ if eq .chezmoi.hostname "mint"  }}
+# mint configuration
+
 {{ else }}
 # nubank configuration
-set -gx HOMEBREW_PREFIX "/usr/local";
-set -gx HOMEBREW_CELLAR "/usr/local/Cellar";
-set -gx HOMEBREW_REPOSITORY "/usr/local";
-! set -q PATH; and set PATH ''; set -gx PATH "/usr/local/bin" "/usr/local/sbin" "/usr/local/opt/grep/libexec/gnubin/" $PATH;
-! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/usr/local/share/man" $MANPATH;
-! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/usr/local/share/info" $INFOPATH;
-# nubank
 if test -f $HOME/.nurc
   bass source $HOME/.nurc
 end

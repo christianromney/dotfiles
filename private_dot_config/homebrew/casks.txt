@@ -1,34 +1,26 @@
+1password: (1Password) Password manager that keeps all passwords secure behind one password
 1password-cli: (1Password CLI) Command-line interface for 1Password
-airflow: (Airflow) Watch local content on Apple TV and Chromecast
-amazon-chime: (Amazon Chime) Communications service
 appcleaner: (FreeMacSoft AppCleaner) Application uninstaller
-diffusionbee: (Diffusion Bee) Run Stable Diffusion locally
+arc: (Arc) Chromium based browser
 discord: (Discord) Voice and text chat software
 dropbox: (Dropbox) Client for the Dropbox cloud storage service
-expressvpn: (ExpressVPN) VPN client for secure internet access and private browsing
 github: (GitHub Desktop) Desktop client for GitHub repositories
-google-chrome: (Google Chrome) Web browser
 font-jetbrains-mono: (JetBrains Mono) Typeface made for developers
 font-jetbrains-mono-nerd-font: (JetBrainsMono Nerd Font families (JetBrains Mono)) Developer targeted fonts with a high number of glyphs
 font-metropolis: (Metropolis) Modern, geometric typeface
 font-noto-color-emoji: (Noto Color Emoji) [no description]
 font-roboto-condensed: (Roboto Condensed) [no description]
 font-roboto-mono: (Roboto Mono) [no description]
+iterm2: (iTerm2) Terminal emulator as alternative to Apple's Terminal app
 keybase: (Keybase) End-to-end encryption software
-kindle: (Kindle for Mac) Interface for reading and syncing eBooks
-lm-studio: (LM Studio) Discover, download, and run local LLMs
 mactex: (MacTeX) Full TeX Live distribution with GUI applications
-macwhisper: (MacWhisper) Speech recognition tool
 ollama: (Ollama) Get up and running with large language models locally
 onyx: (OnyX) Verify system files structure, run miscellaneous maintenance and more
 orbstack: (OrbStack) Replacement for Docker Desktop
 raycast: (Raycast) Control your tools with a few keystrokes
+rectangle: (Rectangle) Move and resize windows using keyboard shortcuts or snap areas
 temurin: (Eclipse Temurin Java Development Kit) JDK from the Eclipse Foundation (Adoptium)
-toinane-colorpicker: (Colorpicker) Get and save colour codes
-transmission: (Transmission) Open-source BitTorrent client
 visual-studio-code: (Microsoft Visual Studio Code, VS Code) Open-source code editor
 visualvm: (VisualVM) All-in-One Java Troubleshooting Tool
-vlc: (VLC media player) Multimedia player
-vuescan: (VueScan) App that provides drivers for older model scanners that are no longer supported
 zoom: (Zoom) Video communication and virtual meeting platform
 zulip: (Zulip) Desktop client for the Zulip team chat platform

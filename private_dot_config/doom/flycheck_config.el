@@ -1,6 +1,3 @@
-* My Doom Emacs Configuration
-** Global Settings
-#+begin_src elisp
 (message "> Initializing Emacs")
 (setq user-full-name         "Christian Romney"
       user-mail-address      "christian.a.romney@gmail.com"
@@ -23,14 +20,7 @@
 (setq native-comp-async-report-warnings-errors 'silent)
 (setq shell-file-name (executable-find "bash"))
 (message "> configuring: ")
-#+end_src
 
-** Custom Functions
-These helpers are used by the configuration that follows. Most functions have to
-do with file and directory handling and parsing. Others are for wrangling
-whitespace.
-
-#+begin_src elisp
 (message "  ...custom functions...")
 
 (require 'cl-lib)
@@ -175,10 +165,7 @@ Doom loads early."
   (interactive)
   (just-one-space -1)
   (sp-backward-delete-char))
-#+end_src
 
-** Appearance
-#+begin_src elisp
 (message "  ...appearance...")
 (setq default-frame-alist
   '((fullscreen . maximized)))
@@ -203,10 +190,9 @@ Doom loads early."
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-mode)
-#+end_src
 
-** Doom-Specific Settings
-#+begin_src elisp
+(set-font-ligatures! '(org-mode prog-mode) "==" "->" "->>" "=>")
+
 (message "  ...Doom customizations...")
 (doom-themes-visual-bell-config)
 
@@ -218,43 +204,23 @@ Doom loads early."
 (setq +default-want-RET-continue-comments nil)
 (setq +file-templates-dir (cr/mkdirp (expand-file-name "snippets" doom-private-dir)))
 (setq yas--default-user-snippets-dir +file-templates-dir)
-#+end_src
 
-** Built-In Modes and Packages
-*** Abbrev Mode
-Enable abbreviations. Keep my abbreviations file in my source-controlled Doom directory.
-
-#+begin_src elisp
 (message "  ...built-ins...")
 (setq abbrev-file-name (expand-file-name  "etc/abbrev_defs" doom-private-dir)
       save-abbrevs     'silent)
 
 (setq-default abbrev-mode t)
-#+end_src
-*** Auto-Save Mode
-Automatically save org-mode files after 5 seconds of inactivity.
 
-#+begin_src elisp
 (use-package auto-save-mode
   :hook (org-mode . auto-save-visited-mode)
   :init
   (setq auto-save-visited-interval 5)) ;; seconds
-  #+end_src
-*** Bookmarks
-Save file locations.
 
-#+begin_src elisp
 (setq bookmark-default-file     (expand-file-name "etc/bookmarks" doom-private-dir)
       bookmark-old-default-file bookmark-default-file
       bookmark-file             bookmark-default-file
       bookmark-sort-flag        t)
-#+end_src
 
-*** Dired
-These settings are optimized for Mac OS with the [[https://brew.sh/][Homebrew]] version of the GNU ~ls~
-utility. I also like the keybindings for navigating up and opening Finder.app.
-
-#+begin_src elisp
 (after! dired
   (add-hook 'dired-mode-hook #'diredfl-mode)
   (map!
@@ -266,13 +232,7 @@ utility. I also like the keybindings for navigating up and opening Finder.app.
     (map!
      :map dired-mode-map
      "r"  #'+macos/reveal-in-finder)))
-#+end_src
 
-** Completion
-The combination of [[https://company-mode.github.io/][company-mode]] with the modern suite of [[https://github.com/minad/vertico][Vertico]], [[https://github.com/oantolin/orderless][Orderless]],
-[[https://github.com/minad/consult][Consult]], [[https://github.com/oantolin/embark][Embark]] and [[https://github.com/minad/marginalia][Marginalia]] is really well-behaved.
-
-#+begin_src elisp
 (message "  ...completion...")
 (when (modulep! :completion vertico)
   (use-package! vertico
@@ -359,18 +319,7 @@ The combination of [[https://company-mode.github.io/][company-mode]] with the mo
     :defer t
     :config
     (setq company-idle-delay 0.5)))
-#+end_src
 
-#+RESULTS:
-: t
-
-** Navigation
-I like repeated searches to remain in the middle of the screen so I don't have
-to scan my monitor for the place where I've landed. I can always stare at the
-center of the screen and find my search results. With [[https://protesilaos.com/emacs/pulsar][pulsar]] I can recenter
-after jumps and highlight the search term.
--------------------------------------------------------------------------------
-#+begin_src elisp
 (message "  ...navigation...")
 (use-package! pulsar
   :defer t
@@ -401,12 +350,7 @@ after jumps and highlight the search term.
   ;; integration with the built-in `imenu':
   (add-hook 'imenu-after-jump-hook #'pulsar-recenter-middle)
   (add-hook 'imenu-after-jump-hook #'pulsar-reveal-entry))
-#+end_src
 
-** Spell Checking
-Ensure custom spelling dictionaries are source controlled.
-
-#+begin_src elisp
 (when (modulep! :checkers spell)
   (message "  ...spell checking...")
   (setq spell-fu-directory
@@ -419,13 +363,6 @@ Ensure custom spelling dictionaries are source controlled.
                 "en-personal"
                 (expand-file-name "aspell.en.pws" spell-fu-directory))))))
 
-#+end_src
-
-** Org Mode
-*** Files and Directories
-Set up all directory and file paths.
-
-#+begin_src elisp
 ;; main directory
 (defvar +docs-dir "~/Documents/"
   "Root for all documents")
@@ -466,11 +403,7 @@ Set up all directory and file paths.
   +org-capture-journal-file   "journal.org")
 
 (message "  ...org directories and files...")
-#+end_src
-*** Markup Functions
-These commands let me markup org words quickly.
 
-#+begin_src elisp
 (defun cr/markup-word (markup-char)
   "Wraps the active region or the word at point with MARKUP-CHAR."
   (cl-destructuring-bind (text start end)
@@ -516,13 +449,7 @@ These commands let me markup org words quickly.
   (cr/markup-word #x00002B))
 
 (message "  ...org custom markup functions...")
-#+end_src
 
-*** Core Settings
-Basic org-mode configuration and startup behavior. Configuration for agenda,
-capture, appearance, tags, todos, and refiling.
-
-#+begin_src elisp
 ;; which modules to load when org starts
 ;; org-habit
 ;; org-eval
@@ -658,12 +585,7 @@ capture, appearance, tags, todos, and refiling.
 
       )))
 (message "  ...org startup, bindings, agenda, tags, todos...")
-#+end_src
 
-*** Modern Appearance
-Make org mode more aesthetically pleasing.
-
-#+begin_src elisp
 (use-package! org-bars
   :hook (org-mode . org-bars-mode)
   :config
@@ -676,14 +598,7 @@ Make org mode more aesthetically pleasing.
   (setq org-modern-star '("➊" "➋" "➌" "➍" "➎" "➏" "➐" "➑" "➒" "➓"))
   (with-eval-after-load 'org (global-org-modern-mode)))
 (message "  ...org appearance...")
-#+end_src
 
-#+RESULTS:
-:   ...org appearance...
-
-*** Calendar
-Calendar preferences include holidays, week start, and geographical location.
-#+begin_src elisp
 (defface +calendar-holiday
   '((t . (:foreground "#8fb236")))
   "Face for holidays in calendar.")
@@ -725,13 +640,7 @@ Calendar preferences include holidays, week start, and geographical location.
       brazilian-holidays-sp-holidays))
   (add-hook 'calendar-today-visible-hook #'calendar-mark-today))
 (message "...org calendar...")
-#+end_src
 
-*** Glossary
-The [[https://github.com/tecosaur/org-glossary][org-glossary]] package adds terms to a top-level =Glossary= heading and expands
-the definition in the minibuffer whenever the cursor is over a glossary term.
-
-#+begin_src elisp
 (use-package! org-glossary
   :defer t
   :hook (org-mode . org-glossary-mode)
@@ -749,12 +658,7 @@ the definition in the minibuffer whenever the cursor is over a glossary term.
       :desc "goto definition" "g" #'org-glossary-goto-term-definition)))
 
 (message "  ...org glossary...")
-#+end_src
 
-*** Citations
-Bibliography management and citation embedding via with [[https://github.com/emacs-citar/citar][Citar]] and [[https://www.zotero.org/][Zotero]]
-(primarily for computer science paper references from my notes).
-#+begin_src elisp
 (use-package! citar
   :after org
   :if (modulep! :tools biblio)
@@ -822,26 +726,7 @@ Bibliography management and citation embedding via with [[https://github.com/ema
        (note . "Notes on ${author editor:%etal}, ${title}"))))
 
 (message "  ...org citations, citar...")
-#+end_src
 
-#+RESULTS:
-:   ...org citations, citar...
-
-*** Literate Programming (org-babel)
-Org-mode's [[https://orgmode.org/worg/org-contrib/babel/][Babel]] feature allows mixing of prose and language blocks (this
-configuration file is a prime example) for literate programming. Tangling
-exports code blocks into separate files which can be compiled or interpreted by
-the relevant program.
-#+begin_comment
-If tangling gives an error about "pdf-info-process-assert-running" re-compile
-pdf-tools with ~M-x pdf-tools-install~.
-#+end_comment
-
-I find [[https://graphviz.org/][Graphviz]] and [[https://plantuml.com/][Plant UML]] useful for creating diagrams to supplement my
-notes. I enable all the languages I am likely to use. Auto-tangling keeps
-tangled code files in sync on save.
-
-#+begin_src elisp
 (use-package! graphviz-dot-mode
   :defer t
   :config
@@ -874,11 +759,7 @@ tangled code files in sync on save.
      (sql        . t))))
 
 (message "  ...org babel...")
-#+end_src
 
-*** Export Settings
-I most often export my org notes to PDF or [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] HTML presentation.
-#+begin_src elisp
 (after! org
   (setq reveal_inter_presentation_links    t
         org-re-reveal-center               t
@@ -900,25 +781,7 @@ I most often export my org notes to PDF or [[https://gitlab.com/oer/org-re-revea
         "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.js"))
 
 (message "  ...org reveal...")
-#+end_src
 
-** Artificial Intelligence
-
-Dedicated LLM modes inside Emacs. Interacting with ChatGPT depends on having the
-OpenAI API Token in Keychain:
-
-#+begin_example
-security add-internet-password -A -r http \
-  -s api.openai.com \
-  -a <username> \
-  -w <api-token> \
-  -U -l "openai"
-#+end_example
-
-*** Core
-Commonly specified variables for use across various packages.
-
-#+begin_src elisp
 (defvar gpt-default-model "gpt-4-turbo-preview"
   "My preferred Open AI chat model.")
 
@@ -930,12 +793,7 @@ Commonly specified variables for use across various packages.
 
 (defvar llm-local-embedding-model "nomic-embed-text"
   "Default local model to use for embeddings.")
-#+end_src
 
-*** ellama
-Another general purpose LLM interaction front-end for Emacs.
-
-#+begin_src elisp
 (use-package! ellama
   :defer t
   :init
@@ -970,11 +828,7 @@ Another general purpose LLM interaction front-end for Emacs.
     (setopt ellama-translation-provider (make-llm-ollama
                                           :chat-model "neural-chat"
                                           :embedding-model "nomic-embed-text"))))
-#+end_src
-*** Coding with Copilot
-Experiment with Copilot for Python coding.
 
-#+begin_src elisp
 (use-package! copilot
   :hook (python-mode . copilot-mode)
   :bind (:map copilot-completion-map
@@ -985,14 +839,7 @@ Experiment with Copilot for Python coding.
   :config
   ;; wait two seconds before suggesting
   (setq copilot-idle-delay 2))
-#+end_src
 
-*** Speech (Text-to-Speech and Speech-to-Text)
-Greader sends buffer text to a speech engine, like Mac's native speech utility
-(~say~). Whisper uses the open-source whisper.cpp from Open AI to convert speech
-to text.
-
-#+begin_src elisp
 (use-package! greader
   :defer t
   :config
@@ -1021,23 +868,7 @@ to text.
   (message "  ...whisper..."))
 
 (map! :desc "Whisper" "C-s-\\" #'whisper-run)
-#+end_src
 
-*** org-ai
-**** Security
-For speech-to-text to work, I need to give emacs access to the microphone. Add
-the following xml after the Camera usage description in [[https://github.com/d12frosted/homebrew-emacs-plus/pull/666][Emacs' Info.plist]]:
-
-#+begin_example
-<key>NSMicrophoneUsageDescription</key>
-<string>Emacs needs permission to access the microphone.</string>
-#+end_example
-
-**** Configuration
-I configure Mac OS accessibility to use the premium Apple voice "Jamie" for
-text-to-speech via the ~say~ utility.
-
-#+begin_src elisp
 (use-package! org-ai
   :defer t
   :hook (org-mode . org-ai-mode)
@@ -1052,14 +883,7 @@ text-to-speech via the ~say~ utility.
         org-ai-default-chat-system-prompt
         "You are a helpful, succinct research and coding assistant running in Emacs.")
   (message "  ...org-ai..."))
-#+end_src
 
-** Programming Modes
-Configuration for additional programming modes.
-*** Indentation
-Always 2 spaces for every language I use.
-
-#+begin_src elisp
 (let ((n 2))
   (setq standard-indent n
     python-indent-offset n
@@ -1068,24 +892,12 @@ Always 2 spaces for every language I use.
     smie-indent-basic n
     sh-indentation n
     markdown-list-indent-width n))
-#+end_src
 
-*** Paren Matching
-Highlight and blink matching parentheses.
-#+begin_src elisp
 (setq blink-matching-paren t
       show-paren-mode t
       show-paren-style 'parenthesis
       show-paren-delay 0)
-#+end_src
 
-*** Smartparens
-[[https://github.com/Fuco1/smartparens][Smartparens]] doesn't play nicely with org-mode. This is one of the places where
-Doom is uncharacteristically heavy-handed with its defaults. I remove the global
-hook and enable smartparens (strict mode) where I want it, especially in Lisp
-buffers. I also don't like smartparens' default rules.
-
-#+begin_src elisp
 (pcase-dolist (`(,open . ,close) '(("(" . ")")
                                      ("[" . "]")
                                      ("{" . "}")))
@@ -1098,12 +910,7 @@ buffers. I also don't like smartparens' default rules.
 (add-hook! 'doom-first-buffer-hook #'smartparens-global-strict-mode)
 
 (message "  ...smartparens...")
-#+end_src
 
-*** Diff / Merge
-Configure ediff to have better defaults
-
-#+begin_src elisp
 (use-package! ediff
   :defer t
   :config
@@ -1113,12 +920,7 @@ Configure ediff to have better defaults
         ediff-make-buffers-readonly-at-startup nil
         ediff-merge-revisions-with-ancestor t
         ediff-show-clashes-only t))
-#+end_src
 
-*** Projects
-Have projectile save things where I want them.
-
-#+begin_src elisp
 (after! projectile
   (cr/mkdirp (expand-file-name "projectile" doom-cache-dir))
 
@@ -1131,13 +933,7 @@ Have projectile save things where I want them.
   (pushnew! projectile-project-root-files "project.clj" "deps.edn"))
 
 (message "  ...projectile...")
-#+end_src
 
-*** Git
-I use source control for everything, and enjoy a few extras for [[https://magit.vc/][Magit]]. Also,
-Doom dropped the ~gist~ tool, so I grab it directly from Github.
-
-#+begin_src elisp
 (after! magit
   (setq magit-revision-show-gravatars t
     forge-database-file
@@ -1152,18 +948,7 @@ Doom dropped the ~gist~ tool, so I grab it directly from Github.
     "C-M-g p" #'gist-region-or-buffer-private))
 
 (message "  ...magit...")
-#+end_src
 
-*** Python
-TODO
-
-*** Clojure
-Doom's Clojure support provides Cider. I prefer the lightweight [[https://github.com/clojure-emacs/inf-clojure][inf-clojure]]
-mode, so I bring my own packages and configuration. [[https://clojure-lsp.io/][LSP]] mode provides lots of
-nice features than make living without Cider bearable.
-
-**** Clojure mode w/ LSP
-#+begin_src elisp
 (use-package! clojure-mode
   :defer t
   :hook (clojure-mode . rainbow-delimiters-mode)
@@ -1202,14 +987,7 @@ nice features than make living without Cider bearable.
 ;;(add-hook! 'clojurex-mode-hook #'turn-on-smartparens-strict-mode)
 
 (message "  ...clojure editing...")
-#+end_src
 
-**** Inferior Clojure Mode
-Inferior clojure mode is /simple/ and doesn't break as often as Cider. These
-functions allow me to recreate some Cider functionality for inf-clojure mode.
-
-***** Custom Functions
-#+begin_src elisp
 (defun +inf-clojure-run-tests ()
   "Run clojure.test suite for the current namespace."
   (interactive)
@@ -1270,12 +1048,7 @@ with large files for some reason."
     (inf-clojure-update-feature
      'clojure 'completion
      "(compliment.core/completions \"%s\")")))
-#+end_src
 
-***** Package Configuration
-Inferior clojure mode keybindings.
-
-#+begin_src elisp
 (use-package! inf-clojure
   :defer t
   :after clojure
@@ -1316,17 +1089,9 @@ Inferior clojure mode keybindings.
 (add-hook! 'inf-clojure-mode-hook #'+inf-clojure-reconfigure)
 
 (message "  ...clojure repl...")
-#+end_src
-** Miscellaneous
-Every Emacs configuration contains a few little odds and ends.
-#+begin_src elisp
+
 (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
-#+end_src
 
-** Global Key Bindings
-My global keybinding preferences.
-
-#+begin_src elisp
 (message "  ...global keybindings...")
 (map!
   "<s-left>"  #'sp-forward-barf-sexp
@@ -1365,47 +1130,5 @@ My global keybinding preferences.
   "C-M-? c i" #'ellama-code-improve
   "C-M-? c r" #'ellama-code-review
   "C-M-? c c" #'ellama-code-complete)
-#+end_src
 
-** Conclusion
-If this message appears in the ~*Messages*~ buffer, then all configuration loaded
-successfully.
-#+begin_src elisp
 (message "> Emacs initialization complete.")
-#+end_src
-
-*** Doom Config Instructions
-
-Whenever you reconfigure a package, make sure to wrap your config in an
-`after!' block, otherwise Doom's defaults may override your settings. E.g.
-#+begin_example
-(after! PACKAGE
-  (setq x y))
-#+end_example
-
-The exceptions to this rule:
-
-- Setting file/directory variables (like `org-directory')
-- Setting variables which explicitly tell you to set them before their
-  package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-- Setting doom variables (which start with 'doom-' or '+').
-
-Here are some additional functions/macros that will help you configure Doom.
-
- - `load!' for loading external *.el files relative to this one
- - `use-package!' for configuring packages
- - `after!' for running code after a package has loaded
- - `add-load-path!' for adding directories to the `load-path', relative to
-   this file. Emacs searches the `load-path' when you load packages with
-   `require' or `use-package'.
- - `map!' for binding new keys
-
- To get information about any of these functions/macros, move the cursor over
- the highlighted symbol and hit 'C-c c k'.
-
- This will open documentation for it, including demos of how they are used.
- Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
- etc).
-
- You can also try 'C-c c d' to jump to their definition and see how
- they are implemented.

@@ -170,9 +170,10 @@ Doom loads early."
 (setq default-frame-alist
   '((fullscreen . maximized)))
 
+;; (font-spec :family "JetBrains Mono" :size 20)
 (setq display-line-numbers-type   nil
   doom-theme                  'romney-light
-  doom-font                   (font-spec :family "JetBrains Mono" :size 20)
+  doom-font                   (font-spec :family "Monaspace Neon" :size 20)
   doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
   doom-serif-font             (font-spec :family "Times New Roman" :size 20)
   doom-themes-enable-bold     t
@@ -582,6 +583,13 @@ Doom loads early."
 
       )))
 (message "  ...org startup, bindings, agenda, tags, todos...")
+
+(use-package! org-bars
+  :hook (org-mode . org-bars-mode)
+  :config
+  (setq org-bars-color-options '(:desaturate-level-faces 30
+                                 :darken-level-faces 15))
+  (setq org-bars-with-dynamic-stars-p nil))
 
 (after! org
   (doom-themes-org-config)

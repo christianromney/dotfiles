@@ -46,7 +46,6 @@ fbthrift: Facebook's branch of Apache Thrift, including a new C++ server
 fd: Simple, fast and user-friendly alternative to find
 ffmpeg: Play, record, convert, and stream audio and video
 fish: User-friendly command-line shell for UNIX-like operating systems
-fisher: Plugin manager for the Fish shell
 fizz: C++14 implementation of the TLS-1.3 standard
 flac: Free lossless audio codec
 fmt: Open-source formatting library for C++
@@ -234,13 +233,24 @@ pngpaste: Paste PNG into files
 poetry: Python package management tool
 poppler: PDF rendering library (based on the xpdf-3.0 code base)
 prettier: Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
-proctools: OpenBSD and Darwin versions of pgrep, pkill, and pfind
 psgrep: Shortcut for the 'ps aux | grep' idiom
 pstree: Show ps output as a tree
 pugixml: Light-weight C++ XML processing library
 pycparser: C parser in Python
 pygments: Generic syntax highlighter
+python-brotli: Python bindings for the Brotli compression library
+python-click: Python composable command-line interface toolkit
+python-dateutil: Useful extensions to the standard Python datetime features
+python-hatchling: Modern, extensible Python build backend
+python-markdown: Python implementation of Markdown
+python-markupsafe: Implements a XML/HTML/XHTML Markup safe string for Python
+python-mutagen: Python module for handling audio metadata
 python-packaging: Core utilities for Python packages
+python-pathspec: Utility library for gitignore style pattern matching of file paths
+python-pluggy: Minimalist production ready plugin system
+python-setuptools: Easily download, build, install, upgrade, and uninstall Python packages
+python-trove-classifiers: Canonical source for classifiers on PyPI
+python-typing-extensions: Backported and experimental type hints for Python
 python@3.11: Interpreted, interactive, object-oriented programming language
 python@3.12: Interpreted, interactive, object-oriented programming language
 pyyaml: YAML framework for Python
@@ -270,6 +280,7 @@ sqlite: Command-line interface for SQLite
 srt: Secure Reliable Transport
 ssh-copy-id: Add a public key to a remote machine's authorized_keys file
 starship: Cross-shell prompt for astronauts
+stockfish: Strong open-source chess engine
 stow: Organize software neatly under a single directory tree (e.g. /usr/local)
 stylelint: Modern CSS linter
 svt-av1: AV1 encoder
@@ -285,6 +296,7 @@ tree: Display directories as trees (with optional color/HTML output)
 tree-sitter: Parser generator tool and incremental parsing library
 unbound: Validating, recursive, caching DNS resolver
 unixodbc: ODBC 3 connectivity for UNIX
+uv: Extremely fast Python package installer and resolver, written in Rust
 vale: Syntax-aware linter for prose
 volta: JavaScript toolchain manager for reproducible environments
 wangle: Modular, composable client/server abstractions framework

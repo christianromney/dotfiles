@@ -2,6 +2,7 @@
 apis
 datomic
 directionality
+enablement
 gpus
 iain
 interdependencies

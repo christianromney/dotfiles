@@ -1,1 +1,1 @@
-(("version" . "0.2"))#s(hash-table size 8 test equal rehash-size 1.5 rehash-threshold 0.8125 data ("" t "apis" t "datomic" t "directionality" t "gpus" t "iain" t "interdependencies" t "sharded" t))
+(("version" . "0.2"))#s(hash-table size 9 test equal rehash-size 1.5 rehash-threshold 0.8125 data ("" t "apis" t "datomic" t "directionality" t "enablement" t "gpus" t "iain" t "interdependencies" t "sharded" t))

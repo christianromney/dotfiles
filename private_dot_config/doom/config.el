@@ -584,9 +584,6 @@ Doom loads early."
       )))
 (message "  ...org startup, bindings, agenda, tags, todos...")
 
-(after! org
-  (doom-themes-org-config))
-
 (use-package! org-bars
   :hook (org-mode . org-bars-mode)
   :config
@@ -594,8 +591,7 @@ Doom loads early."
                                   :darken-level-faces 15))
   (setq org-bars-with-dynamic-stars-p nil))
 
-(use-package org-modern
-  :hook (org-mode . org-modern-mode)
+(use-package! org-modern
   :config
   (setq org-modern-star 'replace)
   (setq org-modern-replace-stars
@@ -604,6 +600,10 @@ Doom loads early."
     '(("options" .  "⌘")
        ("title" . "₸")
        (t . t))))
+
+(after! org
+  (doom-themes-org-config)
+  (with-eval-after-load 'org (global-org-modern-mode)))
 
 (message "  ...org appearance...")
 

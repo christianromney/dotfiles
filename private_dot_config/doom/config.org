@@ -664,8 +664,6 @@ capture, appearance, tags, todos, and refiling.
 Make org mode more aesthetically pleasing.
 
 #+begin_src elisp
-(after! org
-  (doom-themes-org-config))
 
 (use-package! org-bars
   :hook (org-mode . org-bars-mode)
@@ -674,8 +672,7 @@ Make org mode more aesthetically pleasing.
                                   :darken-level-faces 15))
   (setq org-bars-with-dynamic-stars-p nil))
 
-(use-package org-modern
-  :hook (org-mode . org-modern-mode)
+(use-package! org-modern
   :config
   (setq org-modern-star 'replace)
   (setq org-modern-replace-stars
@@ -684,6 +681,10 @@ Make org mode more aesthetically pleasing.
     '(("options" .  "⌘")
        ("title" . "₸")
        (t . t))))
+
+(after! org
+  (doom-themes-org-config)
+  (with-eval-after-load 'org (global-org-modern-mode)))
 
 (message "  ...org appearance...")
 #+end_src

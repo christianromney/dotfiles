@@ -6,16 +6,16 @@ diffusionbee: (Diffusion Bee) Run Stable Diffusion locally
 discord: (Discord) Voice and text chat software
 dropbox: (Dropbox) Client for the Dropbox cloud storage service
 expressvpn: (ExpressVPN) VPN client for secure internet access and private browsing
-github: (GitHub Desktop) Desktop client for GitHub repositories
-google-chrome: (Google Chrome) Web browser
-font-jetbrains-mono: (JetBrains Mono) Typeface made for developers
-font-jetbrains-mono-nerd-font: (JetBrainsMono Nerd Font families (JetBrains Mono)) Developer targeted fonts with a high number of glyphs
-font-metropolis: (Metropolis) Modern, geometric typeface
-font-monaspace: (Monaspace) Superfamily of fonts for code
-font-monaspace-nerd-font: (Monaspice Nerd Font families (Monaspace)) Developer targeted fonts with a high number of glyphs
+font-jetbrains-mono: (JetBrains Mono) [no description]
+font-jetbrains-mono-nerd-font: (JetBrainsMono Nerd Font families (JetBrains Mono)) [no description]
+font-metropolis: (Metropolis) [no description]
+font-monaspace: (Monaspace) [no description]
+font-monaspace-nerd-font: (Monaspice Nerd Font families (Monaspace)) [no description]
 font-noto-color-emoji: (Noto Color Emoji) [no description]
 font-roboto-condensed: (Roboto Condensed) [no description]
 font-roboto-mono: (Roboto Mono) [no description]
+github: (GitHub Desktop) Desktop client for GitHub repositories
+google-chrome: (Google Chrome) Web browser
 keybase: (Keybase) End-to-end encryption software
 kindle: (Kindle for Mac) Interface for reading and syncing eBooks
 lm-studio: (LM Studio) Discover, download, and run local LLMs
@@ -23,9 +23,14 @@ mactex: (MacTeX) Full TeX Live distribution with GUI applications
 macwhisper: (MacWhisper) Speech recognition tool
 ollama: (Ollama) Get up and running with large language models locally
 onyx: (OnyX) Verify system files structure, run miscellaneous maintenance and more
+opencpn: (OpenCPN) Full-featured and concise ChartPlotter/Navigator
 orbstack: (OrbStack) Replacement for Docker Desktop
+phocus: (Hasselblad Phocus) RAW file image processing software for Hasselblad cameras
+quarto: (quarto) Scientific and technical publishing system built on Pandoc
 raycast: (Raycast) Control your tools with a few keystrokes
 rectangle: (Rectangle) Move and resize windows using keyboard shortcuts or snap areas
+sage: (Sage) Mathematics software system
+skim: (Skim) PDF reader and note-taking application
 temurin: (Eclipse Temurin Java Development Kit) JDK from the Eclipse Foundation (Adoptium)
 toinane-colorpicker: (Colorpicker) Get and save colour codes
 transmission: (Transmission) Open-source BitTorrent client

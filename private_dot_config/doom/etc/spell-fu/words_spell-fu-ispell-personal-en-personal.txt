@@ -1,6 +1,7 @@
 
 apis
 datomic
+dimensionality
 directionality
 enablement
 gpus

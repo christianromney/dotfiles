@@ -14,16 +14,14 @@
 (when (modulep! :checkers syntax)
   (package! flycheck-clj-kondo))
 (package! clojure-snippets)
-;;(package! apheleia)
 ;; ----------------------------------------------------------------------------------
 ;; AI
 ;; ----------------------------------------------------------------------------------
 (package! ellama)  ;; general package for interacting with LLMs from Emacs
 (package! greader) ;; for text-to-speech
 (package! whisper :recipe (:host github :repo "natrys/whisper.el")) ;; speech-to-text
-(package! copilot :recipe (:host github :repo "copilot-emacs/copilot.el" ;;coding
-                            :files ("*.el" "dist")))
-(package! org-ai)  ;; org-mode src blocks for ai
+(package! copilot :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist")))
+;; (package! org-ai)  ;; org-mode src blocks for ai
 
 ;; ----------------------------------------------------------------------------------
 ;; Org
@@ -35,7 +33,6 @@
 (package! qrencode :recipe (:host github :repo "ruediger/qrencode-el"))
 (package! graphviz-dot-mode) ;; graphviz diagrams
 (package! ob-mermaid)        ;; even more diagrams
-(package! org-bars :recipe (:host github :repo "tonyaldon/org-bars"))
 ;; ----------------------------------------------------------------------------------
 ;; Utilities
 ;; ----------------------------------------------------------------------------------

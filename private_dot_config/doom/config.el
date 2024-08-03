@@ -187,7 +187,6 @@ Doom loads early."
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (pixel-scroll-precision-mode t)
-
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook #'rainbow-mode)
 
@@ -584,14 +583,8 @@ Doom loads early."
       )))
 (message "  ...org startup, bindings, agenda, tags, todos...")
 
-(use-package! org-bars
-  :hook (org-mode . org-bars-mode)
-  :config
-  (setq org-bars-color-options '(:desaturate-level-faces 30
-                                  :darken-level-faces 15))
-  (setq org-bars-with-dynamic-stars-p nil))
-
 (use-package! org-modern
+  :hook (org-mode . org-modern-mode)
   :config
   (setq org-modern-star 'replace)
   (setq org-modern-replace-stars
@@ -601,9 +594,9 @@ Doom loads early."
        ("title" . "₸")
        (t . t))))
 
-(after! org
-  (doom-themes-org-config)
-  (with-eval-after-load 'org (global-org-modern-mode)))
+;; (after! org
+;;   (doom-themes-org-config)
+;;   (with-eval-after-load 'org (global-org-modern-mode)))
 
 (message "  ...org appearance...")
 
@@ -957,6 +950,9 @@ Doom loads early."
 
 (message "  ...magit...")
 
+(use-package! python
+  :defer t)
+
 (use-package! clojure-mode
   :defer t
   :hook (clojure-mode . rainbow-delimiters-mode)
@@ -1126,6 +1122,7 @@ with large files for some reason."
 
   ;; ellama
   ;; ask
+
   "C-M-? a a" #'ellama-ask-about     ;; selected region or buffer
   "C-M-? a l" #'ellama-ask-line      ;; send current line
   "C-M-? a s" #'ellama-ask-selection ;; selected region or buffer

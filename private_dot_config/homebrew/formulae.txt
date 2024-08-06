@@ -76,7 +76,6 @@ git-machete: Git repository organizer & rebase workflow automation tool
 git-multipush: Push a branch to multiple remotes in one command
 git-open: Open GitHub webpages from a terminal
 git-quick-stats: Simple and efficient way to access statistics in git
-gitlint: Linting for your git commit messages
 glib: Core application library for C
 glog: Application-level logging library
 gmp: GNU multiple precision arithmetic library
@@ -100,9 +99,7 @@ gum: Tool for glamorous shell scripts
 harfbuzz: OpenType text shaping engine
 hatch: Modern, extensible Python project management
 highway: Performance-portable, length-agnostic SIMD with runtime dispatch
-huggingface-cli: Client library for huggingface.co hub
 hunspell: Spell checker and morphological analyzer
-hwloc: Portable abstraction of the hierarchical topology of modern architectures
 icu4c: C/C++ and Java libraries for Unicode and globalization
 imagemagick: Tools and libraries to manipulate images in many formats
 imath: Library of 2D and 3D vector, matrix, and math operations
@@ -214,16 +211,12 @@ node: Platform built on V8 to build network applications
 npth: New GNU portable threads library
 nspr: Platform-neutral API for system-level and libc-like functions
 nss: Libraries for security-enabled client and server applications
-numpy: Package for scientific computing with Python
 oniguruma: Regular expressions library
-openblas: Optimized BLAS library
 opencore-amr: Audio codecs extracted from Android open source project
 openexr: High dynamic-range image file format
 openjdk: Development kit for the Java programming language
 openjpeg: Library for JPEG-2000 image manipulation
-openldap: Open source suite of directory software
 openssl@3: Cryptography and SSL/TLS Toolkit
-openvino: Open Visual Inference And Optimization toolkit for AI inference
 opus: Audio codec
 p11-kit: Library to load and enumerate PKCS#11 modules
 pandoc: Swiss-army knife of markup format conversion
@@ -239,16 +232,8 @@ poppler: PDF rendering library (based on the xpdf-3.0 code base)
 prettier: Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
 psgrep: Shortcut for the 'ps aux | grep' idiom
 pstree: Show ps output as a tree
-pugixml: Light-weight C++ XML processing library
 pycparser: C parser in Python
-python-click: Python composable command-line interface toolkit
-python-dateutil: Useful extensions to the standard Python datetime features
-python-hatchling: Modern, extensible Python build backend
-python-packaging: Core utilities for Python packages
-python-pathspec: Utility library for gitignore style pattern matching of file paths
-python-pluggy: Minimalist production ready plugin system
 python-setuptools: Easily download, build, install, upgrade, and uninstall Python packages
-python-trove-classifiers: Canonical source for classifiers on PyPI
 python@3.11: Interpreted, interactive, object-oriented programming language
 python@3.12: Interpreted, interactive, object-oriented programming language
 qrencode: QR Code generation
@@ -267,7 +252,6 @@ sdl2: Low-level access to audio, keyboard, mouse, joystick, and graphics
 shared-mime-info: Database of common MIME types
 shellcheck: Static analysis and lint tool, for (ba)sh scripts
 shfmt: Autoformat shell script source code
-six: Python 2 and 3 compatibility utilities
 snappy: Compression/decompression library aiming for high speed
 sops: Editor of encrypted files
 source-highlight: Source-code syntax highlighter
@@ -282,7 +266,6 @@ stow: Organize software neatly under a single directory tree (e.g. /usr/local)
 stylelint: Modern CSS linter
 svt-av1: AV1 encoder
 swi-prolog: ISO/Edinburgh-style Prolog interpreter
-tbb: Rich and complete approach to parallelism in C++
 tcl-tk: Tool Command Language
 terminal-notifier: Send macOS User Notifications from the command-line
 tesseract: OCR (Optical Character Recognition) engine

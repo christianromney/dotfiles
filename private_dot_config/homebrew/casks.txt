@@ -17,7 +17,6 @@ font-roboto-mono: (Roboto Mono) [no description]
 github: (GitHub Desktop) Desktop client for GitHub repositories
 google-chrome: (Google Chrome) Web browser
 keybase: (Keybase) End-to-end encryption software
-kindle: (Kindle for Mac) Interface for reading and syncing eBooks
 lm-studio: (LM Studio) Discover, download, and run local LLMs
 mactex: (MacTeX) Full TeX Live distribution with GUI applications
 macwhisper: (MacWhisper) Speech recognition tool

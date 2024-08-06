@@ -22,7 +22,6 @@
 (package! whisper :recipe (:host github :repo "natrys/whisper.el")) ;; speech-to-text
 (package! copilot :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el" "dist")))
 (package! org-ai)  ;; org-mode src blocks for ai
-
 ;; ----------------------------------------------------------------------------------
 ;; Org
 ;; ----------------------------------------------------------------------------------

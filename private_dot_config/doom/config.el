@@ -783,13 +783,13 @@ Doom loads early."
 
 (message "  ...org reveal...")
 
-(defvar gpt-default-model "gpt-4-turbo-preview"
+(defvar gpt-default-model "gpt-4o"
   "My preferred Open AI chat model.")
 
 (defvar gpt-default-embedding "text-embedding-3-small"
   "My preferred Open AI embedding model.")
 
-(defvar llm-local-chat-model "llama3"
+(defvar llm-local-chat-model "llama3.1:latest"
   "Default local model to use for chat.")
 
 (defvar llm-local-embedding-model "nomic-embed-text"
@@ -800,35 +800,52 @@ Doom loads early."
   :init
   (require 'llm-ollama)
   (require 'llm-openai)
-  (let ((default-ollama (make-llm-ollama
-                          :chat-model llm-local-chat-model
-                          :embedding-model llm-local-embedding-model)))
-    (setopt ellama-enable-keymap t)
-    (setopt ellama-keymap-prefix "C-|")
-    (setopt ellama-language "English")
-    (setopt ellama-provider default-ollama)
-    (setopt ellama-user-nick (car (string-split user-full-name)))
-    (setopt ellama-providers
-      '(("llama3"   . (make-llm-ollama
-                        :chat-model "llama3"
-                        :embedding-model llm-local-embedding-model))
-         ("gemma"   . (make-llm-ollama
-                        :chat-model "gemma:latest"
-                        :embedding-model "gemma:text"))
-         ("mistral" . (make-llm-ollama
-                        :chat-model "mistral"
-                        :embedding-model llm-local-embedding-model))
-         ("mixtral" . default-ollama)
-         ("chatgpt" . (make-llm-openai
-                        :key (cr/keychain-api-token-for-host "api.openai.com")
-                        :chat-model gpt-default-model
-                        :embedding-model gpt-default-embedding))))
+  (setopt ellama-enable-keymap t)
+  (setopt ellama-keymap-prefix "C-|")
+  (setopt ellama-language "English")
+  (setopt ellama-provider
+          (make-llm-ollama
+           :chat-model llm-local-chat-model
+           :embedding-model llm-local-embedding-model))
+  (setopt ellama-user-nick (car (string-split user-full-name)))
+  (setopt ellama-providers
+          '(("llama3.1"  . (make-llm-ollama
+                            :chat-model llm-local-chat-model
+                            :embedding-model llm-local-embedding-model))
+            ("gemma2"    . (make-llm-ollama
+                            :chat-model "gemma2:latest"
+                            :embedding-model llm-local-embedding-model))
+            ("codegemma" . (make-llm-ollama
+                            :chat-model "codegemma"
+                            :embedding-model llm-local-embedding-model))
+            ("mistral"   . (make-llm-ollama
+                            :chat-model "mistral"
+                            :embedding-model llm-local-embedding-model))
+            ("nemo"      . (make-llm-ollama
+                            :chat-model "mistral-nemo"
+                            :embedding-model llm-local-embedding-model))
+            ("codestral" . (make-llm-ollama
+                            :chat-model "codestral"
+                            :embedding-model llm-local-embedding-model))
 
-    (setopt ellama-naming-provider default-ollama)
-    (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
-    (setopt ellama-translation-provider (make-llm-ollama
-                                          :chat-model "neural-chat"
-                                          :embedding-model "nomic-embed-text"))))
+            ("mathstral" . (make-llm-ollama
+                            :chat-model "mathstral"
+                            :embedding-model llm-local-embedding-model))
+            ("aya"       . (make-llm-ollama
+                            :chat-model "aya"
+                            :embedding-model llm-local-embedding-model))
+            ("chatgpt"   . (make-llm-openai
+                            :key (cr/keychain-api-token-for-host "api.openai.com")
+                            :chat-model gpt-default-model
+                            :embedding-model gpt-default-embedding))))
+  (setopt ellama-naming-provider
+          (make-llm-ollama
+           :chat-model llm-local-chat-model
+           :embedding-model llm-local-embedding-model))
+  (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
+  (setopt ellama-translation-provider (make-llm-ollama
+                                       :chat-model "aya"
+                                       :embedding-model llm-local-embedding-model)))
 
 (use-package! copilot
   :hook (python-mode . copilot-mode)

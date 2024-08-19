@@ -170,7 +170,6 @@ Doom loads early."
 (setq default-frame-alist
   '((fullscreen . maximized)))
 
-;; (font-spec :family "JetBrains Mono" :size 20)
 (setq display-line-numbers-type   nil
   doom-theme                  'romney-light
   doom-font                   (font-spec :family "Monaspace Neon" :size 20)

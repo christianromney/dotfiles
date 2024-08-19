@@ -37,6 +37,7 @@ diffutils: File comparison utilities
 direnv: Load/unload environment variables based on $PWD
 docbook: Standard XML representation system for technical documents
 docbook-xsl: XML vocabulary to create presentation-neutral documents
+docutils: Text processing system for reStructuredText
 double-conversion: Binary-decimal and decimal-binary routines for IEEE doubles
 edencommon: Shared library for Watchman and Eden projects
 eza: Modern, maintained replacement for ls
@@ -45,6 +46,7 @@ fbthrift: Facebook's branch of Apache Thrift, including a new C++ server
 fd: Simple, fast and user-friendly alternative to find
 ffmpeg: Play, record, convert, and stream audio and video
 fish: User-friendly command-line shell for UNIX-like operating systems
+fisher: Plugin manager for the Fish shell
 fizz: C++14 implementation of the TLS-1.3 standard
 flac: Free lossless audio codec
 fmt: Open-source formatting library for C++
@@ -76,6 +78,7 @@ git-machete: Git repository organizer & rebase workflow automation tool
 git-multipush: Push a branch to multiple remotes in one command
 git-open: Open GitHub webpages from a terminal
 git-quick-stats: Simple and efficient way to access statistics in git
+gitlint: Linting for your git commit messages
 glib: Core application library for C
 glog: Application-level logging library
 gmp: GNU multiple precision arithmetic library
@@ -95,10 +98,10 @@ grip: GitHub Markdown previewer
 gsasl: SASL library command-line interface
 gts: GNU triangulated surface library
 guile: GNU Ubiquitous Intelligent Language for Extensions
-gum: Tool for glamorous shell scripts
 harfbuzz: OpenType text shaping engine
 hatch: Modern, extensible Python project management
 highway: Performance-portable, length-agnostic SIMD with runtime dispatch
+huggingface-cli: Client library for huggingface.co hub
 hunspell: Spell checker and morphological analyzer
 icu4c: C/C++ and Java libraries for Unicode and globalization
 imagemagick: Tools and libraries to manipulate images in many formats
@@ -230,10 +233,11 @@ pngpaste: Paste PNG into files
 poetry: Python package management tool
 poppler: PDF rendering library (based on the xpdf-3.0 code base)
 prettier: Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
+proctools: OpenBSD and Darwin versions of pgrep, pkill, and pfind
 psgrep: Shortcut for the 'ps aux | grep' idiom
 pstree: Show ps output as a tree
 pycparser: C parser in Python
-python-setuptools: Easily download, build, install, upgrade, and uninstall Python packages
+pygments: Generic syntax highlighter
 python@3.11: Interpreted, interactive, object-oriented programming language
 python@3.12: Interpreted, interactive, object-oriented programming language
 qrencode: QR Code generation
@@ -252,6 +256,7 @@ sdl2: Low-level access to audio, keyboard, mouse, joystick, and graphics
 shared-mime-info: Database of common MIME types
 shellcheck: Static analysis and lint tool, for (ba)sh scripts
 shfmt: Autoformat shell script source code
+six: Python 2 and 3 compatibility utilities
 snappy: Compression/decompression library aiming for high speed
 sops: Editor of encrypted files
 source-highlight: Source-code syntax highlighter
@@ -261,7 +266,6 @@ sqlite: Command-line interface for SQLite
 srt: Secure Reliable Transport
 ssh-copy-id: Add a public key to a remote machine's authorized_keys file
 starship: Cross-shell prompt for astronauts
-stockfish: Strong open-source chess engine
 stow: Organize software neatly under a single directory tree (e.g. /usr/local)
 stylelint: Modern CSS linter
 svt-av1: AV1 encoder
@@ -294,6 +298,7 @@ xvid: High-performance, high-quality MPEG-4 video library
 xz: General-purpose data compression with high compression ratio
 yamllint: Linter for YAML files
 yarn: JavaScript package manager
+ykman: Tool for managing your YubiKey configuration
 yq: Process YAML, JSON, XML, CSV and properties documents from the CLI
 yt-dlp: Feature-rich command-line audio/video downloader
 z3: High-performance theorem prover

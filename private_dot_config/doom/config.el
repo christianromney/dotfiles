@@ -788,7 +788,7 @@ Doom loads early."
 (defvar gpt-default-embedding "text-embedding-3-small"
   "My preferred Open AI embedding model.")
 
-(defvar llm-local-chat-model "llama3.1:latest"
+(defvar llm-local-chat-model "llama3.2:latest"
   "Default local model to use for chat.")
 
 (defvar llm-local-embedding-model "nomic-embed-text"
@@ -811,24 +811,20 @@ Doom loads early."
           '(("llama3.1"  . (make-llm-ollama
                             :chat-model llm-local-chat-model
                             :embedding-model llm-local-embedding-model))
-            ("gemma2"    . (make-llm-ollama
-                            :chat-model "gemma2:latest"
+            ("llama3.2"  . (make-llm-ollama
+                            :chat-model "llama3.2:latest"
                             :embedding-model llm-local-embedding-model))
-            ("codegemma" . (make-llm-ollama
-                            :chat-model "codegemma"
+            ("codestral" . (make-llm-ollama
+                            :chat-model "codestral:latest"
                             :embedding-model llm-local-embedding-model))
             ("mistral"   . (make-llm-ollama
-                            :chat-model "mistral"
+                            :chat-model "mistral:latest"
                             :embedding-model llm-local-embedding-model))
             ("nemo"      . (make-llm-ollama
-                            :chat-model "mistral-nemo"
+                            :chat-model "mistral-nemo:latest"
                             :embedding-model llm-local-embedding-model))
             ("codestral" . (make-llm-ollama
                             :chat-model "codestral"
-                            :embedding-model llm-local-embedding-model))
-
-            ("mathstral" . (make-llm-ollama
-                            :chat-model "mathstral"
                             :embedding-model llm-local-embedding-model))
             ("aya"       . (make-llm-ollama
                             :chat-model "aya"
@@ -895,7 +891,7 @@ Doom loads early."
   (setq org-ai-image-directory (cr/mkdirp (expand-file-name "dall-e" org-directory))
         org-ai-default-completion-model gpt-default-model
         org-ai-default-chat-model gpt-default-model
-        org-ai-talk-say-voice "Jamie"
+        org-ai-talk-say-voice "Evan"
         org-ai-talk-say-words-per-minute 160
         org-ai-default-chat-system-prompt
         "You are a helpful, succinct research and coding assistant running in Emacs.")

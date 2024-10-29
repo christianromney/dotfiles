@@ -32,18 +32,8 @@ set -gx EDITOR emacs
 # asdf general purpose environment manager
 status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish"
 
-# asdf
-source (brew --prefix asdf)/libexec/asdf.fish
-
 # envionrment vars per directory
 direnv hook fish | source
-
-# additional cli tools
-# volta (nodejs)
-set -gx VOLTA_HOME "$HOME/.volta"
-set -gx PATH "$VOLTA_HOME/bin" $PATH
-
-
 
 # 1Password
 set -l opplugins /Users/christian/.config/op/plugins.sh

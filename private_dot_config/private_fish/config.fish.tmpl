@@ -32,9 +32,8 @@ set -gx EDITOR emacs
 # asdf general purpose environment manager
 status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish"
 
-
 # asdf
-. (brew --prefix asdf)"/libexec/asdf.fish"
+source (brew --prefix asdf)/libexec/asdf.fish
 
 # envionrment vars per directory
 direnv hook fish | source

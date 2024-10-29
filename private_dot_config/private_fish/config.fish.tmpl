@@ -15,6 +15,7 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 # nubank configuration
 if test -f $HOME/.nurc
   bass source $HOME/.nurc
+  source "(brew --prefix asdf)"/libexec/asdf.fish"
 end
 {{ end }}
 # add home/bin and Doom to path

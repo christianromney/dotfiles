@@ -91,5 +91,7 @@
 	defaultBranch = master
 [github]
 	user = christianromney
+{{ if eq .chezmoi.hostname "christian" }}
 [url "git@github.com"]
      insteadOf = git://github.com/
+{{ end }}

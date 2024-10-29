@@ -16,7 +16,6 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 if test -f $HOME/.nurc
   bass source $HOME/.nurc
 end
-source "(brew --prefix asdf)"/libexec/asdf.fish
 {{ end }}
 # add home/bin and Doom to path
 set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH
@@ -33,6 +32,10 @@ set -gx EDITOR emacs
 # asdf general purpose environment manager
 status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish"
 
+
+# asdf
+. (brew --prefix asdf)"/libexec/asdf.fish"
+
 # envionrment vars per directory
 direnv hook fish | source
 
@@ -40,6 +43,8 @@ direnv hook fish | source
 # volta (nodejs)
 set -gx VOLTA_HOME "$HOME/.volta"
 set -gx PATH "$VOLTA_HOME/bin" $PATH
+
+
 
 # 1Password
 set -l opplugins /Users/christian/.config/op/plugins.sh

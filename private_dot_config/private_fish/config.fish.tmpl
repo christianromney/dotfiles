@@ -15,8 +15,6 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 # nubank configuration
 if test -f $HOME/.nurc
   bass source $HOME/.nurc
-  status --is-interactive; and . (rbenv init -|psub)
-  # eval "$(pyenv init --path)"
 end
 {{ end }}
 # add home/bin and Doom to path

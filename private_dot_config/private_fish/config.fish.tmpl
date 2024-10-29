@@ -16,6 +16,7 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 if test -f $HOME/.nurc
   bass source $HOME/.nurc
 end
+source "(brew --prefix asdf)"/libexec/asdf.fish
 {{ end }}
 # add home/bin and Doom to path
 set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH

@@ -6,12 +6,5 @@ encryption = "age"
   autoCommit = true
   autoPush = true
 [data]
-{{ if eq .chezmoi.hostname "mint"  }}
-# mint configuration
   email = "christian.a.romney@gmail.com"
   gpgSigningKey = "A0FA17A0540AAC06"
-{{ else }}
-# nubank configuration
-  email = "christian.romney@nubank.com"
-  gpgSigningKey = "01A60AF7B2843970"
-{{ end }}

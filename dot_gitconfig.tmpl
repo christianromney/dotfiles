@@ -1,7 +1,12 @@
 [user]
   name = Christian Romney
-  email = {{ .email }}
-  signingkey = {{ .gpgSigningKey }}
+{{ if eq .chezmoi.hostname "christian" }}
+  email = {{ .git.work.email }}
+  signingkey = {{ .git.work.gpgSigningKey }}
+{{ else }}
+  email = {{ .git.home.email }}
+  signingkey = {{ .git.home.gpgSigningKey }}
+{{ end }}
 [core]
   autocrlf = input
   excludesfile = ~/.gitignore_global

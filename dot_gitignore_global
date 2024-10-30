@@ -142,3 +142,4 @@ Module.symvers
 Mkfile.old
 dkms.conf
 .ccls-cache
+.tool-versions

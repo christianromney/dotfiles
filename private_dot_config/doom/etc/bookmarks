@@ -3,15 +3,14 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
-  (filename . "~/Documents/personal/notes/content/roam/20240522070248-coding_assistant.org")
-  (front-context-string . "* Observations\n-")
-  (rear-context-string . "oding Assistant\n")
-  (position . 94)
-  (last-modified 26189 53477 760981 0))
+  (filename
+    . "~/Documents/personal/notes/content/roam/20241015153510-engineering_onboarding.org")
+  (front-context-string) (rear-context-string . "ring Onboarding\n")
+  (position . 100) (last-modified 26382 50160 661058 0))
 ("org-refile-last-stored"
-  (filename . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")
+  (filename
+    . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")
   (front-context-string . "** Local Develop")
-  (rear-context-string . "io/][weaviate]]\n")
-  (position . 1659)
+  (rear-context-string . "io/][weaviate]]\n") (position . 1659)
   (last-modified 26070 33929 623369 0))
 )

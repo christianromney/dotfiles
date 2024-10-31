@@ -8,3 +8,4 @@ gpus
 iain
 interdependencies
 sharded
+standup

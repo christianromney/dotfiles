@@ -1,3 +1,4 @@
+# common libs
 age: Simple, modern, secure file encryption
 aom: Codec library for encoding and decoding AV1 video streams
 aria2: Download with resuming and segmented downloading
@@ -339,3 +340,22 @@ zimg: Scaling, colorspace conversion, and dithering library
 zlib: General-purpose lossless data-compression library
 zoxide: Shell extension to navigate your filesystem faster
 zstd: Zstandard is a real-time compression algorithm
+{{- if eq .chezmoi.hostname "mint" }}
+# home only
+
+{{ else }}
+# nubank only
+carthage: Decentralized dependency manager for Cocoa
+cocoapods: Dependency manager for Cocoa projects
+findutils: Collection of GNU find, xargs, and locate
+gradle: Open-source build automation tool based on the Groovy and Kotlin DSL
+k9s: Kubernetes CLI To Manage Your Clusters In Style!
+ldns: DNS library written in C
+libcbor: CBOR protocol implementation for C and others
+libdeflate: Heavily optimized DEFLATE/zlib/gzip compression and decompression
+libfido2: Provides library functionality for FIDO U2F & FIDO 2.0, including USB
+libmagic: Implementation of the file(1) command
+rome: Carthage cache for S3, Minio, Ceph, Google Storage, Artifactory and many others
+xcodes: Best command-line tool to install and switch between multiple versions of Xcode
+xxhash: Extremely fast non-cryptographic hash algorithm
+{{ end -}}

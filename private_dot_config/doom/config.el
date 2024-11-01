@@ -832,14 +832,14 @@ Doom loads early."
             ("chatgpt"   . (make-llm-openai
                             :key (cr/keychain-api-token-for-host "api.openai.com")
                             :chat-model gpt-default-model
-                            :embedding-model gpt-default-embedding))))
+                            :embedding-model gpt-defaudtlt-embedding))))
   (setopt ellama-naming-provider
           (make-llm-ollama
            :chat-model llm-local-chat-model
            :embedding-model llm-local-embedding-model))
   (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
   (setopt ellama-translation-provider (make-llm-ollama
-                                       :chat-model "aya"
+                                       :chat-model "llama3.2"
                                        :embedding-model llm-local-embedding-model)))
 
 (use-package! copilot

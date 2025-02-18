@@ -1,11 +1,11 @@
 [user]
   name = Christian Romney
 {{- if eq .chezmoi.hostname "christian" }}
-  email = {{ .data.work.email | quote }}
-  signingkey = {{ .data.work.gpgSigningKey }}
+  email = {{ .work.email | quote }}
+  signingkey = {{ .work.gpgSigningKey }}
 {{- else }}
-  email = {{ .data.home.email | quote }}
-  signingkey = {{ .data.home.gpgSigningKey }}
+  email = {{ .home.email | quote }}
+  signingkey = {{ .home.gpgSigningKey }}
 {{- end }}
 [core]
   autocrlf = input

@@ -1,0 +1,23 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("org-capture-last-stored"
+  (filename
+<<<<<<< HEAD
+    . "~/Documents/personal/notes/content/roam/20241015153510-engineering_onboarding.org")
+  (front-context-string . "\n* 2024 Engineer")
+  (rear-context-string . "ering Onboarding") (position . 99)
+  (last-modified 26402 13819 444134 0))
+=======
+    . "~/Documents/personal/notes/content/roam/20250213082155-u_s_payment_systems.org")
+  (front-context-string) (rear-context-string . "Payment Systems\n")
+  (position . 98) (last-modified 26541 61953 95536 0))
+>>>>>>> b8c8d4f (Update .config/doom/config.el)
+("org-refile-last-stored"
+  (filename
+    . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")
+  (front-context-string . "** Local Develop")
+  (rear-context-string . "io/][weaviate]]\n") (position . 1659)
+  (last-modified 26070 33929 623369 0))
+)

@@ -1,12 +1,12 @@
 [user]
   name = Christian Romney
-{{ if eq .chezmoi.hostname "christian" }}
-  email = {{ .git.work.email }}
+{{- if eq .chezmoi.hostname "christian" }}
+  email = {{ .git.work.email | quote }}
   signingkey = {{ .git.work.gpgSigningKey }}
-{{ else }}
-  email = {{ .git.home.email }}
+{{- else }}
+  email = {{ .git.home.email | quote }}
   signingkey = {{ .git.home.gpgSigningKey }}
-{{ end }}
+{{- end }}
 [core]
   autocrlf = input
   excludesfile = ~/.gitignore_global
@@ -96,8 +96,8 @@
 	defaultBranch = master
 [github]
 	user = christianromney
-{{ if eq .chezmoi.hostname "christian" }}
+{{- if eq .chezmoi.hostname "christian" }}
 # nubank
 [url "git@github.com"]
-     insteadOf = git://github.com/
-{{ end }}
+  insteadOf = git://github.com/
+{{- end }}

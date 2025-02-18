@@ -30,7 +30,7 @@ ssh-add -q
 set -gx EDITOR emacs
 
 # asdf general purpose environment manager
-status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/libexec/asdf.fish"
+status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/share/fish/vendor_completions.d/asdf.fish"
 
 # envionrment vars per directory
 direnv hook fish | source

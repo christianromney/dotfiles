@@ -655,7 +655,8 @@ Doom loads early."
     (:map org-mode-map
       :prefix ("C-c y" . "glossary")
       :desc "define term"     "d" #'org-glossary-create-definition
-      :desc "goto definition" "g" #'org-glossary-goto-term-definition)))
+      :desc "goto definition" "g" #'org-glossary-goto-term-definition
+      :desc "insert reference" "i" #'org-glossary-insert-term-reference)))
 
 (message "  ...org glossary...")
 
@@ -1122,6 +1123,7 @@ with large files for some reason."
   "C-x M-s"   #'transpose-sexps
   "C-x M-t"   #'transpose-paragraphs
   "C-x P"     #'print-buffer
+  "C-x k"     #'doom/save-and-kill-buffer
   "C-x \\"    #'align-regexp
   "C-x g"     #'magit-status
   "C-x r I"   #'string-insert-rectangle

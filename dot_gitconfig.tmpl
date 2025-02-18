@@ -1,11 +1,11 @@
 [user]
   name = Christian Romney
 {{- if eq .chezmoi.hostname "christian" }}
-  email = {{ .git.work.email | quote }}
-  signingkey = {{ .git.work.gpgSigningKey }}
+  email = {{ .data.work.email | quote }}
+  signingkey = {{ .data.work.gpgSigningKey }}
 {{- else }}
-  email = {{ .git.home.email | quote }}
-  signingkey = {{ .git.home.gpgSigningKey }}
+  email = {{ .data.home.email | quote }}
+  signingkey = {{ .data.home.gpgSigningKey }}
 {{- end }}
 [core]
   autocrlf = input

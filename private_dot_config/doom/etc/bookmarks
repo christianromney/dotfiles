@@ -4,9 +4,10 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
   (filename
-    . "~/Documents/personal/notes/content/roam/20250213082155-u_s_payment_systems.org")
-  (front-context-string) (rear-context-string . "Payment Systems\n")
-  (position . 98) (last-modified 26541 61953 95536 0))
+    . "~/Documents/personal/notes/content/roam/20250402153312-backend_driven_content_bdc.org")
+  (front-context-string . "\n* Introduction ")
+  (rear-context-string . "en Content (BDC)") (position . 105)
+  (last-modified 26605 39067 134861 0))
 ("org-refile-last-stored"
   (filename
     . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")

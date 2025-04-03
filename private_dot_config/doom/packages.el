@@ -10,7 +10,7 @@
 ;; ----------------------------------------------------------------------------------
 (package! adoc-mode)
 (package! gist :recipe (:host github :repo "KarimAziev/gist.el"))
-(package! inf-clojure)
+;; (package! inf-clojure)
 (when (modulep! :checkers syntax)
   (package! flycheck-clj-kondo))
 (package! clojure-snippets)

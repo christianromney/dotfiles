@@ -734,10 +734,14 @@ Doom loads early."
   :config
   (setq graphviz-dot-indent-width 2))
 
+(use-package! mermaid-mode
+  :defer t
+  :config
+  (setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc"))
+
 (after! org
   (when (modulep! :lang plantuml)
     (setq plantuml-default-exec-mode 'jar))
-
 
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -970,8 +974,10 @@ Doom loads early."
 (use-package! clojure-mode
   :defer t
   :hook ((clojure-mode . rainbow-delimiters-mode)
-         (clojure-mode . subword-mode))
+          (clojure-mode . subword-mode))
   :config
+  (setq cider-enable-nrepl-jvmti-agent t
+        cider-enrich-classpath t)
   (when (modulep! :tools lsp)
     (map! :map clojure-mode-map
       "C-c j u d"    #'lsp-ui-doc-glance
@@ -987,6 +993,7 @@ Doom loads early."
       lsp-lens-enable          t       ;; enable LSP code lens for inline reference counts
       lsp-file-watch-threshold 2000
       lsp-enable-snippet       t)))
+
 (message "  ...clojure editing...")
 
 (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))

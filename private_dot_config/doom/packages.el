@@ -31,7 +31,8 @@
 (package! org-glossary :recipe (:host github :repo "tecosaur/org-glossary"))
 (package! qrencode :recipe (:host github :repo "ruediger/qrencode-el"))
 (package! graphviz-dot-mode) ;; graphviz diagrams
-(package! ob-mermaid)        ;; even more diagrams
+(package! mermaid-mode) ;; even more diagrams
+(package! ob-mermaid)
 ;; ----------------------------------------------------------------------------------
 ;; Utilities
 ;; ----------------------------------------------------------------------------------

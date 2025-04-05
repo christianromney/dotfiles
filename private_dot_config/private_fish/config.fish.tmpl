@@ -30,7 +30,6 @@ ssh-add -q
 set -gx EDITOR emacs
 
 # asdf general purpose environment manager
-# ASDF configuration code
 if test -z $ASDF_DATA_DIR
     set _asdf_shims "$HOME/.asdf/shims"
 else
@@ -43,6 +42,7 @@ if not contains $_asdf_shims $PATH
     set -gx --prepend PATH $_asdf_shims
 end
 set --erase _asdf_shims
+
 status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/share/fish/vendor_completions.d/asdf.fish"
 
 # envionrment vars per directory

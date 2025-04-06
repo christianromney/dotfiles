@@ -8,15 +8,10 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 ! set -q PATH; and set PATH ''; set -gx PATH "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/homebrew/opt/grep/libexec/gnubin/" $PATH;
 ! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
 ! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
-{{ if eq .chezmoi.hostname "mint"  }}
+
 # mint configuration
 
-{{ else }}
-# nubank configuration
-if test -f $HOME/.nurc
-  bass source $HOME/.nurc
-end
-{{ end }}
+
 # add home/bin and Doom to path
 set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH
 

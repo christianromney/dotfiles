@@ -788,13 +788,13 @@ Doom loads early."
 
 (message "  ...org reveal...")
 
-(defvar gpt-default-model "gpt-4o"
+(defvar gpt-default-model "gpt-4o-mini-search-preview-2025-03-11"
   "My preferred Open AI chat model.")
 
 (defvar gpt-default-embedding "text-embedding-3-small"
   "My preferred Open AI embedding model.")
 
-(defvar llm-local-chat-model "llama3.2:latest"
+(defvar llm-local-chat-model "gemma3:12b"
   "Default local model to use for chat.")
 
 (defvar llm-local-embedding-model "nomic-embed-text"
@@ -814,23 +814,20 @@ Doom loads early."
            :embedding-model llm-local-embedding-model))
   (setopt ellama-user-nick (car (string-split user-full-name)))
   (setopt ellama-providers
-          '(("llama3.1"  . (make-llm-ollama
-                            :chat-model llm-local-chat-model
-                            :embedding-model llm-local-embedding-model))
-            ("llama3.2"  . (make-llm-ollama
+          '(("llama3.2"  . (make-llm-ollama
                             :chat-model "llama3.2:latest"
                             :embedding-model llm-local-embedding-model))
             ("codestral" . (make-llm-ollama
                             :chat-model "codestral:latest"
                             :embedding-model llm-local-embedding-model))
             ("mistral"   . (make-llm-ollama
-                            :chat-model "mistral:latest"
+                            :chat-model "mistral-small3.1:latest"
                             :embedding-model llm-local-embedding-model))
-            ("nemo"      . (make-llm-ollama
-                            :chat-model "mistral-nemo:latest"
+            ("cogito"    . (make-llm-ollama
+                            :chat-model "cogito:latest"
                             :embedding-model llm-local-embedding-model))
-            ("codestral" . (make-llm-ollama
-                            :chat-model "codestral"
+            ("code"      . (make-llm-ollama
+                            :chat-model "codegemma:code"
                             :embedding-model llm-local-embedding-model))
             ("aya"       . (make-llm-ollama
                             :chat-model "aya"
@@ -845,7 +842,7 @@ Doom loads early."
            :embedding-model llm-local-embedding-model))
   (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
   (setopt ellama-translation-provider (make-llm-ollama
-                                       :chat-model "llama3.2"
+                                       :chat-model "aya"
                                        :embedding-model llm-local-embedding-model)))
 
 (use-package! copilot

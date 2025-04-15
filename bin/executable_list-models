@@ -1,0 +1,2 @@
+#!/usr/bin/env fish
+ollama list | awk '!/(^NAME)/ {print $1}' | sort

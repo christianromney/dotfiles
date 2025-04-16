@@ -164,7 +164,11 @@ determine the exact padding."
    (ediff-current-diff-B        :foreground green :background (doom-lighten green 0.8))
    (ediff-current-diff-C        :foreground blue  :background (doom-lighten blue 0.8))
    (ediff-current-diff-Ancestor :foreground teal  :background (doom-lighten teal 0.8))
-
+    ;; refined diff
+   (ediff-fine-diff-A           :slant 'italic :foreground red   :background (doom-lighten red 0.8))
+   (ediff-fine-diff-B           :slant 'italic :foreground green :background (doom-lighten green 0.8))
+   (ediff-fine-diff-C           :slant 'italic :foreground blue  :background (doom-lighten blue 0.8))
+   (ediff-fine-diff-Ancestor    :slant 'italic :foreground teal  :background (doom-lighten teal 0.8))
    ;;;; fringe
    ((fringe &override) :background bg)
 

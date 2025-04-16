@@ -1,0 +1,3 @@
+model: ollama_chat/cogito:14b
+architect: true
+read: CONVENTIONS.md

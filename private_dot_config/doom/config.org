@@ -1060,8 +1060,7 @@ CONVENTIONS.md to load context for the model.
 #+end_src
 *** Speech (Text-to-Speech and Speech-to-Text)
 **** Security
-For speech-to-text to work, I need to give emacs access to the microphone. Add
-the following xml after the Camera usage description in [[https://github.com/d12frosted/homebrew-emacs-plus/pull/666][Emacs' Info.plist]]:
+For speech-to-text to work, Emacs needs access to the microphone. emacs-plus has merged my PR to enable it by default. If you're using a different version of Emacs for Mac OS, update [[https://github.com/d12frosted/homebrew-emacs-plus/pull/666][Emacs' Info.plist]] manually:
 
 #+begin_example
 <key>NSMicrophoneUsageDescription</key>

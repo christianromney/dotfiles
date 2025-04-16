@@ -884,7 +884,6 @@ Doom loads early."
   ;; for basic question answering
   (aidermacs-default-model "ollama_chat/mistral-small3.1:latest")
   ;; for "deeper reasoning"
-  ;; Note:
   (aidermacs-architect-model "ollama_chat/cogito:8b")
   ;; for code changes
   (aidermacs-editor-model "ollama_chat/qwen2.5-coder:latest")

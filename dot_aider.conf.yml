@@ -1,3 +1,4 @@
-model: ollama_chat/cogito:14b
-architect: true
 read: CONVENTIONS.md
+model: ollama_chat/cogito:8b
+weak-model: ollama_chat/llama3.2:latest
+editor-model: ollama_chat/qwen2.5-coder:latest

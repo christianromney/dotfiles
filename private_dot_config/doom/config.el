@@ -797,64 +797,99 @@ Doom loads early."
 (defvar llm-local-chat-model "gemma3:12b"
   "Default local model to use for chat.")
 
+(defvar llm-local-params '(("num_ctx" . 65536))
+  "Default local model non-standard params")
+
 (defvar llm-local-embedding-model "nomic-embed-text"
   "Default local model to use for embeddings.")
 
 (use-package! ellama
-  :defer t
   :init
+  (setopt ellama-language "English")
+
   (require 'llm-ollama)
   (require 'llm-openai)
+
   (setopt ellama-enable-keymap t)
   (setopt ellama-keymap-prefix "C-|")
-  (setopt ellama-language "English")
-  (setopt ellama-provider
-          (make-llm-ollama
-           :chat-model llm-local-chat-model
-           :embedding-model llm-local-embedding-model))
   (setopt ellama-user-nick (car (string-split user-full-name)))
-  (setopt ellama-providers
-          '(("llama3.2"  . (make-llm-ollama
-                            :chat-model "llama3.2:latest"
-                            :embedding-model llm-local-embedding-model))
-            ("codestral" . (make-llm-ollama
-                            :chat-model "codestral:latest"
-                            :embedding-model llm-local-embedding-model))
-            ("mistral"   . (make-llm-ollama
-                            :chat-model "mistral-small3.1:latest"
-                            :embedding-model llm-local-embedding-model))
-            ("cogito"    . (make-llm-ollama
-                            :chat-model "cogito:latest"
-                            :embedding-model llm-local-embedding-model))
-            ("code"      . (make-llm-ollama
-                            :chat-model "codegemma:code"
-                            :embedding-model llm-local-embedding-model))
-            ("aya"       . (make-llm-ollama
-                            :chat-model "aya"
-                            :embedding-model llm-local-embedding-model))
-            ("chatgpt"   . (make-llm-openai
-                            :key (cr/keychain-api-token-for-host "api.openai.com")
-                            :chat-model gpt-default-model
-                            :embedding-model gpt-defaudtlt-embedding))))
-  (setopt ellama-naming-provider
-          (make-llm-ollama
-           :chat-model llm-local-chat-model
-           :embedding-model llm-local-embedding-model))
   (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
-  (setopt ellama-translation-provider (make-llm-ollama
-                                       :chat-model "aya"
-                                       :embedding-model llm-local-embedding-model)))
 
-(use-package! copilot
-  :hook (python-mode . copilot-mode)
-  :bind (:map copilot-completion-map
-          ("<tab>" . 'copilot-accept-completion)
-          ("TAB" . 'copilot-accept-completion)
-          ("M-TAB" . 'copilot-accept-completion-by-word)
-          ("M-<tab>" . 'copilot-accept-completion-by-word))
+  ;; default: gemma3
+  (setopt ellama-provider
+    (make-llm-ollama
+      :chat-model llm-local-chat-model
+      :embedding-model llm-local-embedding-model
+      :default-chat-non-standard-params llm-local-params))
+
+  ;; summarizer: mistral-small3.1
+  (setopt ellama-summarization-provider
+    (make-llm-ollama
+      :chat-model "mistral-small3.1:latest"
+      :embedding-model llm-local-embedding-model))
+
+  ;; coding: qwen2.5-coder
+  (setopt ellama-coding-provider
+    (make-llm-ollama
+      :chat-model "qwen2.5-coder:latest"
+      :embedding-model llm-local-embedding-model
+      :default-chat-non-standard-params '(("num_ctx" . 131072))))
+
+  ;; translation: aya
+  (setopt ellama-translation-provider
+    (make-llm-ollama
+      :chat-model "aya"
+      :embedding-model llm-local-embedding-model))
+
+  (setopt ellama-providers
+    '(("llama3.2"  . (make-llm-ollama
+                       :chat-model "llama3.2:latest"
+                       :embedding-model llm-local-embedding-model))
+       ("codestral" . (make-llm-ollama
+                        :chat-model "codestral:latest"
+                        :embedding-model llm-local-embedding-model))
+       ("mistral"   . (make-llm-ollama
+                        :chat-model "mistral-small3.1:latest"
+                        :embedding-model llm-local-embedding-model))
+       ("cogito"    . (make-llm-ollama
+                        :chat-model "cogito:latest" ;; 8b
+                        :embedding-model llm-local-embedding-model))
+       ("codegemma" . (make-llm-ollama
+                        :chat-model "codegemma:code"
+                        :embedding-model llm-local-embedding-model
+                        :default-chat-non-standard-params '(("num_ctx" . 8192))))
+       ("qwencoder" . (make-llm-ollama
+                        :chat-model "qwen2.5-coder:latest"
+                        :embedding-model llm-local-embedding-model
+                        :default-chat-non-standard-params '(("num_ctx" . 131072))))
+       ("aya"       . (make-llm-ollama
+                        :chat-model "aya"
+                        :embedding-model llm-local-embedding-model))
+       ("chatgpt"   . (make-llm-openai
+                        :key (cr/keychain-api-token-for-host "api.openai.com")
+                        :chat-model gpt-default-model
+                        :embedding-model gpt-default-embedding)))))
+
+(use-package! aidermacs
+  :bind (("C-*" . aidermacs-transient-menu))
+  :init
+  ;; I prefer local LLMs
+  (setenv "OLLAMA_API_BASE" "http://127.0.0.1:11434")
   :config
-  ;; wait two seconds before suggesting
-  (setq copilot-idle-delay 2))
+  (set-popup-rule! "\\*aidermacs.*\\*" :side 'bottom :size 12)
+  (require 'aidermacs-backend-vterm)
+  (setq aidermacs-backend 'vterm)
+  :custom
+  (aidermacs-use-architect-mode t)
+  ;; for basic question answering
+  (aidermacs-default-model "ollama_chat/mistral-small3.1:latest")
+  ;; for "deeper reasoning"
+  ;; Note:
+  (aidermacs-architect-model "ollama_chat/cogito:8b")
+  ;; for code changes
+  (aidermacs-editor-model "ollama_chat/qwen2.5-coder:latest")
+  ;; for commit messages
+  (aidermacs-weak-model "ollama_chat/llama3.2:latest"))
 
 (use-package! greader
   :defer t
@@ -884,21 +919,6 @@ Doom loads early."
   (message "  ...whisper..."))
 
 (map! :desc "Whisper" "C-s-\\" #'whisper-run)
-
-(use-package! org-ai
-  :defer t
-  :hook (org-mode . org-ai-mode)
-  :config
-  (require 'whisper)
-  (require 'org-ai-talk)
-  (setq org-ai-image-directory (cr/mkdirp (expand-file-name "dall-e" org-directory))
-        org-ai-default-completion-model gpt-default-model
-        org-ai-default-chat-model gpt-default-model
-        org-ai-talk-say-voice "Evan"
-        org-ai-talk-say-words-per-minute 160
-        org-ai-default-chat-system-prompt
-        "You are a helpful, succinct research and coding assistant running in Emacs.")
-  (message "  ...org-ai..."))
 
 (let ((n 2))
   (setq standard-indent n

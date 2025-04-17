@@ -1,4 +1,5 @@
 set fish_greeting (set_color brmagenta)"[ 󰈺 ]"(set_color brgreen)" Welcome back, "(set_color blue)(whoami)(set_color brgreen)"."(set_color normal)
+
 # configure homebrew environment and add to path
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)
 set -gx HOMEBREW_NO_ENV_HINTS 1
@@ -11,11 +12,13 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew";
 
 set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
 
-# mint configuration
-
+# work configuration
+if test -d "$HOME/dev/nu"
+  set -gx NU_HOME "$HOME/dev/nu"
+end
 
 # add home/bin and Doom to path
-set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH
+set -gx PATH $HOME/bin $HOME/.config/emacs/bin $NU_HOME/nucli $PATH
 
 # ensure ssh and gpg are initialized
 gpgconf --launch gpg-agent

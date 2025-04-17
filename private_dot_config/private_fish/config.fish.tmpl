@@ -15,10 +15,16 @@ set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
 # work configuration
 if test -d "$HOME/dev/nu"
   set -gx NU_HOME "$HOME/dev/nu"
+  set -gx PATH $NU_HOME/nucli $NU_HOME/mini-meta-repo/monocli/bin $PATH
+end
+
+if test -d "$HOME/Library/Android/sdk"
+  set -l DROID "$HOME/Library/Android/sdk"
+  set -gx PATH $DROID/platform-tools $DROID/tools $DROID/emulator $DROID/cmdline-tools/latest/bin $PATH
 end
 
 # add home/bin and Doom to path
-set -gx PATH $HOME/bin $HOME/.config/emacs/bin $NU_HOME/nucli $PATH
+set -gx PATH $HOME/bin $HOME/.config/emacs/bin $PATH
 
 # ensure ssh and gpg are initialized
 gpgconf --launch gpg-agent

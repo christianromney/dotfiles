@@ -1,4 +1,4 @@
 read: CONVENTIONS.md
-model: ollama_chat/cogito:8b
+model: ollama_chat/deepseek-r1:latest
 weak-model: ollama_chat/llama3.2:latest
-editor-model: ollama_chat/qwen2.5-coder:latest
+editor-model: ollama_chat/devstral:latest

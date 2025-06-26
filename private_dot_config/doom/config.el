@@ -174,8 +174,8 @@ Doom loads early."
 
 (setq display-line-numbers-type   nil
   doom-theme                  'romney-light
-  doom-font                   (font-spec :family "Monaspace Neon" :size 20)
-  doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
+  doom-font                   (font-spec :family "Menlo" :size 20)
+  ;;doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
   doom-serif-font             (font-spec :family "Times New Roman" :size 20)
   doom-themes-enable-bold     t
   doom-themes-enable-italic   t
@@ -399,6 +399,7 @@ Doom loads early."
   +org-capture-todo-file      "todo.org"
   +org-capture-journal-file   "journal.org")
 
+
 (message "  ...org directories and files...")
 
 (defun cr/markup-word (markup-char)
@@ -587,6 +588,7 @@ Doom loads early."
   :hook (org-mode . org-modern-mode)
   :config
   (setq org-modern-star 'replace)
+  (setq org-modern-block-fringe 4)
   (setq org-modern-replace-stars
     '("➊" "➋" "➌" "➍" "➎" "➏" "➐" "➑" "➒" "➓"))
   (setq org-modern-keyword
@@ -882,13 +884,13 @@ Doom loads early."
   :custom
   (aidermacs-use-architect-mode t)
   ;; for basic question answering
-  (aidermacs-default-model "ollama_chat/mistral-small3.1:latest")
+  (aidermacs-default-model "ollama_chat/deepseek-r1:latest")
   ;; for "deeper reasoning"
-  (aidermacs-architect-model "ollama_chat/cogito:8b")
+  (aidermacs-architect-model "ollama_chat/magistral:latest")
   ;; for code changes
-  (aidermacs-editor-model "ollama_chat/qwen2.5-coder:latest")
+  (aidermacs-editor-model "ollama_chat/devstral:latest")
   ;; for commit messages
-  (aidermacs-weak-model "ollama_chat/llama3.2:latest"))
+  (aidermacs-weak-model "ollama_chat/gemma3:latest"))
 
 (use-package! greader
   :defer t
@@ -975,12 +977,10 @@ Doom loads early."
     (expand-file-name "forge/forge-database.sqlite" doom-cache-dir)
     magit-no-confirm '(stage-all-changes unstage-all-changes)))
 
-(use-package! gist
+(use-package igist
+  :bind (("M-G" . igist-dispatch))
   :config
-  (map!
-    "C-M-g l" #'gist-list
-    "C-M-g b" #'gist-region-or-buffer
-    "C-M-g p" #'gist-region-or-buffer-private))
+  (setq igist-auth-marker 'igist))
 
 (message "  ...magit...")
 

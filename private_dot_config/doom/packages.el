@@ -9,7 +9,8 @@
 ;; Languages
 ;; ----------------------------------------------------------------------------------
 (package! adoc-mode)
-(package! gist :recipe (:host github :repo "KarimAziev/gist.el"))
+(package! gist :recipe (:host github :repo "KarimAziev/igist"))
+
 ;; (package! inf-clojure)
 (when (modulep! :checkers syntax)
   (package! flycheck-clj-kondo))

@@ -802,7 +802,7 @@ Doom loads early."
 (defvar llm-local-params '(("num_ctx" . 65536))
   "Default local model non-standard params")
 
-(defvar llm-local-embedding-model "nomic-embed-text"
+(defvar llm-local-embedding-model "mxbai-embed-large"
   "Default local model to use for embeddings.")
 
 (use-package! ellama

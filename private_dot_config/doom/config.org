@@ -940,10 +940,9 @@ Commonly specified variables for use across various packages.
 (defvar llm-local-params '(("num_ctx" . 65536))
   "Default local model non-standard params")
 
-(defvar llm-local-embedding-model "nomic-embed-text"
+(defvar llm-local-embedding-model "mxbai-embed-large"
   "Default local model to use for embeddings.")
 #+end_src
-
 
 *** ellama
 Another general purpose LLM interaction front-end for Emacs.
@@ -1060,7 +1059,7 @@ CONVENTIONS.md to load context for the model.
   (aidermacs-weak-model "ollama_chat/gemma3n:latest"))
 #+end_src
 
-*** TODO Coding with Claude Code :experimental:
+*** Coding with Claude Code :experimental:
 #+begin_src elisp
 ;; https://github.com/stevemolitor/claude-code.el
 (use-package! claude-code

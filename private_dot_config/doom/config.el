@@ -796,7 +796,7 @@ Doom loads early."
 (defvar gpt-default-embedding "text-embedding-3-small"
   "My preferred Open AI embedding model.")
 
-(defvar llm-local-chat-model "gemma3n:"
+(defvar llm-local-chat-model "gemma3n"
   "Default local model to use for chat.")
 
 (defvar llm-local-params '(("num_ctx" . 65536))

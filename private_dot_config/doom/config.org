@@ -934,7 +934,7 @@ Commonly specified variables for use across various packages.
 (defvar gpt-default-embedding "text-embedding-3-small"
   "My preferred Open AI embedding model.")
 
-(defvar llm-local-chat-model "gemma3:12b"
+(defvar llm-local-chat-model "gemma3n:"
   "Default local model to use for chat.")
 
 (defvar llm-local-params '(("num_ctx" . 65536))
@@ -1057,11 +1057,25 @@ CONVENTIONS.md to load context for the model.
   ;; for code changes
   (aidermacs-editor-model "ollama_chat/devstral:latest")
   ;; for commit messages
-  (aidermacs-weak-model "ollama_chat/gemma3:latest"))
+  (aidermacs-weak-model "ollama_chat/gemma3n:latest"))
 #+end_src
+
+*** TODO Coding with Claude Code :experimental:
+#+begin_src elisp
+;; https://github.com/stevemolitor/claude-code.el
+(use-package! claude-code
+  :defer t
+  :bind-keymap
+  ("C-c d" . claude-code-command-map)
+  :config
+  (setq claude-code-terminal-backend 'vterm))
+#+end_src
+
 *** Speech (Text-to-Speech and Speech-to-Text)
 **** Security
-For speech-to-text to work, Emacs needs access to the microphone. emacs-plus has merged my PR to enable it by default. If you're using a different version of Emacs for Mac OS, update [[https://github.com/d12frosted/homebrew-emacs-plus/pull/666][Emacs' Info.plist]] manually:
+For speech-to-text to work, Emacs needs access to the microphone. emacs-plus has
+merged my PR to enable it by default. If you're using a different version of
+Emacs for Mac OS, update [[https://github.com/d12frosted/homebrew-emacs-plus/pull/666][Emacs' Info.plist]] manually:
 
 #+begin_example
 <key>NSMicrophoneUsageDescription</key>
@@ -1069,12 +1083,19 @@ For speech-to-text to work, Emacs needs access to the microphone. emacs-plus has
 #+end_example
 
 Greader sends buffer text to a speech engine, like Mac's native speech utility
-(~say~). Whisper uses the open-source whisper.cpp from Open AI to convert speech
+(~say~). It's [[https://apple.stackexchange.com/questions/464984/how-do-i-access-macos-sonoma-personal-voice-from-command-line][possible]] to use Mac's Personal Voice feature with the (say) command on the
+command-line with this workaround, however I've not yet found a way to
+request Personal Voice authorization from Emacs using something like the plist key above.
+
+Whisper uses the open-source whisper.cpp from Open AI to convert speech
 to text.
 
 #+begin_src elisp
+;; text-to-speech
 (use-package! greader
   :defer t
+  :custom
+  (greader-current-backend (if IS-MAC'greader-mac 'greader-espeak))
   :config
   (message "  ...greader..."))
 

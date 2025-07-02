@@ -796,7 +796,7 @@ Doom loads early."
 (defvar gpt-default-embedding "text-embedding-3-small"
   "My preferred Open AI embedding model.")
 
-(defvar llm-local-chat-model "gemma3:12b"
+(defvar llm-local-chat-model "gemma3n:"
   "Default local model to use for chat.")
 
 (defvar llm-local-params '(("num_ctx" . 65536))
@@ -890,10 +890,21 @@ Doom loads early."
   ;; for code changes
   (aidermacs-editor-model "ollama_chat/devstral:latest")
   ;; for commit messages
-  (aidermacs-weak-model "ollama_chat/gemma3:latest"))
+  (aidermacs-weak-model "ollama_chat/gemma3n:latest"))
 
+;; https://github.com/stevemolitor/claude-code.el
+(use-package! claude-code
+  :defer t
+  :bind-keymap
+  ("C-c d" . claude-code-command-map)
+  :config
+  (setq claude-code-terminal-backend 'vterm))
+
+;; text-to-speech
 (use-package! greader
   :defer t
+  :custom
+  (greader-current-backend (if IS-MAC'greader-mac 'greader-espeak))
   :config
   (message "  ...greader..."))
 

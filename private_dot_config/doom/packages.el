@@ -22,6 +22,8 @@
 (package! greader) ;; for text-to-speech
 (package! whisper :recipe (:host github :repo "natrys/whisper.el")) ;; speech-to-text
 (package! aidermacs)
+(package! claude-code :recipe (:host github :repo "stevemolitor/claude-code.el"
+                                :branch "main" :files ("*.el" (:exclude "images/*"))))
 
 ;; ----------------------------------------------------------------------------------
 ;; Org

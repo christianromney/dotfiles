@@ -187,7 +187,9 @@ Doom loads early."
 
 (setq display-line-numbers-type   nil
   doom-theme                  'romney-light
-  doom-font                   (font-spec :family "Menlo" :size 20)
+  ;;doom-font                   (font-spec :family "Menlo" :size 20)
+  ;;doom-font                   (font-spec :family "JuliaMono" :size 20)
+  doom-font                   (font-spec :family "MonaspiceNe Nerd Font Mono" :size 20)
   ;;doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
   doom-serif-font             (font-spec :family "Times New Roman" :size 20)
   doom-themes-enable-bold     t
@@ -913,22 +915,18 @@ I most often export my org notes to PDF or [[https://gitlab.com/oer/org-re-revea
 #+end_src
 
 ** Artificial Intelligence
-Dedicated LLM modes inside Emacs. Interacting with ChatGPT depends on having the
-OpenAI API Token in Keychain:
+Dedicated LLM modes inside Emacs.
+Proprietary flagship AIs require API keys in ~~/.authinfo.gpg~:
 
 #+begin_example
-security add-internet-password -A -r http \
-  -s api.openai.com \
-  -a <username> \
-  -w <api-token> \
-  -U -l "openai"
+machine api.openai.com login apikey password sk-secret-openai-api-key-goes-here
 #+end_example
 
 *** Core
 Commonly specified variables for use across various packages.
 
 #+begin_src elisp
-(defvar gpt-default-model "gpt-4o-mini-search-preview-2025-03-11"
+(defvar gpt-default-model "gpt-4.1-nano-2025-04-14"
   "My preferred Open AI chat model.")
 
 (defvar gpt-default-embedding "text-embedding-3-small"
@@ -937,96 +935,60 @@ Commonly specified variables for use across various packages.
 (defvar llm-local-chat-model "gemma3n"
   "Default local model to use for chat.")
 
-(defvar llm-local-params '(("num_ctx" . 65536))
-  "Default local model non-standard params")
-
 (defvar llm-local-embedding-model "mxbai-embed-large"
   "Default local model to use for embeddings.")
 #+end_src
 
-*** ellama
-Another general purpose LLM interaction front-end for Emacs.
-**** Keybinding Mnemonics
-- a :: Ask (selection, line, interactive, about)
-- c :: Code (add, edit, improve, complete, message, review)
-- i :: Improve (conciseness, grammar, wording)
-- m :: Make (list, table, format)
-- p :: Provider (model)
-- P :: Proofread
-- s :: Summarize (selection, webpage)
-- t :: Translate (buffer, text, complete)
-- w :: Write /based on context + instruction at point/
-- x :: conteXt (file, buffer, selection)
+
+*** Chatbot Packages
+[[https://github.com/karthink/gptel?tab=readme-ov-file#gpt4all][gpt.el]] is a general purpose LLM client. It supports local and remote models,
+tool use, and MCP servers.
 
 #+begin_src elisp
+(use-package! gptel
+  :defer t
+  :bind (("C-c m s" . gptel-send)
+         ("C-c m g" . gptel)
+         ("C-c m r" . gptel-rewrite)
+         ("C-c m a" . gptel-add)
+         ("C-c m f" . gptel-add-file)
+         ("C-c m t" . gptel-tools)
+         ("C-c m o t" . gptel-org-set-topic)
+         ("C-c m o p" . gptel-org-set-properties))
+  :config
+  (require 'gptel-integrations)
+  (gptel-make-anthropic "Claude" :stream t)
+  (gptel-make-gemini "Gemini" :stream t)
+  (gptel-make-ollama "Ollama"
+    :host "localhost:11434"
+    :stream t
+    :models '(aya:latest
+               deepcoder:latest
+               deepseek-r1:latest
+               devstral:latest
+               gemma3:12b
+               gemma3n:latest
+               llama3.2:latest
+               magistral:latest
+               phi4-reasoning:plus
+               qwen2.5-coder:latest
+               qwen3:latest)))
+#+end_src
 
-(use-package! ellama
-  :init
-  (setopt ellama-language "English")
+MCP support requires the mcp.el package.
 
-  (require 'llm-ollama)
-  (require 'llm-openai)
-
-  (setopt ellama-enable-keymap t)
-  (setopt ellama-keymap-prefix "C-|")
-  (setopt ellama-user-nick (car (string-split user-full-name)))
-  (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
-
-  ;; default: gemma3
-  (setopt ellama-provider
-    (make-llm-ollama
-      :chat-model llm-local-chat-model
-      :embedding-model llm-local-embedding-model
-      :default-chat-non-standard-params llm-local-params))
-
-  ;; summarizer: mistral-small3.1
-  (setopt ellama-summarization-provider
-    (make-llm-ollama
-      :chat-model "mistral-small3.1:latest"
-      :embedding-model llm-local-embedding-model))
-
-  ;; coding: qwen2.5-coder
-  (setopt ellama-coding-provider
-    (make-llm-ollama
-      :chat-model "qwen2.5-coder:latest"
-      :embedding-model llm-local-embedding-model
-      :default-chat-non-standard-params '(("num_ctx" . 131072))))
-
-  ;; translation: aya
-  (setopt ellama-translation-provider
-    (make-llm-ollama
-      :chat-model "aya"
-      :embedding-model llm-local-embedding-model))
-
-  (setopt ellama-providers
-    '(("llama3.2"  . (make-llm-ollama
-                       :chat-model "llama3.2:latest"
-                       :embedding-model llm-local-embedding-model))
-       ("codestral" . (make-llm-ollama
-                        :chat-model "codestral:latest"
-                        :embedding-model llm-local-embedding-model))
-       ("mistral"   . (make-llm-ollama
-                        :chat-model "mistral-small3.1:latest"
-                        :embedding-model llm-local-embedding-model))
-       ("cogito"    . (make-llm-ollama
-                        :chat-model "cogito:latest" ;; 8b
-                        :embedding-model llm-local-embedding-model))
-       ("codegemma" . (make-llm-ollama
-                        :chat-model "codegemma:code"
-                        :embedding-model llm-local-embedding-model
-                        :default-chat-non-standard-params '(("num_ctx" . 8192))))
-       ("qwencoder" . (make-llm-ollama
-                        :chat-model "qwen2.5-coder:latest"
-                        :embedding-model llm-local-embedding-model
-                        :default-chat-non-standard-params '(("num_ctx" . 131072))))
-       ("aya"       . (make-llm-ollama
-                        :chat-model "aya"
-                        :embedding-model llm-local-embedding-model))
-       ("chatgpt"   . (make-llm-openai
-                        :key (cr/keychain-api-token-for-host "api.openai.com")
-                        :chat-model gpt-default-model
-                        :embedding-model gpt-default-embedding)))))
-  #+end_src
+#+begin_src elisp
+(use-package! mcp
+  :ensure t
+  :bind (("C-c m m" . mcp-hub))
+  :after gptel
+  :custom (mcp-hub-servers
+            `(("filesystem" . (:command "npx"
+                               :args ("-y" "@modelcontextprotocol/server-filesystem" ,org-roam-directory)))
+              ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+  :config (require 'mcp-hub)
+  :hook (gptel-mode . mcp-hub-start-all-server))
+#+end_src
 
 *** Coding with Aider :experimental:
 Uses [[https://aider.chat/][aider]] and [[https://github.com/MatthewZMD/aidermacs?tab=readme-ov-file#quick-start][aidermacs]] for AI-assisted development using local LLMs via
@@ -1288,23 +1250,7 @@ My global keybinding preferences.
   "M-SPC"     #'cr/just-one-space
   "M-\\"      #'cr/delete-horizontal-space
   "M-o"       #'other-window
-  "M-p"       #'fill-paragraph
-
-  ;; ellama
-  ;; ask
-
-  "C-M-? a a" #'ellama-ask-about     ;; selected region or buffer
-  "C-M-? a l" #'ellama-ask-line      ;; send current line
-  "C-M-? a s" #'ellama-ask-selection ;; selected region or buffer
-
-  ;; improve
-  "C-M-? i w" #'ellama-improve-wording
-  "C-M-? i c" #'ellama-improve-conciseness
-
-  ;; code
-  "C-M-? c i" #'ellama-code-improve
-  "C-M-? c r" #'ellama-code-review
-  "C-M-? c c" #'ellama-code-complete)
+  "M-p"       #'fill-paragraph)
 #+end_src
 
 ** Conclusion

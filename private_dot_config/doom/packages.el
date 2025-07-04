@@ -24,6 +24,8 @@
 (package! aidermacs)
 (package! claude-code :recipe (:host github :repo "stevemolitor/claude-code.el"
                                 :branch "main" :files ("*.el" (:exclude "images/*"))))
+(package! gptel :recipe (:nonrecursive t))
+(package! mcp)
 
 ;; ----------------------------------------------------------------------------------
 ;; Org

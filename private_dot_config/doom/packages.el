@@ -25,7 +25,7 @@
 (package! claude-code :recipe (:host github :repo "stevemolitor/claude-code.el"
                                 :branch "main" :files ("*.el" (:exclude "images/*"))))
 (package! gptel :recipe (:nonrecursive t))
-(package! mcp)
+(package! mcp :recipe (:host github :repo "lizqwerscott/mcp.el"))
 
 ;; ----------------------------------------------------------------------------------
 ;; Org

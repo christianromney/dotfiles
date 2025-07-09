@@ -174,10 +174,8 @@ Doom loads early."
 
 (setq display-line-numbers-type   nil
   doom-theme                  'romney-light
-  ;;doom-font                   (font-spec :family "Menlo" :size 20)
-  ;;doom-font                   (font-spec :family "JuliaMono" :size 20)
+  doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
   doom-font                   (font-spec :family "MonaspiceNe Nerd Font Mono" :size 20)
-  ;;doom-variable-pitch-font    (font-spec :family "Metropolis" :size 18)
   doom-serif-font             (font-spec :family "Times New Roman" :size 20)
   doom-themes-enable-bold     t
   doom-themes-enable-italic   t
@@ -360,7 +358,8 @@ Doom loads early."
               (spell-fu-dictionary-add
                (spell-fu-get-personal-dictionary
                 "en-personal"
-                (expand-file-name "aspell.en.pws" spell-fu-directory))))))
+                (expand-file-name "aspell.en.pws" spell-fu-directory)))))
+  (map! ))
 
 ;; main directory
 (defvar +docs-dir "~/Documents/"
@@ -807,40 +806,46 @@ Doom loads early."
 (use-package! gptel
   :defer t
   :bind (("C-c m s" . gptel-send)
-         ("C-c m g" . gptel)
-         ("C-c m r" . gptel-rewrite)
-         ("C-c m a" . gptel-add)
-         ("C-c m f" . gptel-add-file)
-         ("C-c m t" . gptel-tools)
-         ("C-c m o t" . gptel-org-set-topic)
-         ("C-c m o p" . gptel-org-set-properties))
+          ("C-c m g" . gptel)
+          ("C-c m r" . gptel-rewrite)
+          ("C-c m a" . gptel-add)
+          ("C-c m f" . gptel-add-file)
+          ("C-c m t" . gptel-tools)
+          ("C-c m o t" . gptel-org-set-topic)
+          ("C-c m o p" . gptel-org-set-properties))
   :config
   (require 'gptel-integrations)
+  (setq
+    gptel-model 'gemma3:12b
+    gptel-backend
+    (gptel-make-ollama "Ollama"
+      :host "localhost:11434"
+      :stream t
+      :models '(aya:latest
+                deepcoder:latest
+                deepseek-r1:latest
+                devstral:latest
+                gemma3:12b
+                gemma3n:latest
+                llama3.2:latest
+                magistral:latest
+                phi4-reasoning:plus
+                qwen2.5-coder:latest
+                qwen3:latest)))
   (gptel-make-anthropic "Claude" :stream t)
-  (gptel-make-gemini "Gemini" :stream t)
-  (gptel-make-ollama "Ollama"
-    :host "localhost:11434"
-    :stream t
-    :models '(aya:latest
-               deepcoder:latest
-               deepseek-r1:latest
-               devstral:latest
-               gemma3:12b
-               gemma3n:latest
-               llama3.2:latest
-               magistral:latest
-               phi4-reasoning:plus
-               qwen2.5-coder:latest
-               qwen3:latest)))
+  (gptel-make-gemini "Gemini" :stream t))
 
 (use-package! mcp
   :ensure t
   :bind (("C-c m m" . mcp-hub))
   :after gptel
   :custom (mcp-hub-servers
-            `(("filesystem" . (:command "npx"
-                               :args ("-y" "@modelcontextprotocol/server-filesystem" ,org-roam-directory)))
-              ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+            `(("docs-rag"   . (:command "npx"
+                                :args ("-y" "@kazuph/mcp-docs-rag")
+                                :env (:DOCS_PATH ,org-roam-directory
+                                      :GEMINI_API_KEY
+                                      ,(cr/keychain-api-token-for-host "generativelanguage.googleapis.com"))))
+               ("fetch"      . (:command "uvx" :args ("mcp-server-fetch")))))
   :config (require 'mcp-hub)
   :hook (gptel-mode . mcp-hub-start-all-server))
 
@@ -1001,6 +1006,7 @@ Doom loads early."
 (map!
   "<s-left>"  #'sp-forward-barf-sexp
   "<s-right>" #'sp-forward-slurp-sexp
+  "C-$"       #'+spell/add-word
   "C-'"       #'avy-goto-line
   "C-:"       #'avy-goto-char
   "C-M-%"     #'anzu-query-replace-regexp

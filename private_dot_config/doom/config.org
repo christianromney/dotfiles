@@ -920,7 +920,6 @@ Proprietary flagship AIs require API keys in ~~/.authinfo.gpg~:
 #+begin_example
 machine api.openai.com login apikey password sk-secret-openai-api-key-goes-here
 #+end_example
-
 *** Core
 Commonly specified variables for use across various packages.
 
@@ -937,7 +936,6 @@ Commonly specified variables for use across various packages.
 (defvar llm-local-embedding-model "mxbai-embed-large"
   "Default local model to use for embeddings.")
 #+end_src
-
 
 *** Chatbot Packages
 [[https://github.com/karthink/gptel?tab=readme-ov-file#gpt4all][gpt.el]] is a general purpose LLM client. It supports local and remote models,
@@ -1037,34 +1035,42 @@ CONVENTIONS.md to load context for the model.
   (setq claude-code-terminal-backend 'vterm))
 #+end_src
 
-*** Speech (Text-to-Speech and Speech-to-Text)
-**** Security
+** Speech
+*** Text-To-Speech (TTS)
+[[https://github.com/emacsmirror/greader/blob/master/greader-mac.el][Greader]] sends buffer text to a speech engine, like Mac's native speech utility
+(~say~). The Siri (Voice 4) voice is the most natural default option on the Mac.
+It's also [[https://github.com/limneos/SavePersonalVoiceAudio/][possible]] to use your "Personal Voice" with the (say) command by
+running the ~authorize_terminal~ command from iTerm. That same shell command can
+be executed from Emacs with ~M-!~ to authorize Emacs to use the Personal Voice as
+well.
+
+#+begin_src elisp
+;; TTS
+(use-package! greader
+  :defer t
+  :custom
+  (greader-current-backend (if IS-MAC'greader-mac 'greader-espeak))
+  (greader-mac-voice "Christian")
+  :config
+  (message "  ...greader..."))
+
+(map! :desc "Greader TTS" "C-c 0" #'greader-mode)
+#+end_src
+
+*** Speech-To-Text (STT)
 For speech-to-text to work, Emacs needs access to the microphone. emacs-plus has
 merged my PR to enable it by default. If you're using a different version of
 Emacs for Mac OS, update [[https://github.com/d12frosted/homebrew-emacs-plus/pull/666][Emacs' Info.plist]] manually:
 
-#+begin_example
+#+begin_src xml :tangle no
 <key>NSMicrophoneUsageDescription</key>
 <string>Emacs needs permission to access the microphone.</string>
-#+end_example
-
-Greader sends buffer text to a speech engine, like Mac's native speech utility
-(~say~). It's [[https://apple.stackexchange.com/questions/464984/how-do-i-access-macos-sonoma-personal-voice-from-command-line][possible]] to use Mac's Personal Voice feature with the (say) command on the
-command-line with this workaround, however I've not yet found a way to
-request Personal Voice authorization from Emacs using something like the plist key above.
+#+end_src
 
 Whisper uses the open-source whisper.cpp from Open AI to convert speech
 to text.
 
 #+begin_src elisp
-;; text-to-speech
-(use-package! greader
-  :defer t
-  :custom
-  (greader-current-backend (if IS-MAC'greader-mac 'greader-espeak))
-  :config
-  (message "  ...greader..."))
-
 (use-package! whisper
   :defer t
   :commands (whisper-run)
@@ -1074,7 +1080,6 @@ to text.
     whisper-model "small"
     whisper-language "en"
     whisper-translate nil)
-
   (when IS-MAC
     (let ((mic (cr/microphone-name
                  (cl-some #'identity
@@ -1089,7 +1094,6 @@ to text.
 
 (map! :desc "Whisper" "C-s-\\" #'whisper-run)
 #+end_src
-
 ** Programming Modes
 Configuration for additional programming modes.
 *** Indentation

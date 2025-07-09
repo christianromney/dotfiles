@@ -877,13 +877,16 @@ Doom loads early."
   :config
   (setq claude-code-terminal-backend 'vterm))
 
-;; text-to-speech
+;; TTS
 (use-package! greader
   :defer t
   :custom
   (greader-current-backend (if IS-MAC'greader-mac 'greader-espeak))
+  (greader-mac-voice "Christian")
   :config
   (message "  ...greader..."))
+
+(map! :desc "Greader TTS" "C-c 0" #'greader-mode)
 
 (use-package! whisper
   :defer t
@@ -894,7 +897,6 @@ Doom loads early."
     whisper-model "small"
     whisper-language "en"
     whisper-translate nil)
-
   (when IS-MAC
     (let ((mic (cr/microphone-name
                  (cl-some #'identity

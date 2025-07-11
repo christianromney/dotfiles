@@ -6,7 +6,7 @@
 ;; ----------------------------------------------------------------------------------
 
 (package! pulsar :recipe (:host github :repo "protesilaos/pulsar"))
-
+(package! rainbow-delimiters)
 ;; ----------------------------------------------------------------------------------
 ;; Languages
 ;; ----------------------------------------------------------------------------------
@@ -25,7 +25,7 @@
 (package! aidermacs)
 (package! claude-code :recipe (:host github :repo "stevemolitor/claude-code.el"
                                 :branch "main" :files ("*.el" (:exclude "images/*"))))
-(package! gptel :recipe (:nonrecursive t))
+;(package! gptel :recipe (:nonrecursive t))
 (package! mcp :recipe (:host github :repo "lizqwerscott/mcp.el"))
 
 ;; ----------------------------------------------------------------------------------
@@ -49,3 +49,4 @@
 (package! consult-yasnippet)
 (package! free-keys :recipe (:host github :repo "Fuco1/free-keys")) ;; find available
 (package! google-this)
+(package! my-tube :recipe (:host github :repo "christianromney/my-tube.el"))

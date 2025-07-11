@@ -585,6 +585,19 @@ Doom loads early."
       )))
 (message "  ...org startup, bindings, agenda, tags, todos...")
 
+(use-package! org-roam
+  :after org
+  :config
+  (setq org-roam-db-autosync-mode 1))
+
+(defun patch/emacsql-close (connection &rest args)
+  "Prevent calling emacsql-close if connection handle is nil."
+  (when (oref connection handle)
+    t))
+
+(advice-add 'emacsql-close :before-while #'patch/emacsql-close)
+(message "  ...org-roam...")
+
 (use-package! org-modern
   :hook (org-mode . org-modern-mode)
   :config
@@ -806,13 +819,13 @@ Doom loads early."
 (use-package! gptel
   :defer t
   :bind (("C-c m s" . gptel-send)
-          ("C-c m g" . gptel)
-          ("C-c m r" . gptel-rewrite)
-          ("C-c m a" . gptel-add)
-          ("C-c m f" . gptel-add-file)
-          ("C-c m t" . gptel-tools)
-          ("C-c m o t" . gptel-org-set-topic)
-          ("C-c m o p" . gptel-org-set-properties))
+         ("C-c m g" . gptel)
+         ("C-c m r" . gptel-rewrite)
+         ("C-c m a" . gptel-add)
+         ("C-c m f" . gptel-add-file)
+         ("C-c m t" . gptel-tools)
+         ("C-c m o t" . gptel-org-set-topic)
+         ("C-c m o p" . gptel-org-set-properties))
   :config
   (require 'gptel-integrations)
   (setq
@@ -836,15 +849,15 @@ Doom loads early."
   (gptel-make-gemini "Gemini" :stream t))
 
 (use-package! mcp
-  :ensure t
+  :defer t
   :bind (("C-c m m" . mcp-hub))
   :after gptel
   :custom (mcp-hub-servers
             `(("docs-rag"   . (:command "npx"
                                 :args ("-y" "@kazuph/mcp-docs-rag")
                                 :env (:DOCS_PATH ,org-roam-directory
-                                      :GEMINI_API_KEY
-                                      ,(cr/keychain-api-token-for-host "generativelanguage.googleapis.com"))))
+                                       :GEMINI_API_KEY
+                                       ,(cr/keychain-api-token-for-host "generativelanguage.googleapis.com"))))
                ("fetch"      . (:command "uvx" :args ("mcp-server-fetch")))))
   :config (require 'mcp-hub)
   :hook (gptel-mode . mcp-hub-start-all-server))
@@ -911,6 +924,8 @@ Doom loads early."
 
 (map! :desc "Whisper" "C-s-\\" #'whisper-run)
 
+;; (cr/keychain-api-token-for-host "www.googleapis.com")
+
 (let ((n 2))
   (setq standard-indent n
     python-indent-offset n
@@ -960,6 +975,11 @@ Doom loads early."
   (pushnew! projectile-project-root-files "project.clj" "deps.edn"))
 
 (message "  ...projectile...")
+
+(use-package! magit
+  :bind ("C-x g" . magit-status)
+  :custom
+  (magit-git-executable "/opt/homebrew/bin/git"))
 
 (after! magit
   (setq magit-revision-show-gravatars t

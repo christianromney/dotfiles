@@ -1,3 +1,4 @@
+
 * My Doom Emacs Configuration
 ** Global Settings
 #+begin_src elisp
@@ -240,6 +241,7 @@ Automatically save org-mode files after 5 seconds of inactivity.
   :init
   (setq auto-save-visited-interval 5)) ;; seconds
   #+end_src
+
 *** Bookmarks
 Save file locations.
 
@@ -661,6 +663,22 @@ capture, appearance, tags, todos, and refiling.
 (message "  ...org startup, bindings, agenda, tags, todos...")
 #+end_src
 
+*** Org Roam
+#+begin_src elisp
+(use-package! org-roam
+  :after org
+  :config
+  (setq org-roam-db-autosync-mode 1))
+
+(defun patch/emacsql-close (connection &rest args)
+  "Prevent calling emacsql-close if connection handle is nil."
+  (when (oref connection handle)
+    t))
+
+(advice-add 'emacsql-close :before-while #'patch/emacsql-close)
+(message "  ...org-roam...")
+#+end_src
+
 *** Modern Appearance
 Make org mode more aesthetically pleasing.
 
@@ -945,13 +963,13 @@ tool use, and MCP servers.
 (use-package! gptel
   :defer t
   :bind (("C-c m s" . gptel-send)
-          ("C-c m g" . gptel)
-          ("C-c m r" . gptel-rewrite)
-          ("C-c m a" . gptel-add)
-          ("C-c m f" . gptel-add-file)
-          ("C-c m t" . gptel-tools)
-          ("C-c m o t" . gptel-org-set-topic)
-          ("C-c m o p" . gptel-org-set-properties))
+         ("C-c m g" . gptel)
+         ("C-c m r" . gptel-rewrite)
+         ("C-c m a" . gptel-add)
+         ("C-c m f" . gptel-add-file)
+         ("C-c m t" . gptel-tools)
+         ("C-c m o t" . gptel-org-set-topic)
+         ("C-c m o p" . gptel-org-set-properties))
   :config
   (require 'gptel-integrations)
   (setq
@@ -979,15 +997,15 @@ MCP support requires the mcp.el package.
 
 #+begin_src elisp
 (use-package! mcp
-  :ensure t
+  :defer t
   :bind (("C-c m m" . mcp-hub))
   :after gptel
   :custom (mcp-hub-servers
             `(("docs-rag"   . (:command "npx"
                                 :args ("-y" "@kazuph/mcp-docs-rag")
                                 :env (:DOCS_PATH ,org-roam-directory
-                                      :GEMINI_API_KEY
-                                      ,(cr/keychain-api-token-for-host "generativelanguage.googleapis.com"))))
+                                       :GEMINI_API_KEY
+                                       ,(cr/keychain-api-token-for-host "generativelanguage.googleapis.com"))))
                ("fetch"      . (:command "uvx" :args ("mcp-server-fetch")))))
   :config (require 'mcp-hub)
   :hook (gptel-mode . mcp-hub-start-all-server))
@@ -1094,6 +1112,17 @@ to text.
 
 (map! :desc "Whisper" "C-s-\\" #'whisper-run)
 #+end_src
+
+
+
+** YouTube Playlists
+I want to be able to find videos from my YouTube playlists and to add new ones.
+
+#+begin_src elisp
+;; (cr/keychain-api-token-for-host "www.googleapis.com")
+
+#+end_src
+
 ** Programming Modes
 Configuration for additional programming modes.
 *** Indentation
@@ -1178,6 +1207,11 @@ I use source control for everything, and enjoy a few extras for [[https://magit.
 Doom dropped the ~gist~ tool, so I grab it directly from Github.
 
 #+begin_src elisp
+(use-package! magit
+  :bind ("C-x g" . magit-status)
+  :custom
+  (magit-git-executable "/opt/homebrew/bin/git"))
+
 (after! magit
   (setq magit-revision-show-gravatars t
     forge-database-file

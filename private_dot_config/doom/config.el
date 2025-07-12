@@ -540,17 +540,56 @@ Doom loads early."
                               (no-delete-other-windows . t)))))
 
   ;; tags
-  (setq org-tag-alist
-    '((:startgrouptag)
-       ("study"      . ?s)
-       (:grouptags)
-       ("book"       . ?b)
-       ("paper"      . ?a)
-       (:endgrouptag)
-       (:startgrouptag)
-       ("work"       . ?w)
-       ("personal"   . ?m)
-       ("FLAGGED"    . ?f)))
+  ;; (setq org-tag-alist
+  ;;   '((:startgrouptag)
+  ;;      ("study"      . ?s)
+  ;;      (:grouptags)
+  ;;      ("book"       . ?b)
+  ;;      ("paper"      . ?a)
+  ;;      (:endgrouptag)
+  ;;      (:startgrouptag)
+  ;;      ("work"       . ?w)
+  ;;      ("personal"   . ?m)
+  ;;      ("FLAGGED"    . ?f)))
+
+(setq org-tag-alist
+      '(;; Top Level
+        (:startgroup . "Primary")
+        ("Business" . ?b)
+        ("Personal" . ?p)
+        ("Tech" . ?t)
+        ("Thinking" . ?k)
+        (:endgroup)
+
+        ;; Tech Sub-tags
+        (:startgroup . "Tech")
+        ("AI" . ?a)
+        ("Clojure" . ?c)
+        ("Data" . ?d)
+        ("Systems" . ?s)
+        ("Security" . ?x)
+        ("Design" . ?d)
+        (:endgroup)
+
+        ;; Business Sub-tags
+        (:startgroup . "Business")
+        ("Finance" . ?f)
+        ("Leadership" . ?l)
+        ("Product" . ?p)
+        (:endgroup)
+
+        ;; Personal Sub-tags
+        (:startgroup . "Personal")
+        ("Cooking" . ?c)
+        ("Sailing" . ?s)
+        (:endgroup)
+
+        ;; Thinking Sub-tags
+        (:startgroup . "Thinking")
+        ("ProblemSolving" . ?p)
+        ("Learning" . ?l)
+        (:endgroup)
+        ))
 
   ;; visual appearance
   (setq org-ellipsis                   "»"
@@ -610,9 +649,16 @@ Doom loads early."
        ("title" . "₸")
        (t . t))))
 
-;; (after! org
-;;   (doom-themes-org-config)
-;;   (with-eval-after-load 'org (global-org-modern-mode)))
+(use-package! org-side-tree
+  :defer t
+  :config
+  (setq
+    org-side-tree-display-side 'right
+    org-side-tree-persistent t ;; re-use a single buffer
+    org-side-tree-enable-folding t
+    org-side-tree-fontify t))
+
+(map! :desc "Tree" "C-c t t" #'org-side-tree)
 
 (message "  ...org appearance...")
 
@@ -818,12 +864,12 @@ Doom loads early."
 
 (use-package! gptel
   :defer t
-  :bind (("C-c m s" . gptel-send)
-         ("C-c m g" . gptel)
-         ("C-c m r" . gptel-rewrite)
-         ("C-c m a" . gptel-add)
-         ("C-c m f" . gptel-add-file)
-         ("C-c m t" . gptel-tools)
+  :bind (("C-c m s"   . gptel-send)
+         ("C-c m g"   . gptel)
+         ("C-c m r"   . gptel-rewrite)
+         ("C-c m a"   . gptel-add)
+         ("C-c m f"   . gptel-add-file)
+         ("C-c m t"   . gptel-tools)
          ("C-c m o t" . gptel-org-set-topic)
          ("C-c m o p" . gptel-org-set-properties))
   :config
@@ -924,8 +970,6 @@ Doom loads early."
 
 (map! :desc "Whisper" "C-s-\\" #'whisper-run)
 
-;; (cr/keychain-api-token-for-host "www.googleapis.com")
-
 (let ((n 2))
   (setq standard-indent n
     python-indent-offset n
@@ -1021,6 +1065,21 @@ Doom loads early."
       lsp-enable-snippet       t)))
 
 (message "  ...clojure editing...")
+
+;; (cr/keychain-api-token-for-host "www.googleapis.com")
+
+(setq elfeed-feeds
+  '(("https://news.ycombinator.com/news" tech)
+     ("https://planet.emacslife.com/atom.xml" tech emacs)
+     ( "https://simonwillison.net/atom/everything/" tech ai)
+     ("https://huggingface.co/blog/feed.xml" tech ai)
+
+     ))
+
+(setq-default elfeed-search-filter "@1-week-ago +unread ")
+
+(global-set-key (kbd "C-x F v") 'elfeed)
+(global-set-key (kbd "C-x F u") 'elfeed-update)
 
 (add-to-list 'auto-mode-alist (cons "\\.adoc\\'" 'adoc-mode))
 

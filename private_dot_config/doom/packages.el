@@ -7,9 +7,11 @@
 
 (package! pulsar :recipe (:host github :repo "protesilaos/pulsar"))
 (package! rainbow-delimiters)
+
 ;; ----------------------------------------------------------------------------------
 ;; Languages
 ;; ----------------------------------------------------------------------------------
+
 (package! adoc-mode)
 (package! gist :recipe (:host github :repo "KarimAziev/igist"))
 (when (modulep! :checkers syntax)
@@ -39,8 +41,8 @@
 (package! qrencode :recipe (:host github :repo "ruediger/qrencode-el"))
 (package! graphviz-dot-mode) ;; graphviz diagrams
 (package! mermaid-mode) ;; even more diagrams
-(package! ob-mermaid)
-
+(package! ob-mermaid) ;; exportable
+(package! org-side-tree)
 ;; ----------------------------------------------------------------------------------
 ;; Utilities
 ;; ----------------------------------------------------------------------------------

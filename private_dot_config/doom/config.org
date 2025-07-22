@@ -39,6 +39,10 @@ whitespace.
 (require 'cl-lib)
 (require 'cl-seq)
 
+(defun instrument (fnsym msg)
+  "Instrument the FNSYM function by logging MSG."
+  (advice-add fnsym :before (lambda (&rest args) (message msg))))
+
 (defun rk/get-ffmpeg-device ()
   "Gets the list of devices available to ffmpeg.
 The output of the ffmpeg command is pretty messy, e.g.
@@ -418,12 +422,12 @@ Ensure custom spelling dictionaries are source controlled.
               (spell-fu-dictionary-add
                (spell-fu-get-personal-dictionary
                 "en-personal"
-                (expand-file-name "aspell.en.pws" spell-fu-directory)))))
-  (map! ))
+                (expand-file-name "aspell.en.pws" spell-fu-directory))))))
 
 #+end_src
 
 ** Org Mode
+
 *** Files and Directories
 Set up all directory and file paths.
 
@@ -752,7 +756,6 @@ Make org mode more aesthetically pleasing.
 :   ...org appearance...
 
 
-
 *** Calendar
 Calendar preferences include holidays, week start, and geographical location.
 #+begin_src elisp
@@ -1049,12 +1052,11 @@ MCP support requires the mcp.el package.
   :bind (("C-c m m" . mcp-hub))
   :after gptel
   :custom (mcp-hub-servers
-            `(("docs-rag"   . (:command "npx"
-                                :args ("-y" "@kazuph/mcp-docs-rag")
-                                :env (:DOCS_PATH ,org-roam-directory
-                                       :GEMINI_API_KEY
-                                       ,(cr/keychain-api-token-for-host "generativelanguage.googleapis.com"))))
-               ("fetch"      . (:command "uvx" :args ("mcp-server-fetch")))))
+            `(("fetch"      . (:command "uvx" :args ("mcp-server-fetch")))
+               ("context7" . (:command "npx" :args ("-y", "@upstash/context7-mcp")))
+               ("playwright" . (:command "npx" :args ("@playwright/mcp@latest")))
+               ))
+
   :config (require 'mcp-hub)
   :hook (gptel-mode . mcp-hub-start-all-server))
 #+end_src
@@ -1306,22 +1308,70 @@ I want to be able to find videos from my YouTube playlists and to add new ones.
 
 #+end_src
 ** Elfeed
-Trying the feed reader.
+Feed reader for emacs.
 
 #+begin_src elisp
-(setq elfeed-feeds
-  '(("https://news.ycombinator.com/news" tech)
-     ("https://planet.emacslife.com/atom.xml" tech emacs)
-     ( "https://simonwillison.net/atom/everything/" tech ai)
-     ("https://huggingface.co/blog/feed.xml" tech ai)
+(use-package! elfeed
+  :defer t
+  :config
+  (setq-default elfeed-search-filter "@1-week-ago +unread ")
+  (setq elfeed-feeds
+    '(("https://news.ycombinator.com/news" tech)
+      ("https://planet.emacslife.com/atom.xml" tech emacs)
+      ( "https://simonwillison.net/atom/everything/" tech ai)
+      ("https://huggingface.co/blog/feed.xml" tech ai))))
 
-     ))
+(map!
+  :desc "Elfeed"        "C-x F v" #'elfeed
+  :desc "Elfeed Update" "C-x F u" #'elfeed-update)
 
-(setq-default elfeed-search-filter "@1-week-ago +unread ")
+(use-package! elfeed-tube
+  :after elfeed
+  :defer t
+  :bind (:map elfeed-show-mode-map
+          ("F" . elfeed-tube-fetch)
+          ([remap save-buffer] . elfeed-tube-save)
+          :map elfeed-search-mode-map
+          ("F" . elfeed-tube-fetch)
+          ([remap save-buffer] . elfeed-tube-save))
+  :config
+  (elfeed-tube-setup)
 
-(global-set-key (kbd "C-x F v") 'elfeed)
-(global-set-key (kbd "C-x F u") 'elfeed-update)
+  (setq
+    elfeed-tube-use-ytdlp-p t       ;; use yt-dlp
+    elfeed-tube-auto-save-p t       ;; enable auto-save
+    elfeed-tube-captions-sblock-p t ;; diminish sponsorship text
+    )
+
+
+  ;; (defvar cr/youtube-content
+  ;;   '((:kind :playlist :title "AI" :id "PLTWr1sd9eabPYCD8PPk3-eQV7vUY6dhMb&si=IJ1t0baJsaUPV8vC")
+  ;;      (:kind :playlist :title "Golf Instruction" :id "PLTWr1sd9eabM_RPt8-yr_GtEGLU6THglN&si=uFSArjzTaruD6j0c")
+  ;;      (:kind :playlist :title "Guitar" :id "PLTWr1sd9eabMihE8CQbJyct1PUewxOhsx&si=AkCpAgYq6SVNol0F")
+  ;;      (:kind :playlist :title "Navigation" :id "PLTWr1sd9eabPRdGRm_bBpWU0v-3oPDqlU&si=7s9IpZC1b2wIJd_r")
+  ;;      (:kind :playlist :title "Sailing" :id "PLTWr1sd9eabNbUro2R5JKHi3-UU8PzoES&si=13DiP9ymqAO7SgW1")
+  ;;      (:kind :playlist :title "Tech" :id "PLTWr1sd9eabNPF4144KwOreP0cIGyw5R3&si=lahStNEHwItgmyrn")
+  ;;      (:kind :channel :title "Andrew Emery Golf" :id "UCOd83NRQioBL6CpRbWAjeqA")
+  ;;      (:kind :channel :title "Chris Ryan Golf" :id "UCKo7Y45mcjDtLKiCx6ZTvAg")
+  ;;      (:kind :channel :title "Gotham Chess" :id "UCQHX6ViZmPsWiYSFAyS0a3Q")
+  ;;      (:kind :channel :title "PGA Tour" :id "UCKwGZZMrhNYKzucCtTPY2Nw")
+  ;;      (:kind :channel :title "TaylorMade Golf" :id "UClJO9jvaU5mvNuP-XTbhHGw")
+  ;;      (:kind :channel :title "Veritasium" :id "UCHnyfMqiRRG1u-2MsSQLbXA")))
+
+
+  (elfeed-tube-add-feeds
+    '()))
+
+;; (use-package! elfeed-tube-mpv
+;;   :after elfeed-tube)
+
+(map! :map elfeed-show-mode-map
+  "C-c C-f" #'elfeed-tube-mpv-follow-mode
+  "C-c C-w" #'elfeed-tube-mpv-where)
 #+end_src
+
+#+RESULTS:
+
 ** Miscellaneous
 Every Emacs configuration contains a few little odds and ends.
 #+begin_src elisp
@@ -1356,7 +1406,8 @@ My global keybinding preferences.
   "M-SPC"     #'cr/just-one-space
   "M-\\"      #'cr/delete-horizontal-space
   "M-o"       #'other-window
-  "M-p"       #'fill-paragraph)
+  "M-p"       #'fill-paragraph
+  "C-,"       #'browse-url)
 #+end_src
 
 ** Conclusion

@@ -14,6 +14,8 @@
 
 (package! adoc-mode)
 (package! gist :recipe (:host github :repo "KarimAziev/igist"))
+
+;; (package! inf-clojure)
 (when (modulep! :checkers syntax)
   (package! flycheck-clj-kondo))
 (package! clojure-snippets)
@@ -52,3 +54,5 @@
 (package! free-keys :recipe (:host github :repo "Fuco1/free-keys")) ;; find available
 (package! google-this)
 (package! my-tube :recipe (:host github :repo "christianromney/my-tube.el"))
+(package! elfeed-tube :recipe (:host github :repo "karthink/elfeed-tube"))
+;;(package! elfeed-tube-mpv)

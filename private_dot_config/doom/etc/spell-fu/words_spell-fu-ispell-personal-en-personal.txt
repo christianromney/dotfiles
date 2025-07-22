@@ -16,3 +16,4 @@ sharded
 stablecoin
 standup
 summarization
+waypoint

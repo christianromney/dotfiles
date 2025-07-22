@@ -3,11 +3,11 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored"
-  (filename . "~/Documents/personal/notes/content/roam/20250604135310-bank_charter_filing.org")
-  (front-context-string)
-  (rear-context-string . " Charter Filing\n")
-  (position . 97)
-  (last-modified 26688 34824 757800 0))
+  (filename . "~/Documents/personal/notes/content/roam/20250716105045-ai_prompt_library.org")
+  (front-context-string . "\n* Categories\n**")
+  (rear-context-string . "I Prompt Library")
+  (position . 94)
+  (last-modified 26743 48238 293903 0))
 ("org-refile-last-stored"
   (filename . "~/Documents/personal/notes/content/roam/20240214210003-developments_in_artificial_intelligence.org")
   (front-context-string . "** Local Develop")

@@ -393,6 +393,11 @@ Doom loads early."
   org-roam-dailies-directory "journal/"
   org-roam-db-location       (expand-file-name ".org-roam.db" org-directory ))
 
+;; AI library
+(setq +kb-dir (expand-file-name "kb" org-roam-directory))
+(setq +prompts-dir (cr/mkdirp (expand-file-name "prompts" +kb-dir)))
+(setq +context-dir (cr/mkdirp (expand-file-name "context" +kb-dir)))
+
 ;; agenda
 (setq org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'"
   org-agenda-files           (directory-files-recursively org-directory "\\.org$"))
@@ -872,54 +877,93 @@ Doom loads early."
 (defvar llm-local-embedding-model "mxbai-embed-large"
   "Default local model to use for embeddings.")
 
-(use-package! gptel
-  :defer t
-  :bind (("C-c m s"   . gptel-send)
-         ("C-c m g"   . gptel)
-         ("C-c m r"   . gptel-rewrite)
-         ("C-c m a"   . gptel-add)
-         ("C-c m f"   . gptel-add-file)
-         ("C-c m t"   . gptel-tools)
-         ("C-c m o t" . gptel-org-set-topic)
-         ("C-c m o p" . gptel-org-set-properties))
-  :config
-  (require 'gptel-integrations)
-  (setq
-    gptel-model 'qwen3:latest
-    gptel-backend
-    (gptel-make-ollama "Ollama"
-      :host "localhost:11434"
-      :stream t
-      :models '(aya:latest
-                deepcoder:latest
-                deepseek-r1:latest
-                devstral:latest
-                gemma3:12b
-                gemma3n:latest
-                llama3.2:latest
-                magistral:latest
-                phi4-reasoning:plus
-                qwen2.5-coder:latest
-                qwen3:latest)))
-  (gptel-make-anthropic "Claude" :stream t)
-  (gptel-make-gemini "Gemini" :stream t))
+(when (modulep! :tools llm)
+  (use-package! gptel
+    :defer t
+    :hook
+    (gptel-mode . turn-off-auto-fill)
+    (gptel-mode . visual-line-fill-column-mode)
+    (gptel-post-stream . gptel-auto-scroll)
 
-(use-package! mcp
-  :defer t
-  :bind (("C-c m m" . mcp-hub))
-  :after gptel
-  :custom (mcp-hub-servers
-            `(
-               ("context7"   . (:command "npx" :args ("-y", "@upstash/context7-mcp")))
-               ("fetch"      . (:command "uvx" :args ("mcp-server-fetch")))
-               ("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem"
-                                                        ,org-directory ,+foss-dir)))
-               ("playwright" . (:command "npx" :args ("@playwright/mcp@latest")))
-               ("time"       . (:command "uvx" :args ("mcp-server-time" "--local-timezone=America/New_York")))
-               ))
+    :bind (("C-c m s"    . gptel-send)
+            ("C-c m g"   . gptel)
+            ("C-c m r"   . gptel-rewrite)
+            ("C-c m a"   . gptel-add)
+            ("C-c m k"   . gptel-abort)
+            ("C-c m f"   . gptel-add-file)
+            ("C-c m t"   . gptel-tools)
+            ("C-c m m"   . gptel-menu)
+            ("C-c m q"   . gptel-quick)
+            ("C-c m p"   . gptel-system-prompt)
+            ("C-c m o t" . gptel-org-set-topic)
+            ("C-c m o p" . gptel-org-set-properties))
+    :config
+    (require 'gptel-integrations)
 
-  :config (require 'mcp-hub)
-  :hook (gptel-mode . mcp-hub-start-all-server))
+    (gptel-make-preset 'research
+      :description "Preset for research tasks"
+      :backend "Ollama"
+      :model 'phi4-mini
+      :tools '("fetch" "get_current_time" "convert_time")
+      :temperature 0.7
+      :use-context 'system)
+
+    (setq
+      gptel-model 'qwen3:latest
+      gptel-default-mode 'org-mode
+      gptel-track-media t
+      gptel-use-header-line t
+      gptel-org-branching-context t
+      gptel-include-reasoning "*gptel-inner-monologue*"
+      gptel-prompt-prefix-alist
+      '((markdown-mode . "# ")
+         (org-mode . "*Prompt*: ")
+         (text-mode . "# "))
+      gptel-backend
+      (gptel-make-ollama "Ollama"
+        :host "localhost:11434"
+        :stream t
+        :models '(aya:latest
+                   deepcoder:latest
+                   deepseek-r1:latest
+                   devstral:latest
+                   gemma3:12b
+                   gemma3n:latest
+                   llama3.2:latest
+                   magistral:latest
+                   phi4-mini:latest
+                   phi4-reasoning:plus
+                   qwen2.5-coder:latest
+                   qwen3:latest)))
+    (gptel-make-anthropic "Claude" :stream t)
+    (gptel-make-gemini "Gemini" :stream t))
+
+  (use-package! gptel-prompts
+    :after (gptel)
+    :config
+    (setq gptel-prompts-directory +prompts-dir)
+    (gptel-prompts-update)
+    ;; Ensure prompts are updated if prompt files change
+    (gptel-prompts-add-update-watchers)))
+
+(when (modulep! :tools llm)
+  (use-package! mcp
+    :defer t
+    :bind (("C-c m m" . mcp-hub))
+    :after gptel
+    :custom
+    (mcp-hub-servers
+      `(("basic-memory" . (:command "uvx" :args ("basic-memory" "mcp")))
+         ("context7"     . (:command "npx" :args ("-y" "@upstash/context7-mcp")))
+         ("fetch"        . (:command "uvx" :args ("mcp-server-fetch")))
+         ("filesystem"   . (:command "npx"
+                             :args ("-y" "@modelcontextprotocol/server-filesystem" ,org-directory ,+foss-dir)))
+         ("playwright"   . (:command "npx" :args ("@playwright/mcp@latest")))
+         ("time"         . (:command "uvx" :args ("mcp-server-time")))))
+    :config
+    (require 'mcp-hub)
+    (advice-add 'save-buffers-kill-terminal :before #'mcp-hub-close-all-server)
+    :hook (gptel-mode . mcp-hub-start-all-server)))
 
 (use-package! aidermacs
   :bind (("C-*" . aidermacs-transient-menu))
@@ -1084,12 +1128,18 @@ Doom loads early."
 (use-package! elfeed
   :defer t
   :config
-  (setq-default elfeed-search-filter "@1-week-ago +unread ")
+  (setq-default
+    elfeed-search-filter "#50 @1-week-ago +unread "
+    elfeed-save-multiple-enclosures-without-asking t
+    elfeed-search-clipboard-type 'CLIPBOARD
+    elfeed-search-filter "+unread "
+    elfeed-search-date-format '("%Y-%m-%d" 10 :left) ;;'("%b %d" 6 :left)
+    elfeed-search-title-min-width 45)
   (setq elfeed-feeds
     '(("https://news.ycombinator.com/news" tech)
-      ("https://planet.emacslife.com/atom.xml" tech emacs)
-      ( "https://simonwillison.net/atom/everything/" tech ai)
-      ("https://huggingface.co/blog/feed.xml" tech ai))))
+       ("https://planet.emacslife.com/atom.xml" tech emacs)
+       ( "https://simonwillison.net/atom/everything/" tech ai)
+       ("https://huggingface.co/blog/feed.xml" tech ai))))
 
 (map!
   :desc "Elfeed"        "C-x F v" #'elfeed
@@ -1105,32 +1155,19 @@ Doom loads early."
           ("F" . elfeed-tube-fetch)
           ([remap save-buffer] . elfeed-tube-save))
   :config
-  (elfeed-tube-setup)
-
   (setq
-    elfeed-tube-use-ytdlp-p t       ;; use yt-dlp
-    elfeed-tube-auto-save-p t       ;; enable auto-save
+    elfeed-tube-use-ytdlp-p       t       ;; use yt-dlp
+    elfeed-tube-auto-save-p       nil     ;; enable auto-save
     elfeed-tube-captions-sblock-p t ;; diminish sponsorship text
-    )
-
-
-  ;; (defvar cr/youtube-content
-  ;;   '((:kind :playlist :title "AI" :id "PLTWr1sd9eabPYCD8PPk3-eQV7vUY6dhMb&si=IJ1t0baJsaUPV8vC")
-  ;;      (:kind :playlist :title "Golf Instruction" :id "PLTWr1sd9eabM_RPt8-yr_GtEGLU6THglN&si=uFSArjzTaruD6j0c")
-  ;;      (:kind :playlist :title "Guitar" :id "PLTWr1sd9eabMihE8CQbJyct1PUewxOhsx&si=AkCpAgYq6SVNol0F")
-  ;;      (:kind :playlist :title "Navigation" :id "PLTWr1sd9eabPRdGRm_bBpWU0v-3oPDqlU&si=7s9IpZC1b2wIJd_r")
-  ;;      (:kind :playlist :title "Sailing" :id "PLTWr1sd9eabNbUro2R5JKHi3-UU8PzoES&si=13DiP9ymqAO7SgW1")
-  ;;      (:kind :playlist :title "Tech" :id "PLTWr1sd9eabNPF4144KwOreP0cIGyw5R3&si=lahStNEHwItgmyrn")
-  ;;      (:kind :channel :title "Andrew Emery Golf" :id "UCOd83NRQioBL6CpRbWAjeqA")
-  ;;      (:kind :channel :title "Chris Ryan Golf" :id "UCKo7Y45mcjDtLKiCx6ZTvAg")
-  ;;      (:kind :channel :title "Gotham Chess" :id "UCQHX6ViZmPsWiYSFAyS0a3Q")
-  ;;      (:kind :channel :title "PGA Tour" :id "UCKwGZZMrhNYKzucCtTPY2Nw")
-  ;;      (:kind :channel :title "TaylorMade Golf" :id "UClJO9jvaU5mvNuP-XTbhHGw")
-  ;;      (:kind :channel :title "Veritasium" :id "UCHnyfMqiRRG1u-2MsSQLbXA")))
-
-
-  (elfeed-tube-add-feeds
-    '()))
+    elfeed-tube-save-indicator    t
+    elfeed-tube-thumbnail-size    'medium
+    elfeed-log-level              'debug
+    elfeed-tube-captions-languages
+    '("en" "english" "english (auto generated)"))
+  (add-hook 'elfeed-new-entry-hook
+    (elfeed-make-tagger :feed-url "youtube\\.com"
+      :add '(video youtube)))
+  (elfeed-tube-setup))
 
 ;; (use-package! elfeed-tube-mpv
 ;;   :after elfeed-tube)

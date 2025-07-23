@@ -18,7 +18,7 @@
                                             kill-buffer-query-functions))
 
 (setq native-comp-async-report-warnings-errors 'silent)
-(setq shell-file-name (executable-find "bash"))
+(setq shell-file-name (executable-find "fish"))
 (setq-default vterm-shell "/opt/homebrew/bin/fish")
 (setq-default explicit-shell-file-name "/opt/homebrew/bin/fish")
 (message "> configuring: ")
@@ -363,6 +363,13 @@ Doom loads early."
                (spell-fu-get-personal-dictionary
                 "en-personal"
                 (expand-file-name "aspell.en.pws" spell-fu-directory))))))
+
+;; source directories
+(defvar +code-dir "~/src/"
+  "Root for source code")
+
+(defvar +foss-dir (cr/mkdirp (expand-file-name "open" +code-dir))
+  "Root for open source")
 
 ;; main directory
 (defvar +docs-dir "~/Documents/"
@@ -878,7 +885,7 @@ Doom loads early."
   :config
   (require 'gptel-integrations)
   (setq
-    gptel-model 'gemma3:12b
+    gptel-model 'qwen3:latest
     gptel-backend
     (gptel-make-ollama "Ollama"
       :host "localhost:11434"
@@ -902,9 +909,13 @@ Doom loads early."
   :bind (("C-c m m" . mcp-hub))
   :after gptel
   :custom (mcp-hub-servers
-            `(("fetch"      . (:command "uvx" :args ("mcp-server-fetch")))
-               ("context7" . (:command "npx" :args ("-y", "@upstash/context7-mcp")))
+            `(
+               ("context7"   . (:command "npx" :args ("-y", "@upstash/context7-mcp")))
+               ("fetch"      . (:command "uvx" :args ("mcp-server-fetch")))
+               ("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem"
+                                                        ,org-directory ,+foss-dir)))
                ("playwright" . (:command "npx" :args ("@playwright/mcp@latest")))
+               ("time"       . (:command "uvx" :args ("mcp-server-time" "--local-timezone=America/New_York")))
                ))
 
   :config (require 'mcp-hub)

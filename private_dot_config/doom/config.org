@@ -182,6 +182,34 @@ Doom loads early."
   (interactive)
   (just-one-space -1)
   (sp-backward-delete-char))
+
+
+(defun cr/plist-put! (p &rest pairs)
+  "Adds all the key/value pairs to the plist P"
+  (if (null pairs)
+    p
+    (apply 'cr/plist-put!
+      (plist-put p (car pairs) (cadr pairs))
+      (cddr pairs))))
+
+(defun cr/plist-select-keys (plist keys &optional result)
+  "Return a new plist containing only the KEYs from PLIST."
+  (if (null keys)
+    result
+    (let ((k (car keys)))
+      (cr/plist-select-keys plist (cdr keys)
+        (if (plist-member plist k)
+          (plist-put result k (plist-get plist k))
+          result)))))
+
+(defun cr/plist-get-in (plist keys)
+  "Retrieve a nested value from PLIST using KEYS list."
+  (let ((current plist))
+    (dolist (key keys)
+      (setq current (plist-get current key))
+      (unless current
+        (cl-return nil)))
+    current))
 #+end_src
 
 ** Appearance
@@ -560,25 +588,32 @@ capture, appearance, tags, todos, and refiling.
 
 (after! org
   ;; startup configuration
-  (setq org-startup-with-inline-images t
+  (setq
+    org-startup-with-inline-images t
     org-startup-with-latex-preview t
     org-M-RET-may-split-line       t)
 
   ;; behaviors
-  (setq org-export-html-postamble          nil
+  (setq
+    org-export-html-postamble          nil
+    org-export-with-footnotes          t
     org-export-with-latex              t
+    org-export-with-smart-quotes       nil
+    org-export-with-planning           nil
+    org-export-with-toc                2
     org-hide-emphasis-markers          t
     org-html-validation-link           nil
     org-log-done                       nil
     org-outline-path-complete-in-steps nil
     org-return-follows-link            t
-    org-src-window-setup               'current-window
     org-use-fast-todo-selection        t
+    org-src-window-setup               'current-window
     org-preview-latex-default-process  'dvipng ; 'dvisvgm
     org-use-sub-superscripts           "{}")
 
   ;; agenda
-  (setq org-agenda-tags-column            0
+  (setq
+    org-agenda-tags-column            0
     org-agenda-block-separator        ?─
     org-agenda-window-setup           'current-window
     org-agenda-include-diary          t
@@ -607,18 +642,21 @@ capture, appearance, tags, todos, and refiling.
     "⭠ now ─────────────────────────────────────────────────")
 
   ;; refiling
-  (setq org-refile-use-cache                   t ;; use C-0 C-c C-w to clear cache
+  (setq
+    org-refile-use-cache                   t ;; use C-0 C-c C-w to clear cache
     org-refile-use-outline-path            t
     org-refile-allow-creating-parent-nodes t
     org-refile-targets                     '((nil :maxlevel . 5)
                                               (org-agenda-files :maxlevel . 5)))
   ;; capture
-  (setq org-capture-templates
+  (setq
+    org-capture-templates
     `(("t" "Todo" entry (file+headline "todo.org" "Todos")
         "* TODO %^{Task} %^G")))
 
   ;; todos
-  (setq org-todo-keywords
+  (setq
+    org-todo-keywords
     '((sequence "TODO(t)" "WIP(w)" "PAUSE(p)" "|" "DONE(d)" "KILL(k)" "ASSIGNED(a)")))
 
   ;; roam
@@ -630,19 +668,6 @@ capture, appearance, tags, todos, and refiling.
        (window-width . 0.33)
        (window-parameters . ((no-other-window . t)
                               (no-delete-other-windows . t)))))
-
-  ;; tags
-  ;; (setq org-tag-alist
-  ;;   '((:startgrouptag)
-  ;;      ("study"      . ?s)
-  ;;      (:grouptags)
-  ;;      ("book"       . ?b)
-  ;;      ("paper"      . ?a)
-  ;;      (:endgrouptag)
-  ;;      (:startgrouptag)
-  ;;      ("work"       . ?w)
-  ;;      ("personal"   . ?m)
-  ;;      ("FLAGGED"    . ?f)))
 
 (setq org-tag-alist
       '(;; Top Level
@@ -684,7 +709,8 @@ capture, appearance, tags, todos, and refiling.
         ))
 
   ;; visual appearance
-  (setq org-ellipsis                   "»"
+  (setq
+    org-ellipsis                   "»"
     org-fontify-done-headline          t
     org-fontify-emphasized-text        t
     org-fontify-quote-and-verse-blocks t
@@ -831,8 +857,8 @@ the definition in the minibuffer whenever the cursor is over a glossary term.
   (map!
     (:map org-mode-map
       :prefix ("C-c y" . "glossary")
-      :desc "define term"     "d" #'org-glossary-create-definition
-      :desc "goto definition" "g" #'org-glossary-goto-term-definition
+      :desc "define term"      "d" #'org-glossary-create-definition
+      :desc "goto definition"  "g" #'org-glossary-goto-term-definition
       :desc "insert reference" "i" #'org-glossary-insert-term-reference)))
 
 (message "  ...org glossary...")
@@ -1026,10 +1052,9 @@ tool use, and MCP servers.
   (use-package! gptel
     :defer t
     :hook
-    (gptel-mode . turn-off-auto-fill)
-    (gptel-mode . visual-line-fill-column-mode)
-    (gptel-post-stream . gptel-auto-scroll)
-
+    ((gptel-mode . turn-off-auto-fill)
+      (gptel-mode . visual-line-fill-column-mode)
+      (gptel-post-stream . gptel-auto-scroll))
     :bind (("C-c m s"    . gptel-send)
             ("C-c m g"   . gptel)
             ("C-c m r"   . gptel-rewrite)
@@ -1369,6 +1394,41 @@ I want to be able to find videos from my YouTube playlists and to add new ones.
 Feed reader for emacs.
 
 #+begin_src elisp
+(defun cr/youtube-feed-url (kind item-id)
+  "Get the YouTube feed URL for the KIND of item given the ITEM-ID"
+  (format "https://www.youtube.com/feeds/videos.xml?%s_id=%s" kind item-id))
+
+(defvar cr/youtube-feeds
+  '((:kind "channel"  :title "Andrew Emery Golf" :id "UCOd83NRQioBL6CpRbWAjeqA" :tags (youtube golf))
+     (:kind "channel" :title "Clojure TV" :id "UCaLlzGqiPE2QRj6sSOawJRg" :tags (youtube tech clojure))
+     (:kind "channel" :title "Golf Channel" :id "UC5igJFdBQVqg7hXFI7075OQ" :tags (youtube golf))
+     (:kind "channel" :title "Golf Digest" :id "UCkMOtD7MMYs1H55XH6CkWEw" :tags (youtube golf))
+     (:kind "channel" :title "Sam Harris" :id "UCNAxrHudMfdzNi6NxruKPLw" :tags (youtube science))
+     (:kind "channel" :title "Smarter Every Day" :id "UC6107grRI4m0o2-emgoDnAA" :tags (youtube science))
+     (:kind "channel" :title "Veritasium" :id "UCHnyfMqiRRG1u-2MsSQLbXA" :tags (youtube science))
+     (:kind "channel" :title "W2 Kitchen" :id "UC-dDfxr6895bBrAzkjEf21g" :tags (youtube cooking))
+     (:kind "channel" :title "Will Byrd" :id "UCSC9kYeTee012BRsYw-y12Q" :tags (youtube science))
+     (:kind "playlist" :title "AI Playlist" :id "PLTWr1sd9eabPYCD8PPk3-eQV7vUY6dhMb" :tags (youtube tech ai))
+     (:kind "playlist" :title "Tech Playlist" :id "PLTWr1sd9eabNPF4144KwOreP0cIGyw5R3" :tags (youtube tech))
+     (:kind "playlist" :title "Golf Instruction" :id "PLTWr1sd9eabM_RPt8-yr_GtEGLU6THglN" :tags (youtube golf)))
+  "YouTube feeds")
+
+(defvar cr/rss-feeds
+  '(("https://news.ycombinator.com/news" tech)
+     ("https://planet.emacslife.com/atom.xml" tech emacs)
+     ("https://simonwillison.net/atom/everything/" tech ai)
+     ("https://huggingface.co/blog/feed.xml" tech ai))
+  "RSS/Atom feeds")
+
+(defun cr/youtube-plist-feeds (plists)
+  "Transform the List of feed PLISTS into the format expected by elfeed."
+  (mapcar
+    (lambda (item)
+      (let ((kind (plist-get item :kind))
+             (id (plist-get item :id))
+             (tags (plist-get item :tags)))
+        (cons (cr/youtube-feed-url kind id) tags))) plists))
+
 (use-package! elfeed
   :defer t
   :config
@@ -1380,10 +1440,7 @@ Feed reader for emacs.
     elfeed-search-date-format '("%Y-%m-%d" 10 :left) ;;'("%b %d" 6 :left)
     elfeed-search-title-min-width 45)
   (setq elfeed-feeds
-    '(("https://news.ycombinator.com/news" tech)
-       ("https://planet.emacslife.com/atom.xml" tech emacs)
-       ( "https://simonwillison.net/atom/everything/" tech ai)
-       ("https://huggingface.co/blog/feed.xml" tech ai))))
+    (append cr/rss-feeds (cr/youtube-plist-feeds cr/youtube-feeds))))
 
 (map!
   :desc "Elfeed"        "C-x F v" #'elfeed
@@ -1413,16 +1470,24 @@ Feed reader for emacs.
       :add '(video youtube)))
   (elfeed-tube-setup))
 
-;; (use-package! elfeed-tube-mpv
-;;   :after elfeed-tube)
-
-(map! :map elfeed-show-mode-map
-  "C-c C-f" #'elfeed-tube-mpv-follow-mode
-  "C-c C-w" #'elfeed-tube-mpv-where)
+;; (map! :map elfeed-show-mode-map
+;;   "C-c C-f" #'elfeed-tube-mpv-follow-mode
+;;   "C-c C-w" #'elfeed-tube-mpv-where)
 #+end_src
 
 #+RESULTS:
+** Weather
+Wttr.in weather forecast in Emacs.
 
+#+begin_src elisp
+(use-package! wttrin
+  :bind (("C-c W" . wttrin))
+  :custom
+  (display-wttr-format "1")
+  :config
+  (setq wttrin-default-cities '("Pembroke Pines?upA" "Fort+Lauderdale?upA"))
+  (setq wttrin-default-accept-language '("Accept-Language" . "en-US")))
+#+end_src
 ** Miscellaneous
 Every Emacs configuration contains a few little odds and ends.
 #+begin_src elisp
@@ -1443,6 +1508,7 @@ My global keybinding preferences.
   "C-M-%"     #'anzu-query-replace-regexp
   "C-c M-t"   #'transpose-sentences
   "C-c a"     #'org-agenda
+  "C-c D"     #'duplicate-line
   "C-c g"     #'google-this
   "C-e"       #'move-end-of-line
   "C-x M-s"   #'transpose-sexps

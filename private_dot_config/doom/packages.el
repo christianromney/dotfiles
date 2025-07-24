@@ -54,5 +54,5 @@
 (package! free-keys :recipe (:host github :repo "Fuco1/free-keys")) ;; find available
 (package! google-this)
 (package! elfeed-tube :recipe (:host github :repo "karthink/elfeed-tube"))
-;;(package! my-tube :recipe (:host github :repo "christianromney/my-tube.el"))
-;;(package! elfeed-tube-mpv)
+(package! wttrin :recipe (:host github :repo "bcbcarl/emacs-wttrin"
+                           :branch "master" :files ("*.el" (:exclude "*.png"))))

@@ -48,34 +48,34 @@ Each list contains a list of cons cells, where the car is the device number and 
 
   (let ((lines (string-split (shell-command-to-string "ffmpeg -list_devices true -f avfoundation -i dummy || true") "\n")))
     (cl-loop with at-video-devices = nil
-             with at-audio-devices = nil
-             with video-devices = nil
-             with audio-devices = nil
-             for line in lines
-             when (string-match "AVFoundation video devices:" line)
-             do (setq at-video-devices t
-                      at-audio-devices nil)
-             when (string-match "AVFoundation audio devices:" line)
-             do (setq at-audio-devices t
-                      at-video-devices nil)
-             when (and at-video-devices
-                       (string-match "\\[\\([0-9]+\\)\\] \\(.+\\)" line))
-             do (push (cons (string-to-number (match-string 1 line)) (match-string 2 line)) video-devices)
-             when (and at-audio-devices
-                       (string-match "\\[\\([0-9]+\\)\\] \\(.+\\)" line))
-             do (push (cons (string-to-number (match-string 1 line)) (match-string 2 line)) audio-devices)
-             finally return (list (nreverse video-devices) (nreverse audio-devices)))))
+      with at-audio-devices = nil
+      with video-devices = nil
+      with audio-devices = nil
+      for line in lines
+      when (string-match "AVFoundation video devices:" line)
+      do (setq at-video-devices t
+           at-audio-devices nil)
+      when (string-match "AVFoundation audio devices:" line)
+      do (setq at-audio-devices t
+           at-video-devices nil)
+      when (and at-video-devices
+             (string-match "\\[\\([0-9]+\\)\\] \\(.+\\)" line))
+      do (push (cons (string-to-number (match-string 1 line)) (match-string 2 line)) video-devices)
+      when (and at-audio-devices
+             (string-match "\\[\\([0-9]+\\)\\] \\(.+\\)" line))
+      do (push (cons (string-to-number (match-string 1 line)) (match-string 2 line)) audio-devices)
+      finally return (list (nreverse video-devices) (nreverse audio-devices)))))
 
 (defun rk/find-device-matching (string type)
   "Get the devices from `rk/get-ffmpeg-device' and look for a device
 matching `STRING'. `TYPE' can be :video or :audio."
   (let* ((devices (rk/get-ffmpeg-device))
-         (device-list (if (eq type :video)
-                          (car devices)
-                        (cadr devices))))
+          (device-list (if (eq type :video)
+                         (car devices)
+                         (cadr devices))))
     (cl-loop for device in device-list
-             when (string-match-p string (cdr device))
-             return (car device))))
+      when (string-match-p string (cdr device))
+      return (car device))))
 
 (defcustom rk/default-audio-device nil
   "The default audio device to use for whisper.el and outher audio processes."
@@ -86,9 +86,9 @@ matching `STRING'. `TYPE' can be :video or :audio."
 If `DEVICE-NAME' is provided, it will be used instead of prompting the user."
   (interactive)
   (let* ((audio-devices (cadr (rk/get-ffmpeg-device)))
-         (indexes (mapcar #'car audio-devices))
-         (names (mapcar #'cdr audio-devices))
-         (name (or device-name (completing-read "Select audio device: " names nil t))))
+          (indexes (mapcar #'car audio-devices))
+          (names (mapcar #'cdr audio-devices))
+          (name (or device-name (completing-read "Select audio device: " names nil t))))
     (setq rk/default-audio-device (rk/find-device-matching name :audio))
     (when (boundp 'whisper--ffmpeg-input-device)
       (setq whisper--ffmpeg-input-device (format ":%s" rk/default-audio-device)))))
@@ -100,7 +100,7 @@ If `DEVICE-NAME' is provided, it will be used instead of prompting the user."
 
 (defun cr/re-find-microphone (regex)
   (cl-rassoc regex (cr/list-microphones)
-             :test (lambda (pred s) (string-match-p pred s))))
+    :test (lambda (pred s) (string-match-p pred s))))
 
 (defun cr/microphone-name (device)
   "Extracts the label from the microphone DEVICE pair (index . label)."
@@ -111,7 +111,7 @@ If `DEVICE-NAME' is provided, it will be used instead of prompting the user."
 needed. Returns the expanded pathname."
   (let ((abspath (expand-file-name path)))
     (if (file-exists-p abspath)
-        abspath
+      abspath
       (progn
         (make-directory abspath 'parents)
         abspath))))
@@ -121,7 +121,7 @@ needed. Returns the expanded pathname."
 Returns the expanded pathname."
   (let ((abspath (expand-file-name path)))
     (if (file-exists-p abspath)
-        abspath
+      abspath
       (progn
         (make-empty-file abspath 'parents)
         abspath))))
@@ -129,36 +129,36 @@ Returns the expanded pathname."
 (defun cr/read-file-as-string (path)
   "Reads the given file as a string."
   (string-trim
-   (with-temp-buffer
-     (insert-file-contents (expand-file-name path))
-     (buffer-string))))
+    (with-temp-buffer
+      (insert-file-contents (expand-file-name path))
+      (buffer-string))))
 
 (defun cr/keychain-api-token-for-host (host)
-  "Reads the keychain internet password for the given host."
+  "Reads the keychain internet password for the given host.
+DEPRECATED: prefer (auth-source-user-and-password HOST USER) which
+returns a list of (user secret)."
   (string-trim
-   (shell-command-to-string
-    (string-join `("security find-internet-password -s " ,host " -w") ""))))
+    (shell-command-to-string
+      (string-join `("security find-internet-password -s " ,host " -w") ""))))
 
 (defun cr/port-open-p (port)
   "Returns t if the given port is in use, nil otherwise."
   (= 0 (call-process "lsof" nil nil nil "-P" "-i"
-                     (concat "TCP:" (number-to-string port)))))
+         (concat "TCP:" (number-to-string port)))))
 
-(defun cr/read-auth-field (field &rest params)
-  (require 'auth-source)
-  (let ((match (car (apply #'auth-source-search params))))
-    (if match
-        (let ((secret (plist-get match field)))
-          (if (functionp secret)
-              (funcall secret)
-            secret))
-      (error "%s not found for %S" field params))))
+(defun cr/keychain-user-and-password (host user)
+  (let ((auth-sources '(macos-keychain-internet)))
+    (auth-source-user-and-password host user)))
 
-(defun cr/read-auth-username (&rest params)
-  (apply #'cr/read-auth-field :user params))
+(defun cr/auth-source-user (credentials)
+  "Returns the username from the CREDENTIALS which should be the result
+from a call to `auth-source-user-and-password`."
+  (car auth-source-user-pass-result))
 
-(defun cr/read-auth-password (&rest params)
-  (apply #'cr/read-auth-field :secret params))
+(defun cr/auth-source-secret (credentials)
+  "Returns the secret from the CREDENTIALS which should be the result
+from a call to `auth-source-user-and-password`."
+  (cadr auth-source-user-pass-result))
 
 (defun cr/just-one-space ()
   "Command to delete all but one whitespace character."
@@ -171,7 +171,6 @@ Doom loads early."
   (interactive)
   (just-one-space -1)
   (sp-backward-delete-char))
-
 
 (defun cr/plist-put! (p &rest pairs)
   "Adds all the key/value pairs to the plist P"
@@ -924,6 +923,12 @@ Doom loads early."
             ("C-c m o p" . gptel-org-set-properties))
     :config
     (require 'gptel-integrations)
+    (require 'gptel-prompts)
+
+    ;; Load prompts and ensure they update when prompt files change
+    (setq gptel-prompts-directory +prompts-dir)
+    (gptel-prompts-update)
+    (gptel-prompts-add-update-watchers)
 
     (gptel-make-preset 'research
       :description "Preset for deep research tasks"
@@ -936,25 +941,31 @@ Doom loads early."
     (defvar gptel--anthropic
       (gptel-make-anthropic "Claude"
         :key (lambda ()
-               (cadr (auth-source-user-and-password
-                       "api.anthropic.com" "apikey")))
+               (cr/auth-source-secret
+                 (cr/keychain-user-and-password
+                   "api.anthropic.com" "apikey")))
         :stream t))
 
     (defvar gptel--openai
-      (gptel-make-gemini "Open AI (NuLLM)"
+      (gptel-make-openai "Open AI (NuLLM)"
         :stream t
+        :system (alist-get 'tool-user gptel-directives)
+        :models '(o1-mini o3-mini o4-mini o1 o3 ;; reasoning models increasing in power + cost
+                   gpt-4.1-nano gpt-4.1-mini gpt-4.1) ;; standard models increasing in power + cost
         :host "ist-prod-litellm.nullmplatform.com"
         :key (lambda ()
-               (cadr (auth-source-user-and-password
-                       "ist-prod-litellm.nullmplatform.com" "openai")))))
+               (cr/auth-source-secret
+                 (cr/keychain-user-and-password
+                   "ist-prod-litellm.nullmplatform.com" "openai")))))
 
     (defvar gptel--gemini
       (gptel-make-gemini "Gemini (NuLLM)"
         :stream t
         :host "ist-prod-litellm.nullmplatform.com"
         :key (lambda ()
-               (cadr (auth-source-user-and-password
-                       "ist-prod-litellm.nullmplatform.com" "gemini")))))
+               (cr/auth-source-secret
+                 (cr/keychain-user-and-password
+                   "ist-prod-litellm.nullmplatform.com" "gemini")))))
 
     (defvar gptel--ollama
       (gptel-make-ollama "Ollama"
@@ -974,25 +985,22 @@ Doom loads early."
                    qwen3:latest)))
 
     (setq
-      gptel-backend gptel--ollama
-      gptel-model 'qwen3:latest
+      gptel--system-message (alist-get 'tool-user gptel-directives)
+      gptel-backend gptel--openai
+      gptel-model 'gpt-4.1-nano
       gptel-default-mode 'org-mode
+      gptel-use-tools t
       gptel-track-media t
       gptel-use-header-line t
       gptel-org-branching-context t
-      gptel-include-reasoning "*gptel-inner-monologue*"
+      gptel-include-reasoning " *llm-thoughts*" ;; or nil
       gptel-prompt-prefix-alist
       '((markdown-mode . "# ")
          (org-mode . "*Prompt*: ")
-         (text-mode . "# "))))
+         (text-mode . "# ")))
 
-  (use-package! gptel-prompts
-    :after (gptel)
-    :config
-    (setq gptel-prompts-directory +prompts-dir)
-    (gptel-prompts-update)
-    ;; Ensure prompts are updated if prompt files change
-    (gptel-prompts-add-update-watchers)))
+    (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+    (add-hook 'gptel-post-response-functions 'gptel-end-of-response)))
 
 (when (modulep! :tools llm)
   (use-package! mcp

@@ -897,7 +897,7 @@ Doom loads early."
 (defvar gpt-default-embedding "text-embedding-3-small"
   "My preferred Open AI embedding model.")
 
-(defvar llm-local-chat-model "gemma3n"
+(defvar llm-local-chat-model "qwen3:latest"
   "Default local model to use for chat.")
 
 (defvar llm-local-embedding-model "mxbai-embed-large"
@@ -917,7 +917,7 @@ Doom loads early."
             ("C-c m k"   . gptel-abort)
             ("C-c m f"   . gptel-add-file)
             ("C-c m t"   . gptel-tools)
-            ("C-c m m"   . gptel-menu)
+            ("C-c m M"   . gptel-menu)
             ("C-c m q"   . gptel-quick)
             ("C-c m p"   . gptel-system-prompt)
             ("C-c m o t" . gptel-org-set-topic)
@@ -926,25 +926,37 @@ Doom loads early."
     (require 'gptel-integrations)
 
     (gptel-make-preset 'research
-      :description "Preset for research tasks"
+      :description "Preset for deep research tasks"
       :backend "Ollama"
-      :model 'phi4-mini
+      :model 'qwen3
       :tools '("fetch" "get_current_time" "convert_time")
       :temperature 0.7
       :use-context 'system)
 
-    (setq
-      gptel-model 'qwen3:latest
-      gptel-default-mode 'org-mode
-      gptel-track-media t
-      gptel-use-header-line t
-      gptel-org-branching-context t
-      gptel-include-reasoning "*gptel-inner-monologue*"
-      gptel-prompt-prefix-alist
-      '((markdown-mode . "# ")
-         (org-mode . "*Prompt*: ")
-         (text-mode . "# "))
-      gptel-backend
+    (defvar gptel--anthropic
+      (gptel-make-anthropic "Claude"
+        :key (lambda ()
+               (cadr (auth-source-user-and-password
+                       "api.anthropic.com" "apikey")))
+        :stream t))
+
+    (defvar gptel--openai
+      (gptel-make-gemini "Open AI (NuLLM)"
+        :stream t
+        :host "ist-prod-litellm.nullmplatform.com"
+        :key (lambda ()
+               (cadr (auth-source-user-and-password
+                       "ist-prod-litellm.nullmplatform.com" "openai")))))
+
+    (defvar gptel--gemini
+      (gptel-make-gemini "Gemini (NuLLM)"
+        :stream t
+        :host "ist-prod-litellm.nullmplatform.com"
+        :key (lambda ()
+               (cadr (auth-source-user-and-password
+                       "ist-prod-litellm.nullmplatform.com" "gemini")))))
+
+    (defvar gptel--ollama
       (gptel-make-ollama "Ollama"
         :host "localhost:11434"
         :stream t
@@ -960,8 +972,19 @@ Doom loads early."
                    phi4-reasoning:plus
                    qwen2.5-coder:latest
                    qwen3:latest)))
-    (gptel-make-anthropic "Claude" :stream t)
-    (gptel-make-gemini "Gemini" :stream t))
+
+    (setq
+      gptel-backend gptel--ollama
+      gptel-model 'qwen3:latest
+      gptel-default-mode 'org-mode
+      gptel-track-media t
+      gptel-use-header-line t
+      gptel-org-branching-context t
+      gptel-include-reasoning "*gptel-inner-monologue*"
+      gptel-prompt-prefix-alist
+      '((markdown-mode . "# ")
+         (org-mode . "*Prompt*: ")
+         (text-mode . "# "))))
 
   (use-package! gptel-prompts
     :after (gptel)
@@ -978,7 +1001,9 @@ Doom loads early."
     :after gptel
     :custom
     (mcp-hub-servers
-      `(("basic-memory" . (:command "uvx" :args ("basic-memory" "mcp")))
+      `(
+         ("apple"        . (:command "bunx" :args ("@dhravya/apple-mcp@latest")))
+         ("basic-memory" . (:command "uvx" :args ("basic-memory" "mcp")))
          ("context7"     . (:command "npx" :args ("-y" "@upstash/context7-mcp")))
          ("fetch"        . (:command "uvx" :args ("mcp-server-fetch")))
          ("filesystem"   . (:command "npx"

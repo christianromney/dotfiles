@@ -930,14 +930,6 @@ Doom loads early."
     (gptel-prompts-update)
     (gptel-prompts-add-update-watchers)
 
-    (gptel-make-preset 'research
-      :description "Preset for deep research tasks"
-      :backend "Ollama"
-      :model 'qwen3
-      :tools '("fetch" "get_current_time" "convert_time")
-      :temperature 0.7
-      :use-context 'system)
-
     (defvar gptel--anthropic
       (gptel-make-anthropic "Claude"
         :key (lambda ()
@@ -1000,7 +992,25 @@ Doom loads early."
          (text-mode . "# ")))
 
     (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-    (add-hook 'gptel-post-response-functions 'gptel-end-of-response)))
+    (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+
+    (gptel-make-preset 'local
+      :description "Preset for local LLMs"
+      :backend "Ollama"
+      :system 'tool-user
+      :model 'qwen3
+      :tools '("fetch" "get_current_time" "convert_time")
+      :temperature 0.7
+      :use-context 'system)
+
+    (gptel-make-preset 'concierge
+      :description "Autonomous agent concierge"
+      :backend "ChatGPT"
+      :system 'tool-user
+      :model 'gpt-4.1
+      :tools '("fetch" "get_current_time" "convert_time" "applescript_execute")
+      :temperature 0.7
+      :use-context 'system)))
 
 (when (modulep! :tools llm)
   (use-package! mcp
@@ -1010,7 +1020,7 @@ Doom loads early."
     :custom
     (mcp-hub-servers
       `(
-         ("apple"        . (:command "bunx" :args ("@dhravya/apple-mcp@latest")))
+         ("applescript"  . (:command "npx" :args ("@peakmojo/applescript-mcp")))
          ("basic-memory" . (:command "uvx" :args ("basic-memory" "mcp")))
          ("context7"     . (:command "npx" :args ("-y" "@upstash/context7-mcp")))
          ("fetch"        . (:command "uvx" :args ("mcp-server-fetch")))

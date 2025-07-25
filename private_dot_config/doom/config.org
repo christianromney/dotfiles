@@ -1042,7 +1042,7 @@ Commonly specified variables for use across various packages.
   "Default local model to use for embeddings.")
 #+end_src
 
-*** Chatbots
+*** Chatbot Packages
 [[https://github.com/karthink/gptel?tab=readme-ov-file#gpt4all][gpt.el]] is a general purpose LLM client. It supports local and remote models,
 tool use, and MCP servers.
 
@@ -1142,24 +1142,31 @@ tool use, and MCP servers.
     (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
 
     ;; Tool Collections
-    (defvar cr/mcp-apple-tools
-      '("maps" "calendar" "webSearch" "reminders" "mail" "messages" "contacts"))
-
     (defvar cr/mcp-time-tools
       '("convert_time" "get_current_time"))
 
     (defvar cr/mcp-fetch-tools
       '("fetch"))
 
+    (defvar cr/mcp-filesystem-tools
+      '("list_directory" "create_directory" "edit_file"
+         "write_file" "read_multiple_files" "read_file"))
+
+    (defvar cr/mcp-standard-tools
+      (append cr/mcp-time-tools cr/mcp-fetch-tools cr/mcp-filesystem-tools))
+
+    (defvar cr/mcp-apple-tools
+      '("applescript_execute"))
+
     (defvar cr/mcp-code-doc-tools
       '("get-library-docs" "resolve-library-id"))
 
-    (defvar cr/mcp-filesystem-tools
-      '("list_directory" "create_directory" "edit_file" "write_file" "read_multiple_files" "read_file"))
-
     (defvar cr/mcp-basic-memory-tools
-      '("delete_project" "create_memory_project" "set_default_project" "get_current_project"
-         "switch_project"  "list_memory_projects" "sync_status" "move_note" "edit_note"))
+      '("write_note" "read_note" "edit_note" "move_note" "view_note"
+         "build_context" "search_notes" "recent_activity" "canvas"
+         "list_memory_projects" "switch_project" "get_current_project"
+         "create_memory_project" "delete_project" "set_default_project"
+         "sync_status"))
 
     ;; Presets
     (gptel-make-preset 'default
@@ -1167,19 +1174,38 @@ tool use, and MCP servers.
       :system 'tool-user
       :backend "ChatGPT"
       :model 'gpt-4.1-nano
-      :tools (append cr/mcp-fetch-tools cr/mcp-time-tools cr/mcp-apple-tools)
+      :tools (append cr/mcp-standard-tools cr/mcp-apple-tools)
       :temperature nil
       :stream t
       :include-reasoning 'ignore)
+
+    (gptel-make-preset 'local
+      :description "Preset for local LLMs"
+      :backend "Ollama"
+      :system 'tool-user
+      :model 'qwen3
+      :tools cr/mcp-standard-tools
+      :temperature 0.7
+      :use-context 'system)
 
     (gptel-make-preset 'researcher
       :description "Web-search enabled researcher"
       :system 'tool-user
       :backend "ChatGPT"
-      :model 'gpt-4.1-mini
-      :tools (append cr/mcp-fetch-tools cr/mcp-time-tools cr/mcp-code-doc-tools)
+      :model 'gpt-4.1
+      :tools (append cr/mcp-standard-tools cr/mcp-code-doc-tools
+               cr/mcp-basic-memory-tools)
       :temperature nil
       :include-reasoning 'ignore)
+
+    (gptel-make-preset 'concierge
+      :description "Autonomous agent concierge"
+      :backend "ChatGPT"
+      :system 'tool-user
+      :model 'gpt-4.1-mini
+      :tools '("fetch" "get_current_time" "convert_time" )
+      :temperature 0.7
+      :use-context 'system)
 
     (gptel-make-preset 'socrates
       :description "Socratic Partner"
@@ -1187,7 +1213,8 @@ tool use, and MCP servers.
       :backend "Ollama"
       :model 'qwen3
       :temperature nil
-      :include-reasoning 'ignore)))
+      :include-reasoning 'ignore)
+    ))
 #+end_src
 
 *** MCP Servers

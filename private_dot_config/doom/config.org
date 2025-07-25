@@ -1042,7 +1042,7 @@ Commonly specified variables for use across various packages.
   "Default local model to use for embeddings.")
 #+end_src
 
-*** Chatbot Packages
+*** LLMs
 [[https://github.com/karthink/gptel?tab=readme-ov-file#gpt4all][gpt.el]] is a general purpose LLM client. It supports local and remote models,
 tool use, and MCP servers.
 

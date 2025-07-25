@@ -1251,8 +1251,6 @@ Doom loads early."
 
 (message "  ...clojure editing...")
 
-;; (cr/keychain-api-token-for-host "www.googleapis.com")
-
 (defun cr/youtube-feed-url (kind item-id)
   "Get the YouTube feed URL for the KIND of item given the ITEM-ID"
   (format "https://www.youtube.com/feeds/videos.xml?%s_id=%s" kind item-id))
@@ -1329,6 +1327,7 @@ Doom loads early."
       :add '(video youtube)))
   (elfeed-tube-setup))
 
+;;; TODO: Get tube-mpv working
 ;; (map! :map elfeed-show-mode-map
 ;;   "C-c C-f" #'elfeed-tube-mpv-follow-mode
 ;;   "C-c C-w" #'elfeed-tube-mpv-where)

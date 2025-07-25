@@ -1485,15 +1485,11 @@ Something weird is going on with org-mode
 
 (message "  ...clojure editing...")
 #+end_src
-** YouTube Playlists
-I want to be able to find videos from my YouTube playlists and to add new ones.
-
-#+begin_src elisp
-;; (cr/keychain-api-token-for-host "www.googleapis.com")
-
-#+end_src
-** Elfeed
-Feed reader for emacs.
+** RSS, Atom, and YouTube Feeds (Elfeed)
+Powerful feed reader for Emacs. The elfeed-tube package adds support for
+YouTube, but the functions to add and backfill feeds are broken since Invidious
+went away. These functions just searched for the feed.xml URLs which we can
+compose directly by interpolating channel or playlist ids.
 
 #+begin_src elisp
 (defun cr/youtube-feed-url (kind item-id)
@@ -1572,6 +1568,7 @@ Feed reader for emacs.
       :add '(video youtube)))
   (elfeed-tube-setup))
 
+;;; TODO: Get tube-mpv working
 ;; (map! :map elfeed-show-mode-map
 ;;   "C-c C-f" #'elfeed-tube-mpv-follow-mode
 ;;   "C-c C-w" #'elfeed-tube-mpv-where)

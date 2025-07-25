@@ -1202,7 +1202,7 @@ tool use, and MCP servers.
       :backend "ChatGPT"
       :system 'tool-user
       :model 'gpt-4.1-mini
-      :tools '("fetch" "get_current_time" "convert_time" )
+      :tools (append cr/mcp-standard-tools cr/mcp-apple-tools)
       :temperature 0.7
       :use-context 'system)
 

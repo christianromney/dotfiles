@@ -984,14 +984,65 @@ Doom loads early."
       gptel-use-tools t
       gptel-track-media t
       gptel-use-header-line t
-      gptel-org-branching-context t
       gptel-include-reasoning " *llm-thoughts*" ;; or nil
       gptel-prompt-prefix-alist
       '((markdown-mode . "# ")
          (org-mode . "*Prompt*: ")
          (text-mode . "# ")))
 
+    (with-eval-after-load 'gptel-org
+      (setq-default gptel-org-branching-context t))
+
     (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+    (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+
+    ;; Tool Collections
+    (defvar cr/mcp-apple-tools
+      '("maps" "calendar" "webSearch" "reminders" "mail" "messages" "contacts"))
+
+    (defvar cr/mcp-time-tools
+      '("convert_time" "get_current_time"))
+
+    (defvar cr/mcp-fetch-tools
+      '("fetch"))
+
+    (defvar cr/mcp-code-doc-tools
+      '("get-library-docs" "resolve-library-id"))
+
+    (defvar cr/mcp-filesystem-tools
+      '("list_directory" "create_directory" "edit_file" "write_file" "read_multiple_files" "read_file"))
+
+    (defvar cr/mcp-basic-memory-tools
+      '("delete_project" "create_memory_project" "set_default_project" "get_current_project"
+         "switch_project"  "list_memory_projects" "sync_status" "move_note" "edit_note"))
+
+    ;; Presets
+    (gptel-make-preset 'default
+      :description "Default settings"
+      :system 'tool-user
+      :backend "ChatGPT"
+      :model 'gpt-4.1-nano
+      :tools (append cr/mcp-fetch-tools cr/mcp-time-tools cr/mcp-apple-tools)
+      :temperature nil
+      :stream t
+      :include-reasoning 'ignore)
+
+    (gptel-make-preset 'researcher
+      :description "Web-search enabled researcher"
+      :system 'tool-user
+      :backend "ChatGPT"
+      :model 'gpt-4.1-mini
+      :tools (append cr/mcp-fetch-tools cr/mcp-time-tools cr/mcp-code-doc-tools)
+      :temperature nil
+      :include-reasoning 'ignore)
+
+    (gptel-make-preset 'socrates
+      :description "Socratic Partner"
+      :system 'socratic-partner
+      :backend "Ollama"
+      :model 'qwen3
+      :temperature nil
+      :include-reasoning 'ignore)))
     (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
 
     (gptel-make-preset 'local

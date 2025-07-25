@@ -941,7 +941,6 @@ Doom loads early."
     (defvar gptel--openai
       (gptel-make-openai "Open AI (NuLLM)"
         :stream t
-        :system (alist-get 'tool-user gptel-directives)
         :models '(o1-mini o3-mini o4-mini o1 o3 ;; reasoning models increasing in power + cost
                    gpt-4.1-nano gpt-4.1-mini gpt-4.1) ;; standard models increasing in power + cost
         :host "ist-prod-litellm.nullmplatform.com"

@@ -546,13 +546,13 @@ Doom loads early."
     org-agenda-start-on-weekday       1
     org-agenda-todo-ignore-deadlines  t
     org-agenda-todo-ignore-scheduled  t
-    org-agenda-use-tag-inheritance    nil
+    org-agenda-use-tag-inheritance    t
     org-agenda-custom-commands
     '(("d" "Dashboard"
         ((agenda "" ((org-agenda-span 10)))
           (tags-todo "+PRIORITY=\"A\"")
-          (tags-todo "work")
-          (tags-todo "personal")))
+          (tags-todo "Business")
+          (tags-todo "Personal")))
        ("n" "Agenda and all TODOs"
          ((agenda "" ((org-agenda-span 10)))
            (alltodo ""))))
@@ -591,44 +591,56 @@ Doom loads early."
        (window-parameters . ((no-other-window . t)
                               (no-delete-other-windows . t)))))
 
-(setq org-tag-alist
-      '(;; Top Level
-        (:startgroup . "Primary")
-        ("Business" . ?b)
-        ("Personal" . ?p)
-        ("Tech" . ?t)
-        ("Thinking" . ?k)
-        (:endgroup)
+  (setq org-tag-alist
+    '(;; Top Level
+       (:startgroup . "Primary")
+       ("Business" . ?b)
+       ("Personal" . ?p)
+       ("Hobbies" . ?h)
+       ("Tech" . ?t)
+       ("Thinking" . ?k)
+       (:endgroup)
 
-        ;; Tech Sub-tags
-        (:startgroup . "Tech")
-        ("AI" . ?a)
-        ("Clojure" . ?c)
-        ("Data" . ?d)
-        ("Systems" . ?s)
-        ("Security" . ?x)
-        ("Design" . ?d)
-        (:endgroup)
+       ;; Tech Sub-tags
+       (:startgroup . "Tech")
+       ("AI" . ?a)
+       ("Clojure" . ?c)
+       ("Data" . ?d)
+       ("Systems" . ?s)
+       ("Security" . ?x)
+       ("Design" . ?d)
+       (:endgroup)
 
-        ;; Business Sub-tags
-        (:startgroup . "Business")
-        ("Finance" . ?f)
-        ("Leadership" . ?l)
-        ("Product" . ?p)
-        (:endgroup)
+       ;; Business Sub-tags
+       (:startgroup . "Business")
+       ("Compliance" . ?c)
+       ("Finance" . ?f)
+       ("Leadership" . ?l)
+       ("Performance" . ?a)
+       ("Product" . ?p)
+       (:endgroup)
 
-        ;; Personal Sub-tags
-        (:startgroup . "Personal")
-        ("Cooking" . ?c)
-        ("Sailing" . ?s)
-        (:endgroup)
+       ;; Personal Sub-tags
+       (:startgroup . "Personal")
+       ("Finances" . ?f)
+       ("House" . ?h)
+       ("Medical" . ?m)
+       (:endgroup)
 
-        ;; Thinking Sub-tags
-        (:startgroup . "Thinking")
-        ("ProblemSolving" . ?p)
-        ("Learning" . ?l)
-        (:endgroup)
-        ))
+       ;; Hobbies Sub-tags
+       (:startgroup . "Hobbies")
+       ("Boating" . ?b)
+       ("Cooking" . ?c)
+       ("Golf" . ?g)
+       ("Music" . ?m)
+       (:endgroup)
+
+       ;; Thinking Sub-tags
+       (:startgroup . "Thinking")
+       ("Learning" . ?l)
+       ("ProblemSolving" . ?p)
+       (:endgroup)
+       ))
 
   ;; visual appearance
   (setq
@@ -660,8 +672,8 @@ Doom loads early."
       :desc "strikethrough"   "s" #'cr/org-strike-word
       :desc "underline"       "u" #'cr/org-underline-word
       :desc "verbatim"        "v" #'cr/org-verbatim-word
-
       )))
+
 (message "  ...org startup, bindings, agenda, tags, todos...")
 
 (use-package! org-roam
@@ -689,17 +701,6 @@ Doom loads early."
        ("title" . "₸")
        (t . t))))
 
-(use-package! org-side-tree
-  :defer t
-  :config
-  (setq
-    org-side-tree-display-side 'right
-    org-side-tree-persistent t ;; re-use a single buffer
-    org-side-tree-enable-folding t
-    org-side-tree-fontify t))
-
-(map! :desc "Tree" "C-c t t" #'org-side-tree)
-
 (message "  ...org appearance...")
 
 (defface +calendar-holiday
@@ -720,7 +721,8 @@ Doom loads early."
 
 (after! org
   (require 'brazilian-holidays)
-  (setq calendar-week-start-day              0
+  (setq
+    calendar-week-start-day              0
     calendar-mark-holidays-flag          t
     calendar-mark-diary-entries-flag     t
     calendar-christian-all-holidays-flag nil

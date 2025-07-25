@@ -44,7 +44,7 @@
 (package! graphviz-dot-mode) ;; graphviz diagrams
 (package! mermaid-mode) ;; even more diagrams
 (package! ob-mermaid) ;; exportable
-(package! org-side-tree)
+
 ;; ----------------------------------------------------------------------------------
 ;; Utilities
 ;; ----------------------------------------------------------------------------------

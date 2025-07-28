@@ -186,6 +186,12 @@ determine the exact padding."
    ((markdown-code-face &override)       :background base1)
    (mmm-default-submode-face :background base1)
 
+   ;;;; Elfeed
+   (elfeed-search-title-face :foreground fg)
+
+   ;;;; hl-line
+   (hl-line :background base2)
+
    ;;;; outline <built-in>
    ((outline-1 &override) :foreground orange)
    ((outline-2 &override) :foreground cyan)

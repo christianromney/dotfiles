@@ -153,12 +153,12 @@ returns a list of (user secret)."
 (defun cr/auth-source-user (credentials)
   "Returns the username from the CREDENTIALS which should be the result
 from a call to `auth-source-user-and-password`."
-  (car auth-source-user-pass-result))
+  (car credentials))
 
 (defun cr/auth-source-secret (credentials)
   "Returns the secret from the CREDENTIALS which should be the result
 from a call to `auth-source-user-and-password`."
-  (cadr auth-source-user-pass-result))
+  (cadr credentials))
 
 (defun cr/just-one-space ()
   "Command to delete all but one whitespace character."

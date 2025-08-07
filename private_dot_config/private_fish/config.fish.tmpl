@@ -57,6 +57,13 @@ set -gx EDITOR emacs
 #
 ################################################################
 
+# Proto multi-tool version manager https://moonrepo.dev/docs/proto
+# proto supports 3 .prototools locations:
+# dir local -> ./.prototools (current directory)
+# global -> ~/.proto/.prototools
+# user -> # ~/.prototools
+proto activate fish | source
+
 # envionrment vars per directory
 direnv hook fish | source
 

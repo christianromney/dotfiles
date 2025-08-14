@@ -108,7 +108,7 @@ get_git_info() {
     [[ $ahead -gt 0 ]] && status_info+="↑$ahead"
     [[ $behind -gt 0 ]] && status_info+="↓$behind"
     
-    printf "${BLUE_LIGHT_BG}${ORANGE_FG} 🔀 ${WHITE_FG}$branch "
+    printf "${BLUE_LIGHT_BG}${WHITE_FG}  $branch "
     [[ -n "$status_info" ]] && printf "${WHITE_FG}[$status_info] "
     printf "${RESET}${BLUE_VERY_LIGHT_BG}\033[38;2;45;125;175m${SEP_RIGHT}${RESET}"
 }
@@ -169,7 +169,7 @@ get_weather() {
     
     # Fetch fresh weather data with timeout
     local weather_data=""
-    weather_data=$(timeout 3s curl -s "wttr.in/?format=%c%t&u" 2>/dev/null | tr -d '\n' | sed 's/[[:space:]]*$//')
+    weather_data=$(timeout 3s curl -s "wttr.in/?format=%c%t+(%f)" 2>/dev/null | tr -d '\n' | sed 's/[[:space:]]*$//')
     
     # Validate the response (should contain temperature and not be empty or error message)
     if [[ -n "$weather_data" && "$weather_data" != *"Unknown"* && "$weather_data" =~ [0-9].*°F ]]; then
@@ -184,7 +184,7 @@ get_weather() {
 # Function to get current time
 get_time() {
     local current_time=$(date "+%I:%M:%S %p")
-    printf "${PURPLE_BG}${WHITE_FG} 🕐 $current_time ${RESET}\033[38;2;74;35;90m${SEP_RIGHT}${RESET}"
+    printf "${PURPLE_BG}${WHITE_FG} ⏱️$current_time ${RESET}\033[38;2;74;35;90m${SEP_RIGHT}${RESET}"
 }
 
 # Function to get Claude model indicator (prominently displayed)

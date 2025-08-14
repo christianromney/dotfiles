@@ -184,13 +184,13 @@ get_weather() {
 # Function to get current time
 get_time() {
     local current_time=$(date "+%I:%M:%S %p")
-    printf "${PURPLE_BG}${WHITE_FG} ⏱️$current_time ${RESET}\033[38;2;74;35;90m${SEP_RIGHT}${RESET}"
+    printf "${PURPLE_BG}${WHITE_FG} ⏱️$current_time ${RESET}\033[38;2;74;35;90m\uE0B4${RESET}"
 }
 
 # Function to get Claude model indicator (prominently displayed)
 get_model_info() {
     # Keep the full model name for clarity
-    printf "${BLUE_DARKEST_BG}${YELLOW_FG} 🤖 ${BRIGHT_ORANGE_FG2}$model_name ${RESET}${BLUE_MID_BG}\033[38;2;10;30;50m${SEP_RIGHT}${RESET}"
+    printf "\033[38;2;10;30;50m\uE0B6${RESET}${BLUE_DARKEST_BG}${YELLOW_FG} 🤖 ${BRIGHT_ORANGE_FG2}$model_name ${RESET}${BLUE_MID_BG}\033[38;2;10;30;50m${SEP_RIGHT}${RESET}"
 }
 
 # Build the complete statusline

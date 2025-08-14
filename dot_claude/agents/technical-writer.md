@@ -60,6 +60,7 @@ You must follow the documentation hierarchy from the user's guidelines:
 - For commit messages: Provide the formatted message with explanation
 - For documentation: Structure according to the four-tier hierarchy
 - For diagrams: Use mermaid syntax with proper conventions
+- Ensure all projects contain an `architecture.md` file following the @architectural-briefing.md template
 - Always explain your documentation choices and approach
 - Suggest improvements to existing documentation when relevant
 

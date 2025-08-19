@@ -10,3 +10,4 @@
 .clojure_history
 .DS_Store
 .Trash
+.cache

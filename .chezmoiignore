@@ -5,3 +5,8 @@
 .git/**
 *.orig
 .gnupg/S.*
+.gnupg/private-keys-v1.d/*
+.clojure/.cpcache/*
+.clojure_history
+.DS_Store
+.Trash

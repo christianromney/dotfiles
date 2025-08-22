@@ -146,6 +146,17 @@ returns a list of (user secret)."
   (= 0 (call-process "lsof" nil nil nil "-P" "-i"
          (concat "TCP:" (number-to-string port)))))
 
+(defun cr/copy-buffer-filename ()
+  "Copy the full path of the file visited by the current buffer to the clipboard."
+  (interactive)
+  (if-let ((file (buffer-file-name)))
+      (progn
+        ;; `kill-new' adds the string to the kill ring and, on most
+        ;; systems, also updates the clipboard via `interprogram-cut-function'.
+        (kill-new file)
+        (message "Copied: %s" file))
+    (message "Buffer is not visiting a file.")))
+
 (defun cr/keychain-user-and-password (host user)
   (let ((auth-sources '(macos-keychain-internet)))
     (auth-source-user-and-password host user)))

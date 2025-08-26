@@ -35,35 +35,6 @@ ssh-add -q
 # configure development environment
 set -gx EDITOR emacs
 
-###############################################################
-# Disable ASDF while we explore proto
-###############################################################
-# asdf general purpose environment manager
-# if test -z $ASDF_DATA_DIR
-#     set _asdf_shims "$HOME/.asdf/shims"
-# else
-#     set _asdf_shims "$ASDF_DATA_DIR/shims"
-#end
-#
-# Do not use fish_add_path (added in Fish 3.2) because it
-# potentially changes the order of items in PATH
-# if not contains $_asdf_shims $PATH
-#     set -gx --prepend PATH $_asdf_shims
-# end
-#
-# set --erase _asdf_shims
-#
-# status --is-interactive; and source "$HOMEBREW_PREFIX/opt/asdf/share/fish/vendor_completions.d/asdf.fish"
-#
-################################################################
-
-# Proto multi-tool version manager https://moonrepo.dev/docs/proto
-# proto supports 3 .prototools locations:
-# dir local -> ./.prototools (current directory)
-# global -> ~/.proto/.prototools
-# user -> # ~/.prototools
-proto activate fish | source
-
 # envionrment vars per directory
 direnv hook fish | source
 

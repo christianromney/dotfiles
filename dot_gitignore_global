@@ -144,3 +144,4 @@ dkms.conf
 .ccls-cache
 .tool-versions
 .envrc
+.jj

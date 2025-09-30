@@ -26,8 +26,8 @@ $custom\
 $conda\
 [](fg:sapphire bg:lavender)\
 $time\
+[](fg:lavender)\
 $battery\
-[ ](fg:lavender)\
 $cmd_duration\
 $line_break\
 $character"""
@@ -173,28 +173,33 @@ min_time_to_notify = 45000
 # MY CUSTOMIZATIONS
 [battery]
 full_symbol = "󰁹 "
-charging_symbol = "󰂇 "
+charging_symbol = "󰂅 "
+format = '[$symbol$percentage]($style)'
 disabled = false
+
+[[battery.display]]
+threshold = 80
+discharging_symbol = '󰂁 '
+charging_symbol = '󰂊 '
+style = 'bold fg:red'
 
 [[battery.display]]
 threshold = 60
 discharging_symbol = '󰁿 '
-style = 'bold green'
+charging_symbol = '󰂉 '
+style = 'bold fg:red'
 
 [[battery.display]]
-threshold = 30
-discharging_symbol = '󰁼 '
-style = 'bold yellow'
+threshold = 40
+discharging_symbol = '󰁽 '
+charging_symbol = '󰂈 '
+style = 'bold fg:red'
 
 [[battery.display]]
-threshold = 15
-discharging_symbol = '󰁺 '
-style = 'bold red'
-
-[[battery.display]]
-threshold = 5
-discharging_symbol = '󰂎 '
-style = 'bold red'
+threshold = 20
+discharging_symbol = '󰁻 '
+charging_symbol = '󰂆 '
+style = 'bold fg:red'
 
 [custom.clj]
 command = "clojure -version 2>&1 | cut -d' ' -f4"  # shows output of command

@@ -24,7 +24,7 @@ if test -d "$HOME/Library/Android/sdk"
 end
 
 # add home/bin and Doom to path
-set -gx PATH $HOME/bin $HOME/.local/bin $HOME/.config/emacs/bin $HOME/.bun/bin $PATH
+set -gx PATH $HOME/bin $HOME/.local/bin $HOME/.config/emacs/bin $HOME/.cargo/bin $HOME/.bun/bin $PATH
 
 # ensure ssh and gpg are initialized
 gpgconf --launch gpg-agent
@@ -41,10 +41,6 @@ direnv hook fish | source
 # 1Password
 set -l opplugins /Users/christian/.config/op/plugins.sh
 test -f $opplugins; and source $opplugins
-
-# iTerm2 shell tools (e.g. imgcat)
-# set -l itermshell "$HOME/.iterm2_shell_integration.fish"
-# test -e $itermshell; and source $itermshell
 
 # zoxide & fzf
 zoxide init fish --cmd=cd | source

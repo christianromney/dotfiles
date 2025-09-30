@@ -170,6 +170,41 @@ disabled = false
 show_notifications = true
 min_time_to_notify = 45000
 
+# MY CUSTOMIZATIONS
+[battery]
+full_symbol = "󰁹 "
+charging_symbol = "󰂇 "
+disabled = false
+
+[[battery.display]]
+threshold = 60
+discharging_symbol = '󰁿 '
+style = 'bold green'
+
+[[battery.display]]
+threshold = 30
+discharging_symbol = '󰁼 '
+style = 'bold yellow'
+
+[[battery.display]]
+threshold = 15
+discharging_symbol = '󰁺 '
+style = 'bold red'
+
+[[battery.display]]
+threshold = 5
+discharging_symbol = '󰂎 '
+style = 'bold red'
+
+[custom.clj]
+command = "clojure -version 2>&1 | cut -d' ' -f4"  # shows output of command
+ignore_timeout = true
+files = ["deps.edn"]       # can specify filters
+symbol = ""
+style = "fg:crust bg:sapphire"
+format = '[ $symbol( $output) ]($style)'
+# END CUSTOMIZATIONS
+
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
 flamingo = "#f2cdcd"
@@ -282,36 +317,3 @@ base = "#24273a"
 mantle = "#1e2030"
 crust = "#181926"
 
-# MY CUSTOMIZATIONS
-[battery]
-full_symbol = "󰁹 "
-charging_symbol = "󰂇 "
-
-[[battery.display]]
-threshold = 60
-discharging_symbol = '󰁿 '
-style = 'bold green'
-
-[[battery.display]]
-threshold = 30
-discharging_symbol = '󰁼 '
-style = 'bold yellow'
-
-[[battery.display]]
-threshold = 15
-discharging_symbol = '󰁺 '
-style = 'bold red'
-
-[[battery.display]]
-threshold = 5
-discharging_symbol = '󰂎 '
-style = 'bold red'
-
-[custom.clj]
-command = "clojure -version 2>&1 | cut -d' ' -f4"  # shows output of command
-ignore_timeout = true
-files = ["deps.edn"]       # can specify filters
-symbol = ""
-style = "fg:crust bg:sapphire"
-format = '[ $symbol( $output) ]($style)'
-# END CUSTOMIZATIONS

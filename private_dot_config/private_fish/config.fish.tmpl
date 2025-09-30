@@ -1,4 +1,4 @@
-set fish_greeting "" (fish --version)
+set fish_greeting ($SHELL --version)
 
 # configure homebrew environment and add to path
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-internet-password -s api.github.com -w)

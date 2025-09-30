@@ -172,24 +172,31 @@ min_time_to_notify = 45000
 
 # MY CUSTOMIZATIONS
 [battery]
-full_symbol = '󱈏'
+full_symbol = '󰁹 '
 charging_symbol = '󰂅 '
-unknown_symbol = '󰂃 '
+discharging_symbol = '󰂃 '
+unknown_symbol = '󰂑 '
 empty_symbol = '󰂎 '
 format = '[$symbol$percentage]($style)'
 disabled = false
 
 [[battery.display]]
+threshold = 100
+discharging_symbol = '󰂂 '
+charging_symbol = '󰂋 '
+style = 'fg:surface1'
+
+[[battery.display]]
 threshold = 80
 discharging_symbol = '󰂁 '
 charging_symbol = '󰂊 '
-style = 'fg:mauve'
+style = 'fg:surface1'
 
 [[battery.display]]
 threshold = 60
 discharging_symbol = '󰁿 '
 charging_symbol = '󰂉 '
-style = 'fg:surface0'
+style = 'fg:surface1'
 
 [[battery.display]]
 threshold = 40

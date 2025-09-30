@@ -5,10 +5,10 @@ add_newline = true
 command_timeout = 3000
 
 format = """
-[](red)\
+[](maroon)\
 $os\
 $username\
-[](bg:peach fg:red)\
+[](bg:peach fg:maroon)\
 $directory\
 [](bg:yellow fg:peach)\
 $git_branch\
@@ -37,7 +37,7 @@ palette = 'catppuccin_frappe'
 
 [os]
 disabled = false
-style = "bg:red fg:crust"
+style = "bg:maroon fg:crust"
 
 [os.symbols]
 Windows = ""
@@ -62,8 +62,8 @@ RedHatEnterprise = "󱄛"
 
 [username]
 show_always = true
-style_user = "bg:red fg:crust"
-style_root = "bg:red fg:crust"
+style_user = "bg:maroon fg:crust"
+style_root = "bg:maroon fg:crust"
 format = '[ $user]($style)'
 
 [directory]
@@ -183,13 +183,13 @@ disabled = false
 threshold = 80
 discharging_symbol = '󰂁 '
 charging_symbol = '󰂊 '
-style = 'bold fg:red'
+style = 'fg:mauve'
 
 [[battery.display]]
 threshold = 60
 discharging_symbol = '󰁿 '
 charging_symbol = '󰂉 '
-style = 'bold fg:red'
+style = 'fg:surface0'
 
 [[battery.display]]
 threshold = 40

@@ -172,8 +172,10 @@ min_time_to_notify = 45000
 
 # MY CUSTOMIZATIONS
 [battery]
-full_symbol = "󰁹 "
-charging_symbol = "󰂅 "
+full_symbol = '󱈏'
+charging_symbol = '󰂅 '
+unknown_symbol = '󰂃 '
+empty_symbol = '󰂎 '
 format = '[$symbol$percentage]($style)'
 disabled = false
 

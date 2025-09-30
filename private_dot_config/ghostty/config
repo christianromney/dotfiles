@@ -1,0 +1,46 @@
+# This is the configuration file for Ghostty.
+#
+# This template file has been automatically created at the following
+# path since Ghostty couldn't find any existing config files on your system:
+#
+#   /Users/christian.romney/Library/Application Support/com.mitchellh.ghostty/config
+#
+# The template does not set any default options, since Ghostty ships
+# with sensible defaults for all options. Users should only need to set
+# options that they want to change from the default.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+#
+# Ghostty can reload the configuration while running by using the menu
+# options or the bound key (default: Command + Shift + comma on macOS and
+# Control + Shift + comma on other platforms). Not all config options can be
+# reloaded while running; some only apply to new windows and others may require
+# a full restart to take effect.
+
+auto-update = download
+auto-update-channel = stable
+font-family = "MonaspiceNe NFM Medium"
+font-size = 18
+macos-icon = holographic
+macos-shortcuts = allow
+shell-integration = fish
+#theme = dark:Bluloco Dark,light:Bluloco Light
+#theme = dark:Tomorrow Night,light:Tomorrow
+#theme = dark:Dracula+,light: Builtin Solarized Light
+theme = dark:Dracula+,light:Tomorrow
+link-url = true
+link-previews = true
+maximize = true
+keybind = global:cmd+f12=toggle_quick_terminal
+
+
+# window-padding-x = 4
+
+# # Some config options have unique syntaxes for their value,
+# # which is explained in the docs for that config option.
+# # Just for example:
+# resize-overlay-duration = 4s 200ms

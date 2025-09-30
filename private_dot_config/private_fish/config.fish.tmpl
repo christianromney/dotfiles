@@ -43,13 +43,13 @@ set -l opplugins /Users/christian/.config/op/plugins.sh
 test -f $opplugins; and source $opplugins
 
 # iTerm2 shell tools (e.g. imgcat)
-set -l itermshell "$HOME/.iterm2_shell_integration.fish"
-test -e $itermshell; and source $itermshell
+# set -l itermshell "$HOME/.iterm2_shell_integration.fish"
+# test -e $itermshell; and source $itermshell
 
 # zoxide & fzf
 zoxide init fish --cmd=cd | source
 
 # configure prompt
-# if status is-interactive
-#  starship init fish | source
-# end
+if status is-interactive
+ starship init fish | source
+end

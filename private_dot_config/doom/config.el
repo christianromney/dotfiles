@@ -1237,6 +1237,7 @@ Doom loads early."
 (use-package! python
   :defer t)
 
+(message "  ...clojure editing...")
 (use-package! clojure-mode
   :defer t
   :hook ((clojure-mode . rainbow-delimiters-mode)
@@ -1259,8 +1260,6 @@ Doom loads early."
       lsp-lens-enable          t       ;; enable LSP code lens for inline reference counts
       lsp-file-watch-threshold 2000
       lsp-enable-snippet       t)))
-
-(message "  ...clojure editing...")
 
 (defun cr/youtube-feed-url (kind item-id)
   "Get the YouTube feed URL for the KIND of item given the ITEM-ID"

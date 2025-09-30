@@ -1474,6 +1474,7 @@ Doom dropped the ~gist~ tool, so I grab it directly from Github.
 Something weird is going on with org-mode
 **** Clojure mode w/ LSP
 #+begin_src elisp
+(message "  ...clojure editing...")
 (use-package! clojure-mode
   :defer t
   :hook ((clojure-mode . rainbow-delimiters-mode)
@@ -1496,8 +1497,6 @@ Something weird is going on with org-mode
       lsp-lens-enable          t       ;; enable LSP code lens for inline reference counts
       lsp-file-watch-threshold 2000
       lsp-enable-snippet       t)))
-
-(message "  ...clojure editing...")
 #+end_src
 ** RSS, Atom, and YouTube Feeds (Elfeed)
 Powerful feed reader for Emacs. The elfeed-tube package adds support for

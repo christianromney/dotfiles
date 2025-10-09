@@ -16,6 +16,10 @@
   gpgsign = true
 [tag]
   gpgSign = true
+{{- if eq .chezmoi.hostname "christian" }}
+[gpg]
+  program = /usr/local/MacGPG2/bin/gpg2
+{{- end }}
 [delta]
   features = side-by-side line-numbers decorations
   syntax-theme = Monokai Extended Bright

@@ -1,6 +1,6 @@
 [user]
   name = Christian Romney
-{{- if eq .chezmoi.hostname "christian" }}
+{{- if eq .chezmoi.fqdnHostname "christian.romney" }}
   email = {{ .work.email | quote }}
   signingkey = {{ .work.gpgSigningKey }}
 {{- else }}

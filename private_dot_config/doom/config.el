@@ -1241,8 +1241,11 @@ Doom loads early."
 (use-package! clojure-mode
   :defer t
   :hook ((clojure-mode . rainbow-delimiters-mode)
-          (clojure-mode . subword-mode))
+         (clojure-mode . subword-mode))
   :config
+  (after! cider
+    (cider-auto-test-mode 1))
+
   (setq cider-enable-nrepl-jvmti-agent t
         cider-enrich-classpath t)
   (when (modulep! :tools lsp)

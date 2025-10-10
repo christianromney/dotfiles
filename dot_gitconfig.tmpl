@@ -21,8 +21,11 @@
   program = /usr/local/MacGPG2/bin/gpg2
 {{- end }}
 [delta]
-  features = side-by-side line-numbers decorations
-  syntax-theme = Monokai Extended Light
+  features = interactive decorations
+  line-numbers = true
+  navigate = true
+  side-by-side = true
+  true-color  = always
   whitespace-error-style = 22 reverse
 [delta "interactive"]
   keep-plus-minus-markers = false
@@ -34,7 +37,7 @@
   hunk-header-file-style = red
   hunk-header-style = file line-number syntax
 [interactive]
-  diffFilter = delta --color-only --detect-dark-light --features=interactive
+  diffFilter = delta --hyperlinks --color-only --detect-dark-light --features=interactive
 [help]
   autocorrect = 1
 [alias]
@@ -75,6 +78,7 @@
   default = simple
   followTags = true
 [merge]
+  conflictStyle = zdiff3
   tool = opendiff
 [mergetool]
   prompt = false
@@ -95,14 +99,14 @@
 [pull]
   ff = only
 [filter "lfs"]
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	clean = git-lfs clean -- %f
-	required = true
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  clean = git-lfs clean -- %f
+  required = true
 [init]
-	defaultBranch = master
+  defaultBranch = master
 [github]
-	user = christianromney
+  user = christianromney
 {{- if eq .chezmoi.hostname "christian" }}
 # nubank
 [url "git@github.com"]

@@ -9,13 +9,12 @@
 (package! rainbow-delimiters)
 
 ;; ----------------------------------------------------------------------------------
-;; Languages
+;; Programming Tools & Languages
 ;; ----------------------------------------------------------------------------------
 
 (package! adoc-mode)
-(package! gist :recipe (:host github :repo "KarimAziev/igist"))
-
-;; (package! inf-clojure)
+(package! magit-delta :recipe (:host github :repo "dandavison/magit-delta"))
+(package! gist :recipe (:host github :repo "defunkt/gist.el"))
 (when (modulep! :checkers syntax)
   (package! flycheck-clj-kondo))
 (package! clojure-snippets)
@@ -26,7 +25,6 @@
 
 (package! greader) ;; for text-to-speech
 (package! whisper :recipe (:host github :repo "natrys/whisper.el")) ;; speech-to-text
-(package! aidermacs)
 (package! claude-code :recipe (:host github :repo "stevemolitor/claude-code.el"
                                 :branch "main" :files ("*.el" (:exclude "images/*"))))
 (package! gptel-prompts :recipe (:host github :repo "jwiegley/gptel-prompts"))
@@ -51,7 +49,7 @@
 
 (package! consult-company)
 (package! consult-yasnippet)
-(package! free-keys :recipe (:host github :repo "Fuco1/free-keys")) ;; find available
+(package! free-keys :recipe (:host github :repo "Fuco1/free-keys"))
 (package! google-this)
 (package! elfeed-tube :recipe (:host github :repo "karthink/elfeed-tube"))
 (package! wttrin :recipe (:host github :repo "bcbcarl/emacs-wttrin"

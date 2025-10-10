@@ -1090,10 +1090,7 @@ Doom loads early."
     :after gptel
     :custom
     (mcp-hub-servers
-      `(
-         ("applescript"  . (:command "npx" :args ("@peakmojo/applescript-mcp")))
-         ("basic-memory" . (:command "uvx" :args ("basic-memory" "mcp")))
-         ("context7"     . (:command "npx" :args ("-y" "@upstash/context7-mcp")))
+      `(("basic-memory" . (:command "uvx" :args ("basic-memory" "mcp")))
          ("fetch"        . (:command "uvx" :args ("mcp-server-fetch")))
          ("filesystem"   . (:command "npx"
                              :args ("-y" "@modelcontextprotocol/server-filesystem" ,org-directory ,+foss-dir)))
@@ -1103,26 +1100,6 @@ Doom loads early."
     (require 'mcp-hub)
     (advice-add 'save-buffers-kill-terminal :before #'mcp-hub-close-all-server)
     :hook (gptel-mode . mcp-hub-start-all-server)))
-
-(use-package! aidermacs
-  :bind (("C-*" . aidermacs-transient-menu))
-  :init
-  ;; I prefer local LLMs
-  (setenv "OLLAMA_API_BASE" "http://127.0.0.1:11434")
-  :config
-  (set-popup-rule! "\\*aidermacs.*\\*" :side 'bottom :size 12)
-  (require 'aidermacs-backend-vterm)
-  (setq aidermacs-backend 'vterm)
-  :custom
-  (aidermacs-use-architect-mode t)
-  ;; for basic question answering
-  (aidermacs-default-model "ollama_chat/deepseek-r1:latest")
-  ;; for "deeper reasoning"
-  (aidermacs-architect-model "ollama_chat/magistral:latest")
-  ;; for code changes
-  (aidermacs-editor-model "ollama_chat/devstral:latest")
-  ;; for commit messages
-  (aidermacs-weak-model "ollama_chat/gemma3n:latest"))
 
 ;; https://github.com/stevemolitor/claude-code.el
 (use-package! claude-code
@@ -1221,16 +1198,19 @@ Doom loads early."
   :custom
   (magit-git-executable "/opt/homebrew/bin/git"))
 
+(use-package! magit-delta
+  :hook (magit-mode . magit-delta-mode))
+
 (after! magit
   (setq magit-revision-show-gravatars t
     forge-database-file
     (expand-file-name "forge/forge-database.sqlite" doom-cache-dir)
     magit-no-confirm '(stage-all-changes unstage-all-changes)))
 
-(use-package igist
-  :bind (("M-G" . igist-dispatch))
-  :config
-  (setq igist-auth-marker 'igist))
+(use-package! gist
+  :bind (("C-x G b" . gist-region-or-buffer)
+         ("C-x G l" . gist-list)
+         ("C-x G p" . gist-region-or-buffer-private)))
 
 (message "  ...magit...")
 

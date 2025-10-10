@@ -1,2 +1,0 @@
-#!/usr/bin/env fish 
-diff -u (list-casks | psub) ~/.config/homebrew/casks.txt | awk '/^\+/ {print }' | sed -e 's/\+//g' -e 's/://g'

@@ -13,6 +13,7 @@ set -Ux HOMEBREW_REPOSITORY "/opt/homebrew";
 
 set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
 
+{{- if eq .chezmoi.fqdnHostname "christian.romney" }}
 # work configuration
 if test -d "$HOME/dev/nu"
   set -gx NU_HOME "$HOME/dev/nu"
@@ -23,6 +24,7 @@ if test -d "$HOME/Library/Android/sdk"
   set -l DROID "$HOME/Library/Android/sdk"
   set -gx PATH $DROID/platform-tools $DROID/tools $DROID/emulator $DROID/cmdline-tools/latest/bin $PATH
 end
+{{- end }}
 
 # add home/bin and Doom to path
 set -gx PATH $HOME/bin $HOME/.local/bin $HOME/.config/emacs/bin $HOME/.cargo/bin $HOME/.bun/bin $PATH

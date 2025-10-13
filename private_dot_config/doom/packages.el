@@ -46,7 +46,7 @@
 ;; ----------------------------------------------------------------------------------
 ;; Utilities
 ;; ----------------------------------------------------------------------------------
-
+(package! compile-angel)
 (package! consult-company)
 (package! consult-yasnippet)
 (package! free-keys :recipe (:host github :repo "Fuco1/free-keys"))

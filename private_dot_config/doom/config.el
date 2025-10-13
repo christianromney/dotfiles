@@ -1,4 +1,13 @@
 (message "> Initializing Emacs")
+;; native byte compilation
+(setq load-prefer-newer t)
+(setq native-comp-async-report-warnings-errors 'silent)
+(setq native-comp-jit-compilation t)
+(setq native-comp-deferred-compilation native-comp-jit-compilation)  ; Deprecated
+
+(setq compile-angel-verbose t)
+(compile-angel-on-load-mode)
+
 (setq user-full-name         "Christian Romney"
       user-mail-address      "christian.a.romney@gmail.com"
       calendar-location-name "Pembroke Pines, FL"
@@ -17,8 +26,8 @@
       kill-buffer-query-functions     (remq 'process-kill-buffer-query-function
                                             kill-buffer-query-functions))
 
-(setq native-comp-async-report-warnings-errors 'silent)
-(setq shell-file-name (executable-find "fish"))
+;; shells
+(setq shell-file-name (executable-find "bash"))
 (setq-default vterm-shell "/opt/homebrew/bin/fish")
 (setq-default explicit-shell-file-name "/opt/homebrew/bin/fish")
 (message "> configuring: ")
@@ -1202,15 +1211,14 @@ Doom loads early."
   :hook (magit-mode . magit-delta-mode))
 
 (after! magit
-  (setq magit-revision-show-gravatars t
-    forge-database-file
-    (expand-file-name "forge/forge-database.sqlite" doom-cache-dir)
-    magit-no-confirm '(stage-all-changes unstage-all-changes)))
+  (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
+  (setq forge-database-file (expand-file-name "forge/forge-database.sqlite" doom-cache-dir))
+  (setq magit-no-confirm '(stage-all-changes unstage-all-changes)))
 
 (use-package! gist
   :bind (("C-x G b" . gist-region-or-buffer)
-         ("C-x G l" . gist-list)
-         ("C-x G p" . gist-region-or-buffer-private)))
+          ("C-x G l" . gist-list)
+          ("C-x G p" . gist-region-or-buffer-private)))
 
 (message "  ...magit...")
 

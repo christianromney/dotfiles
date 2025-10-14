@@ -246,7 +246,11 @@ cask "font-roboto-mono"
 cask "ghostty"
 cask "github"
 cask "google-chrome"
+{{- if eq .chezmoi.fqdnHostname "mint.local" }}
+cask "gpg-suite"
+{{- else }}
 cask "gpg-suite@nightly"
+{{- end }}
 cask "helium"
 cask "intellij-idea-ce"
 cask "kdiff3"

@@ -258,7 +258,7 @@ Doom loads early."
   (use-package! crdt    
     :config
     (setq crdt-ask-for-name nil))
-  (add-hook! 'crdt-mode-hook (crdt-copy-url)))
+  (add-hook! 'crdt-mode-hook #'crdt-visualize-author-mode))
 
 (message "  ...built-ins...")
 (setq abbrev-file-name (expand-file-name  "etc/abbrev_defs" doom-private-dir)

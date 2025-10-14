@@ -275,8 +275,7 @@ Doom loads early."
   (use-package! crdt    
     :config
     (setq crdt-ask-for-name nil))
-  (add-hook! 'crdt-mode-hook (crdt-copy-url)))
-
+  (add-hook! 'crdt-mode-hook #'crdt-visualize-author-mode))
 #+end_src
 
 ** Built-In Modes and Packages

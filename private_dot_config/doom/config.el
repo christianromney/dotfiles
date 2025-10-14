@@ -246,13 +246,19 @@ Doom loads early."
 (doom-themes-visual-bell-config)
 
 (add-to-list 'doom-large-file-size-alist
-             '("\\.\\(?:clj[sc]?\\|dtm\\|edn\\)\\'" . 0.5))
+  '("\\.\\(?:clj[sc]?\\|dtm\\|edn\\)\\'" . 0.5))
 
 ;; file locations
 (setq doom-cache-dir user-emacs-directory)
 (setq +default-want-RET-continue-comments nil)
 (setq +file-templates-dir (cr/mkdirp (expand-file-name "snippets" doom-private-dir)))
 (setq yas--default-user-snippets-dir +file-templates-dir)
+
+(when (modulep! :tools collab)
+  (use-package! crdt    
+    :config
+    (setq crdt-ask-for-name nil))
+  (add-hook! 'crdt-mode-hook (crdt-copy-url)))
 
 (message "  ...built-ins...")
 (setq abbrev-file-name (expand-file-name  "etc/abbrev_defs" doom-private-dir)

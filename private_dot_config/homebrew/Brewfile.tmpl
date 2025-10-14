@@ -247,9 +247,9 @@ cask "ghostty"
 cask "github"
 cask "google-chrome"
 {{- if eq .chezmoi.fqdnHostname "mint.local" }}
-cask "gpg-suite"
-{{- else }}
 cask "gpg-suite@nightly"
+{{- else }}
+cask "gpg-suite"
 {{- end }}
 cask "helium"
 cask "intellij-idea-ce"

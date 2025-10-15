@@ -289,62 +289,68 @@ Doom loads early."
      "r"  #'+macos/reveal-in-finder)))
 
 (message "  ...completion...")
+(when (modulep! :completion company)
+  (use-package! company
+    :defer t
+    :config
+    (setq company-idle-delay 0.5)))
+
 (when (modulep! :completion vertico)
   (use-package! vertico
     :demand t
     :defer t
     :bind
     (("C-x B"    . #'+vertico/switch-workspace-buffer)
-     :map vertico-map
-     ("C-l"      . #'vertico-directory-up)) ;; behave like helm to go up a level
+      :map vertico-map
+      ("C-l"      . #'vertico-directory-up)) ;; behave like helm to go up a level
     :config
     (setq vertico-cycle t
-          read-extended-command-predicate #'command-completion-default-include-p
-          orderless-matching-styles     '(orderless-literal
-                                          orderless-initialism
-                                          orderless-regexp)
-          completion-category-defaults  '((email (styles substring)))
-          completion-category-overrides '((file (styles orderless
-                                                        partial-completion)))
+      read-extended-command-predicate #'command-completion-default-include-p
+      orderless-matching-styles     '(orderless-literal
+                                       orderless-initialism
+                                       orderless-regexp)
+      completion-category-defaults  '((email (styles substring)))
+      completion-category-overrides '((file (styles orderless
+                                              partial-completion)))
 
-          marginalia-align              'right))
+      marginalia-align              'right))
 
   (use-package! consult
     :defer t
     :config
     (setq consult-grep-args
-          "ggrep --null --line-buffered --color=never --ignore-case \
+      "ggrep --null --line-buffered --color=never --ignore-case \
 --exclude-dir=.git --line-number -I -r .")
     :bind
     (("M-g g"   . #'consult-goto-line)
-     ("M-i"     . #'consult-imenu)
-     ("C-c M-o" . #'consult-multi-occur)
-     ("C-x b"   . #'consult-buffer)
-     ("C-x 4 b" . #'consult-buffer-other-window)
-     ("C-x 5 b" . #'consult-buffer-other-frame)
-     ("C-c s r" . #'consult-ripgrep)
-     ("C-c s g" . #'consult-git-grep)
-     ("C-x r b" . #'consult-bookmark)
-     ("C-x r i" . #'consult-register-load)
-     ("C-x r s" . #'consult-register-store)
-     ("C-h P"   . #'describe-package)
-     ("C-h W"   . #'consult-man)))
+      ("M-i"     . #'consult-imenu)
+      ("C-c M-o" . #'consult-multi-occur)
+      ("C-x b"   . #'consult-buffer)
+      ("C-x 4 b" . #'consult-buffer-other-window)
+      ("C-x 5 b" . #'consult-buffer-other-frame)
+      ("C-c s r" . #'consult-ripgrep)
+      ("C-c s g" . #'consult-git-grep)
+      ("C-x r b" . #'consult-bookmark)
+      ("C-x r i" . #'consult-register-load)
+      ("C-x r s" . #'consult-register-store)
+      ("C-h P"   . #'describe-package)
+      ("C-h W"   . #'consult-man)))
 
   (use-package! embark
     :defer t
     :bind
     (("C-." . embark-act)         ;; pick some comfortable binding
-     ("M-." . embark-dwim)        ;; good alternative: M-.
-     ) ;; alternative for `describe-bindings'
+      ("M-." . embark-dwim)        ;; good alternative: M-.
+      ) ;; alternative for `describe-bindings'
     :init
     ;; Replace the key help with a completing-read interface
     (setq prefix-help-command #'embark-prefix-help-command)
     :config
     ;; Hide the modeline of the Embark live/completions buffers
     (add-to-list 'display-buffer-alist
-                 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                   nil
-                   (window-parameters (mode-line-format . none)))))
+      '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+         nil
+         (window-parameters (mode-line-format . none)))))
 
   (defun cr/org-link-qrencode (url)
     "Display a QR code for URL in a buffer. Taken from Sacha Chua's config."
@@ -355,8 +361,8 @@ Doom loads early."
     :after (embark)
     :config
     (map!
-     (:map embark-org-link-map
-      :desc "QR encode stored link" "q" #'cr/org-link-qrencode)))
+      (:map embark-org-link-map
+        :desc "QR encode stored link" "q" #'cr/org-link-qrencode)))
 
   ;; Consult users will also want the embark-consult package.
   (use-package! embark-consult
@@ -367,12 +373,6 @@ Doom loads early."
     ;; auto-updating embark collect buffer
     :hook
     (embark-collect-mode . consult-preview-at-point-mode)))
-
-(when (modulep! :completion company)
-  (use-package! company
-    :defer t
-    :config
-    (setq company-idle-delay 0.5)))
 
 (message "  ...navigation...")
 (use-package! pulsar

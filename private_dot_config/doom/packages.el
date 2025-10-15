@@ -49,6 +49,7 @@
 (package! compile-angel)
 (package! consult-company)
 (package! consult-yasnippet)
+(package! yasnippet-snippets)
 (package! free-keys :recipe (:host github :repo "Fuco1/free-keys"))
 (package! google-this)
 (package! elfeed-tube :recipe (:host github :repo "karthink/elfeed-tube"))

@@ -55,3 +55,7 @@
 (package! elfeed-tube :recipe (:host github :repo "karthink/elfeed-tube"))
 (package! wttrin :recipe (:host github :repo "bcbcarl/emacs-wttrin"
                            :branch "master" :files ("*.el" (:exclude "*.png"))))
+
+
+;; Experimental
+(package! org-link-basic-memory :recipe (:host github :repo "christianromney/org-link-basic-memory"))

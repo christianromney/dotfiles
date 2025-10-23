@@ -1,5 +1,5 @@
 {
-  "numStartups": 35,
+  "numStartups": 41,
   "installMethod": "global",
   "autoUpdates": true,
   "theme": "light",
@@ -19,21 +19,21 @@
     "prompt-queue": 30,
     "enter-to-steer-in-relatime": 24,
     "todo-list": 24,
-    "# for memory": 25,
-    "install-github-app": 25,
-    "drag-and-drop-images": 25,
-    "paste-images-mac": 26,
+    "# for memory": 37,
+    "install-github-app": 37,
+    "drag-and-drop-images": 37,
+    "paste-images-mac": 37,
     "double-esc": 3,
-    "continue": 26,
-    "shift-tab": 26,
+    "continue": 37,
+    "shift-tab": 37,
     "image-paste": 24,
-    "shift-enter": 27,
-    "custom-agents": 23,
-    "permissions": 25,
-    "double-esc-code-restore": 25,
+    "shift-enter": 38,
+    "custom-agents": 39,
+    "permissions": 37,
+    "double-esc-code-restore": 37,
     "custom-commands": 28,
-    "tab-toggle-thinking": 29,
-    "ultrathink-keyword": 29
+    "tab-toggle-thinking": 40,
+    "ultrathink-keyword": 40
   },
   "promptQueueUseCount": 5,
   "showExpandedTodos": true,
@@ -969,14 +969,63 @@
     },
     "/Users/christian.romney/Documents/personal/notes": {
       "allowedTools": [],
-      "history": [],
+      "history": [
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "use it",
+          "pastedContents": {}
+        },
+        {
+          "display": "/sync-notes ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "I'll try it.",
+          "pastedContents": {}
+        },
+        {
+          "display": "Are you sure that will work? You wrote a markdown file, but I think slash commands are intended to be shell scripts?",
+          "pastedContents": {}
+        },
+        {
+          "display": "help me create a new claude code slash command that changes to my $HOME/Documents/personal/notes folder (I want to use the envvar $HOME because I have different home folders on different machines), summarizes the changes in the working copy, sets an appropriate description, then syncs to github. It should be very similar to the workflow you just executed. however, we should also handle the case where the remote repository has changes. we should probably try to rebase first. show me a plan to handle this",
+          "pastedContents": {}
+        },
+        {
+          "display": "yes create a reference and save it to a note",
+          "pastedContents": {}
+        },
+        {
+          "display": "do I have a note on basic jujutsu usage?",
+          "pastedContents": {}
+        },
+        {
+          "display": "Notice that I have basic-memory set up such that whenever we write or update a note it falls under this folder. Initialize a co-located jujutsu repository in this folder. Then look at my working copy changes to describe the changeset appropriately. Finally push the changes to github. Setup the jujutsu tracking branches appropriately based on the git remotes already present in this repository. I have a long history of using git, and am just beginning to adopt jujutsu as a frontend over it.",
+          "pastedContents": {}
+        },
+        {
+          "display": "save a basic memory note that explains the importance of this folder and tools to enable any Claude Code instance to retrieve the salient information you wrote in CLAUDE.md without having to be in this project folder.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/init ",
+          "pastedContents": {}
+        }
+      ],
       "mcpContextUris": [],
       "mcpServers": {},
       "enabledMcpjsonServers": [],
       "disabledMcpjsonServers": [],
       "hasTrustDialogAccepted": true,
       "ignorePatterns": [],
-      "projectOnboardingSeenCount": 1,
+      "projectOnboardingSeenCount": 2,
       "hasClaudeMdExternalIncludesApproved": false,
       "hasClaudeMdExternalIncludesWarningShown": false,
       "exampleFiles": [
@@ -986,7 +1035,20 @@
         "bibliography.bib",
         "problem_solving.org"
       ],
-      "exampleFilesGeneratedAt": 1761142921555
+      "exampleFilesGeneratedAt": 1761142921555,
+      "hasCompletedProjectOnboarding": true,
+      "lastTotalWebSearchRequests": 0,
+      "lastCost": 0.5292625999999999,
+      "lastAPIDuration": 55247,
+      "lastToolDuration": 2522,
+      "lastDuration": 805488,
+      "lastLinesAdded": 0,
+      "lastLinesRemoved": 0,
+      "lastTotalInputTokens": 76,
+      "lastTotalOutputTokens": 1696,
+      "lastTotalCacheCreationInputTokens": 96420,
+      "lastTotalCacheReadInputTokens": 517827,
+      "lastSessionId": "52d16dac-722d-4bc8-990b-8f93039cff09"
     },
     "/Users/christian.romney/src/private/troy": {
       "allowedTools": [],
@@ -1030,6 +1092,74 @@
     "/Users/christian.romney/src/open/whisper.cpp": {
       "allowedTools": [],
       "history": [
+        {
+          "display": "/sync-dotfiles ",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "My chezmoi configuration is set up so that adding will automatically commit and push. please modify the slash command so it works with my existing setup.",
+          "pastedContents": {}
+        },
+        {
+          "display": "I use chezmoi https://www.chezmoi.io/ to manage dotfiles (config files and scripts) in my home directory. Read the docs for chezmoi and help me make a Claude Code slash command that can 'add' modified managed files so the changes are synced to my remote git repository.",
+          "pastedContents": {}
+        },
+        {
+          "display": "add the usage examples that can be shown in a --help argument",
+          "pastedContents": {}
+        },
+        {
+          "display": "great it works. can you help me update the transcribe-video script to work with our modified transcribe-audio and other scripts?",
+          "pastedContents": {}
+        },
+        {
+          "display": "I have tested the code manually and am satisfied it works. Help me make a new script 'translate-text' that is similar to summarize-text but simply uses ollama to translate text from the input language to a different output language. here are some hypothetical invocations \ntranslate-text -i original.txt --in-lang pt -o translated.txt --out-lang en # all params specified\ntranslate-text -i original-pt.txt -o translated-en.txt # languages inferred from filename\ntranslate-text -i - --in-lang pt -o translated-en.txt # mixed ",
+          "pastedContents": {}
+        },
+        {
+          "display": "you keep dying on me!?",
+          "pastedContents": {}
+        },
+        {
+          "display": "where did we leave off?",
+          "pastedContents": {}
+        },
+        {
+          "display": "Option 2. that summary makes more sense. let's make it work like option 2.",
+          "pastedContents": {}
+        },
+        {
+          "display": "I always want the output to be specified with the -o flag whether to stdout or a file. perhaps my idea of defaulting is not consistent with this.",
+          "pastedContents": {}
+        },
+        {
+          "display": "The example here shows output to both stdout and a file at the same time. that doesn't seem right?",
+          "pastedContents": {}
+        },
+        {
+          "display": "I think summarize text should behave similarly to transcribe-audio",
+          "pastedContents": {}
+        },
+        {
+          "display": "I think it's more idiomatic to add a -o/--output argument which a) should name either a file path where the text should be written or `-` for stdout and b) should default to the same base name as the audio file with a `.txt` extension",
+          "pastedContents": {}
+        },
+        {
+          "display": "How can we update the transcribe audio and summarize text commands so they can be used in a command line pipeline.",
+          "pastedContents": {}
+        },
+        {
+          "display": "/exit ",
+          "pastedContents": {}
+        },
+        {
+          "display": "Produce a summary of these tools, what they do, and how I can use them and save the information to a new note",
+          "pastedContents": {}
+        },
         {
           "display": "yes",
           "pastedContents": {}
@@ -1112,7 +1242,8 @@
         "whisper.cpp"
       ],
       "exampleFilesGeneratedAt": 1761248367089,
-      "hasCompletedProjectOnboarding": true
+      "hasCompletedProjectOnboarding": true,
+      "lastTotalWebSearchRequests": 0
     }
   },
   "oauthAccount": {
@@ -1160,7 +1291,7 @@
   "s1mNonSubscriberAccessCache": {
     "abe62acb-378b-4ac5-bfea-08cfa8e7e2ae": {
       "hasAccess": true,
-      "timestamp": 1761248365826
+      "timestamp": 1761263286983
     }
   },
   "recommendedSubscription": "",
@@ -1168,8 +1299,8 @@
   "changelogLastFetched": 1761138597347,
   "lastReleaseNotesSeen": "2.0.25",
   "sonnet45MigrationComplete": true,
-  "lastPlanModeUse": 1761255178432,
+  "lastPlanModeUse": 1761257311903,
   "feedbackSurveyState": {
-    "lastShownTime": 1761156697976
+    "lastShownTime": 1761256976477
   }
 }

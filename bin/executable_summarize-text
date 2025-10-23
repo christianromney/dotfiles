@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
-argparse 'm/model=' -- $argv
+argparse 'm/model=' 'o/output=' -- $argv
 or return
 
 # Default to gemma3 if no model specified
@@ -8,11 +8,31 @@ if set -q _flag_model
   set model $_flag_model
 end
 
-# First remaining arg is the file, second (optional) is custom prompt prefix
-set -l text (cat $argv[1] | uniq)
+# Read input: from file or stdin
+if test (count $argv) -eq 0; or test "$argv[1]" = "-"
+  # Read from stdin
+  set text (cat | uniq)
+else
+  # Read from file
+  set text (cat $argv[1] | uniq)
+end
+
+# Build prompt
 set -l prompt "Prepare an executive summary of the most important points in the following text"
 if set -q argv[2]
   set prompt $argv[2] $prompt
 end
 
-ollama run $model "$prompt: $text"
+# Generate summary and output based on flag
+if set -q _flag_output
+  if test "$_flag_output" = "-"
+    # Explicit stdout
+    ollama run $model "$prompt: $text"
+  else
+    # Write to file
+    ollama run $model "$prompt: $text" > $_flag_output
+  end
+else
+  # Default: stdout
+  ollama run $model "$prompt: $text"
+end

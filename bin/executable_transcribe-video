@@ -1,10 +1,121 @@
 #!/usr/bin/env fish
-set -l file (echo $argv[1] | string split . -f1)
+argparse 'h/help' 'o/output=' 's/summarize' 't/translate' 'in-lang=' 'out-lang=' 'm/model=' -- $argv
+or return
 
-if not test -e $file.wav
-  echo "Extracting audio"$file.wav
-  extract-audio $argv[1]
+# Show help if requested
+if set -q _flag_help
+  echo "Usage: transcribe-video [OPTIONS] VIDEO_FILE"
+  echo ""
+  echo "Transcribe video to text using whisper.cpp with optional post-processing."
+  echo ""
+  echo "Options:"
+  echo "  -h, --help              Show this help message"
+  echo "  -o, --output FILE       Output file for transcription (default: {basename}.txt)"
+  echo "  -s, --summarize         Generate summary after transcription"
+  echo "  -t, --translate         Translate transcription to another language"
+  echo "  --in-lang CODE          Input language code for translation"
+  echo "  --out-lang CODE         Output language code for translation (required with -t)"
+  echo "  -m, --model MODEL       Ollama model for summarize/translate (default: gemma3)"
+  echo ""
+  echo "Examples:"
+  echo "  # Basic transcription"
+  echo "  transcribe-video video.mp4"
+  echo "  # Creates: video.txt"
+  echo ""
+  echo "  # Transcription with custom output"
+  echo "  transcribe-video -o transcript.txt video.mp4"
+  echo ""
+  echo "  # Transcribe and summarize"
+  echo "  transcribe-video -s video.mp4"
+  echo "  # Creates: video.txt and video-summary.txt"
+  echo ""
+  echo "  # Transcribe and translate to English"
+  echo "  transcribe-video -t --out-lang en video.mp4"
+  echo "  # Creates: video.txt and video-en.txt"
+  echo ""
+  echo "  # Full workflow: transcribe Portuguese, summarize, and translate"
+  echo "  transcribe-video -s -t --in-lang pt --out-lang en video.mp4"
+  echo "  # Creates: video.txt, video-summary.txt, video-en.txt"
+  echo ""
+  echo "  # Use specific model for post-processing"
+  echo "  transcribe-video -s -m qwen3 video.mp4"
+  return 0
 end
 
-echo "Transcribing audio"
-transcribe-audio $file.wav
+# Get video file
+set -l video_file $argv[1]
+if test -z "$video_file"
+  echo "Error: video file required" >&2
+  return 1
+end
+
+set -l file (echo $video_file | string split . -f1)
+
+# Extract audio if needed
+if not test -e $file.wav
+  echo "Extracting audio from $video_file"
+  extract-audio $video_file
+end
+
+# Determine transcription output
+if set -q _flag_output
+  set transcribe_output $_flag_output
+else
+  set transcribe_output $file.txt
+end
+
+# Transcribe audio
+echo "Transcribing audio to $transcribe_output"
+if test "$transcribe_output" = "-"
+  # If output is stdout and we're doing post-processing, use a temp file
+  if set -q _flag_summarize; or set -q _flag_translate
+    set transcribe_output (mktemp -t transcribe)
+    transcribe-audio -o $transcribe_output $file.wav
+  else
+    transcribe-audio -o - $file.wav
+    return
+  end
+else
+  transcribe-audio -o $transcribe_output $file.wav
+end
+
+# Optional summarization
+if set -q _flag_summarize
+  set -l summary_output (echo $transcribe_output | string replace '.txt' '-summary.txt')
+  echo "Generating summary to $summary_output"
+
+  set -l model_flag
+  if set -q _flag_model
+    set model_flag -m $_flag_model
+  end
+
+  summarize-text $model_flag $transcribe_output -o $summary_output
+end
+
+# Optional translation
+if set -q _flag_translate
+  if not set -q _flag_out_lang
+    echo "Error: --out-lang required for translation" >&2
+    return 1
+  end
+
+  set -l translate_output (echo $transcribe_output | string replace '.txt' "-$_flag_out_lang.txt")
+  echo "Translating to $translate_output"
+
+  set -l model_flag
+  if set -q _flag_model
+    set model_flag -m $_flag_model
+  end
+
+  set -l in_lang_flag
+  if set -q _flag_in_lang
+    set in_lang_flag --in-lang $_flag_in_lang
+  end
+
+  translate-text $model_flag -i $transcribe_output $in_lang_flag --out-lang $_flag_out_lang -o $translate_output
+end
+
+# Clean up temp file if used
+if string match -q '/tmp/*' $transcribe_output
+  rm $transcribe_output
+end

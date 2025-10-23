@@ -1,5 +1,9 @@
 #!/usr/bin/env fish
-set -l file (echo $argv[1] | string split . -f1)
+argparse 'o/output=' -- $argv
+or return
+
+set -l input_file $argv[1]
+set -l file (echo $input_file | string split . -f1)
 set -l whisper_path $HOME/src/open/whisper.cpp
 set -l whisper $whisper_path/build/bin/whisper-cli
 
@@ -7,13 +11,38 @@ set -l whisper $whisper_path/build/bin/whisper-cli
 set -l model_name (test -n "$MODEL" && echo $MODEL || echo "small")
 set -l whisper_model $whisper_path/models/ggml-$model_name.bin
 
-$whisper --language auto \
-  --model $whisper_model \
-  -otxt \
-  -of $file \
-  -f $file.wav
+# Determine output destination
+if set -q _flag_output
+  set output $_flag_output
+else
+  # Default: {basename}.txt
+  set output $file.txt
+end
 
-# Whisper often repeats lines during transcription
-uniq < $file.txt > $file.uniq
-rm $file.txt
-mv $file.uniq $file.txt
+# Run whisper transcription
+if test "$output" = "-"
+  # Output to stdout: use temp file then cat
+  set -l temp_file (mktemp -t transcribe)
+  $whisper --language auto \
+    --model $whisper_model \
+    -otxt \
+    -of $temp_file \
+    -f $input_file
+
+  # Remove duplicate lines and output to stdout
+  uniq < $temp_file.txt
+  rm $temp_file.txt
+else
+  # Output to file
+  set -l output_base (echo $output | string split . -f1)
+  $whisper --language auto \
+    --model $whisper_model \
+    -otxt \
+    -of $output_base \
+    -f $input_file
+
+  # Whisper often repeats lines during transcription
+  uniq < $output_base.txt > $output_base.uniq
+  rm $output_base.txt
+  mv $output_base.uniq $output_base.txt
+end

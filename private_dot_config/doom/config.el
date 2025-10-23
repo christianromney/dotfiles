@@ -770,6 +770,19 @@ Doom loads early."
       brazilian-holidays--general-holidays
       brazilian-holidays-sp-holidays))
   (add-hook 'calendar-today-visible-hook #'calendar-mark-today))
+
+;; See zoneinfo-style-world-list
+(setq-default world-clock-list
+  '(("Europe/Berlin" "Berlin")
+     ("Europe/London" "London")
+     ("America/Sao_Paulo" "São Paulo")
+     ("America/New_York" "Durham  · Miami  · New York")
+     ("America/Chicago" "Austin · Chicago · Mexico City")                                  
+     ("America/Bogota" "Bogota")                                  
+     ("America/Phoenix" "Phoenix")
+     ("America/Los_Angeles" "Los Angeles · San Francisco")
+     ("Asia/Tokyo" "Tokyo")))
+
 (message "...org calendar...")
 
 (use-package! org-glossary
@@ -917,6 +930,9 @@ Doom loads early."
         "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.js"))
 
 (message "  ...org reveal...")
+
+(use-package! org-link-basic-memory
+  :after org)
 
 (defvar gpt-default-model "gpt-4.1-nano-2025-04-14"
   "My preferred Open AI chat model.")

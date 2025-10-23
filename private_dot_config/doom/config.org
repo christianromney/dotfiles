@@ -860,6 +860,19 @@ Calendar preferences include holidays, week start, and geographical location.
       brazilian-holidays--general-holidays
       brazilian-holidays-sp-holidays))
   (add-hook 'calendar-today-visible-hook #'calendar-mark-today))
+
+;; See zoneinfo-style-world-list
+(setq-default world-clock-list
+  '(("Europe/Berlin" "Berlin")
+     ("Europe/London" "London")
+     ("America/Sao_Paulo" "São Paulo")
+     ("America/New_York" "Durham  · Miami  · New York")
+     ("America/Chicago" "Austin · Chicago · Mexico City")                                  
+     ("America/Bogota" "Bogota")                                  
+     ("America/Phoenix" "Phoenix")
+     ("America/Los_Angeles" "Los Angeles · San Francisco")
+     ("Asia/Tokyo" "Tokyo")))
+
 (message "...org calendar...")
 #+end_src
 
@@ -1041,6 +1054,14 @@ I most often export my org notes to PDF or [[https://gitlab.com/oer/org-re-revea
         "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.js"))
 
 (message "  ...org reveal...")
+#+end_src
+
+
+
+*** Better Memory Links :experimental:
+#+begin_src elisp
+(use-package! org-link-basic-memory
+  :after org)
 #+end_src
 
 ** Artificial Intelligence

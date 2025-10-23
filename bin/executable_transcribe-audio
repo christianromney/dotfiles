@@ -1,8 +1,11 @@
 #!/usr/bin/env fish
 set -l file (echo $argv[1] | string split . -f1)
 set -l whisper_path $HOME/src/open/whisper.cpp
-set -l whisper $whisper_path/whisper-cpp
-set -l whisper_model $whisper_path/models/ggml-large-v3.bin
+set -l whisper $whisper_path/build/bin/whisper-cli
+
+# Default to small model with Core ML support, or use MODEL env var
+set -l model_name (test -n "$MODEL" && echo $MODEL || echo "small")
+set -l whisper_model $whisper_path/models/ggml-$model_name.bin
 
 $whisper --language auto \
   --model $whisper_model \

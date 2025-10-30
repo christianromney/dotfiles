@@ -255,6 +255,9 @@ cask "keybase"
 cask "mactex"
 cask "meetingbar"
 cask "meld"
+{{- if eq .chezmoi.fqdnHostname "christian.romney" }}
+cask "microsoft-teams"
+{{- end }}
 cask "notion-mail"
 cask "ollama-app"
 cask "onyx"

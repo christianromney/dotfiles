@@ -1,7 +1,11 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
 [user]
-email = "christian.romney@nubank.com.br"
+{{- if eq .chezmoi.fqdnHostname "christian.romney" }}
+email = {{ .work.email | quote }}
+{{- else }}
+email = {{ .home.email | quote }}
+{{- end }}
 name = "Christian Romney"
 
 [ui]
@@ -12,7 +16,13 @@ diff-formatter = ":git"
 [signing]
 behavior = "own"
 backend = "gpg"
-key = "01A60AF7B2843970"
+{{- if eq .chezmoi.fqdnHostname "christian.romney" }}
+key = {{ .work.gpgSigningKey | quote }}
+{{- else }}
+key = {{ .home.gpgSigningKey | quote }}
+{{- end }}
 
+{{- if eq .chezmoi.hostname "christian" }}
 [signing.backends.gpg]
 program = "/usr/local/MacGPG2/bin/gpg2"
+{{- end }}

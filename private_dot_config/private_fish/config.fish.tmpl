@@ -1,16 +1,15 @@
 set fish_greeting ($SHELL --version)
 
 # configure homebrew environment and add to path
-set -gx HOMEBREW_GITHUB_API_TOKEN (op read "op://private/Github Perpetual Access Token/token")
+! set -q PATH; and set PATH ''; set -gx PATH "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/homebrew/opt/grep/libexec/gnubin/" $PATH;
+! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
+! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
 set -Ux HOMEBREW_NO_ENV_HINTS 1
 set -Ux HOMEBREW_BUNDLE_FILE "$HOME/.config/homebrew/Brewfile"
 set -Ux HOMEBREW_PREFIX "/opt/homebrew";
 set -Ux HOMEBREW_CELLAR "/opt/homebrew/Cellar";
 set -Ux HOMEBREW_REPOSITORY "/opt/homebrew";
-! set -q PATH; and set PATH ''; set -gx PATH "/opt/homebrew/bin" "/opt/homebrew/sbin" "/opt/homebrew/opt/grep/libexec/gnubin/" $PATH;
-! set -q MANPATH; and set MANPATH ''; set -gx MANPATH "/opt/homebrew/share/man" $MANPATH;
-! set -q INFOPATH; and set INFOPATH ''; set -gx INFOPATH "/opt/homebrew/share/info" $INFOPATH;
-
+set -gx HOMEBREW_GITHUB_API_TOKEN (op read "op://private/Github Perpetual Access Token/token")
 set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
 
 {{- if eq .chezmoi.fqdnHostname "christian.romney" }}

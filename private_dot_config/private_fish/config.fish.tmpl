@@ -9,7 +9,7 @@ set -Ux HOMEBREW_BUNDLE_FILE "$HOME/.config/homebrew/Brewfile"
 set -Ux HOMEBREW_PREFIX "/opt/homebrew";
 set -Ux HOMEBREW_CELLAR "/opt/homebrew/Cellar";
 set -Ux HOMEBREW_REPOSITORY "/opt/homebrew";
-set -gx HOMEBREW_GITHUB_API_TOKEN (op read "op://private/Github Perpetual Access Token/token" --cache)
+set -gx HOMEBREW_GITHUB_API_TOKEN (op read "op://private/Github Perpetual Access Token/token" --cache -n)
 set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
 
 {{- if eq .chezmoi.fqdnHostname "christian.romney" }}

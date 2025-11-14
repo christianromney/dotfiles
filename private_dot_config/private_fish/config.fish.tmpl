@@ -15,6 +15,7 @@ set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
 {{- if eq .chezmoi.fqdnHostname "christian.romney" }}
 # work configuration
 if test -d "$HOME/dev/nu"
+  set -gx NUCLI_BB_ENABLED t
   set -gx NU_HOME "$HOME/dev/nu"
   set -gx PATH $NU_HOME/nucli $NU_HOME/mini-meta-repo/monocli/bin $NU_HOME/sdk-flutter/bin $PATH
 end

@@ -1,12 +1,7 @@
 [user]
   name = Christian Romney
-{{- if eq .chezmoi.fqdnHostname "christian.romney" }}
-  email = {{ .work.email | quote }}
-  signingkey = {{ .work.gpgSigningKey }}
-{{- else }}
-  email = {{ .home.email | quote }}
-  signingkey = {{ .home.gpgSigningKey }}
-{{- end }}
+  email = "christian.romney@nubank.com.br"
+  signingkey = 01A60AF7B2843970
 [core]
   autocrlf = input
   excludesfile = ~/.gitignore_global
@@ -16,10 +11,8 @@
   gpgSign = true
 [tag]
   gpgSign = true
-{{- if eq .chezmoi.hostname "christian" }}
 [gpg]
   program = /usr/local/MacGPG2/bin/gpg2
-{{- end }}
 [delta]
   features = interactive decorations
   line-numbers = true
@@ -107,8 +100,6 @@
   defaultBranch = master
 [github]
   user = christianromney
-{{- if eq .chezmoi.hostname "christian" }}
 # nubank
 [url "git@github.com"]
   insteadOf = git://github.com/
-{{- end }}

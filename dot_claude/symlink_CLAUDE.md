@@ -1,1 +1,1 @@
-/Users/christian.romney/Documents/personal/notes/content/roam/kb/prompts/AGENTS.md
+/Users/christian.romney/Documents/personal/notes/content/roam/kb/context/AGENTS.md

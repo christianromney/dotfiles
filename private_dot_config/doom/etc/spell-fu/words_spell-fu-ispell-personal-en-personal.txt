@@ -1,4 +1,3 @@
-
 apis
 collateralization
 datomic
@@ -13,6 +12,7 @@ knowledgebase
 llms
 loanpro
 microservice
+misconfigured
 sharded
 stablecoin
 standup

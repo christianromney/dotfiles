@@ -12,5 +12,9 @@ skills/socratic-partner
 agents/software-designer
 agents/tech-writer
 
+# Hooks
+hooks/credential-guard.sh
+
 # Reference
+reference/credential-security.md
 reference/disclosure.md

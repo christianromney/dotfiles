@@ -96,19 +96,6 @@
       "~/.agents/**"
     ]
   },
-  "enabledPlugins": {
-    "claude-md-management@claude-plugins-official": true,
-    "clojure-lsp@nubank-ai-agents-plugins": true,
-    "glean-mcp@nubank-ai-agents-plugins": true,
-    "aws-knowledge-mcp@nubank-ai-agents-plugins": true,
-    "writing-docstrings-clojure@nubank-ai-agents-plugins": true,
-    "pyright-lsp@claude-plugins-official": true
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline-command.sh"
-  },
-  "alwaysThinkingEnabled": true,
   "hooks": {
     "PreToolUse": [
       {
@@ -121,5 +108,19 @@
         ]
       }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "claude-md-management@claude-plugins-official": true,
+    "clojure-lsp@nubank-ai-agents-plugins": true,
+    "glean-mcp@nubank-ai-agents-plugins": true,
+    "aws-knowledge-mcp@nubank-ai-agents-plugins": true,
+    "writing-docstrings-clojure@nubank-ai-agents-plugins": true,
+    "pyright-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "model": "opus"
 }

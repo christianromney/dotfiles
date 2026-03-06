@@ -4,7 +4,6 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
-    "additionalDirectories": [ "~/.agents/**" ],
     "allow": [
       "Read(~/dev/nu/**)",
       "Edit(~/dev/nu/**)",
@@ -92,6 +91,9 @@
       "mcp__google-workspace__drive_createFolder",
       "mcp__google-workspace__drive_downloadFile",
       "Bash"
+    ],
+    "additionalDirectories": [
+      "~/.agents/**"
     ]
   },
   "enabledPlugins": {
@@ -99,7 +101,25 @@
     "clojure-lsp@nubank-ai-agents-plugins": true,
     "glean-mcp@nubank-ai-agents-plugins": true,
     "aws-knowledge-mcp@nubank-ai-agents-plugins": true,
-    "writing-docstrings-clojure@nubank-ai-agents-plugins": true
+    "writing-docstrings-clojure@nubank-ai-agents-plugins": true,
+    "pyright-lsp@claude-plugins-official": true
   },
-  "alwaysThinkingEnabled": true
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline-command.sh"
+  },
+  "alwaysThinkingEnabled": true,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/credential-guard.sh"
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -1,0 +1,14 @@
+#!/bin/bash
+# kill-claude: force-kill all Claude Code processes
+set -euo pipefail
+
+pids=$(pgrep -x claude 2>/dev/null) || true
+
+if [[ -z "$pids" ]]; then
+    echo "No claude process found."
+    exit 0
+fi
+
+echo "Killing claude PIDs: $pids"
+kill -9 $pids
+echo "Done."

@@ -1,7 +1,19 @@
 #!/usr/bin/env fish
 # kill-claude: force-kill all Claude Code processes
+#
+# The claude executable is named after its version (e.g. "2.1.71"), not "claude",
+# so pgrep -x claude does not find it. Instead, we look for running processes whose
+# name matches a directory under the claude versions install path.
 
-set pids (pgrep -x claude 2>/dev/null)
+set versions_dir "$HOME/.local/share/claude/versions"
+set pids
+
+for version in (ls $versions_dir 2>/dev/null)
+    set found (pgrep -x $version 2>/dev/null)
+    if test -n "$found"
+        set pids $pids $found
+    end
+end
 
 if test -z "$pids"
     echo "No claude process found."

@@ -124,6 +124,7 @@ Even these should only be used when:
 - chezmoi manages dotfiles; source dir is `~/.local/share/chezmoi`.
 - Workflow: `chezmoi add` (new files), `chezmoi re-add` (changed files), `chezmoi apply` (deploy).
 - Template files need the `--template` flag when adding.
+- `chezmoi diff` left side (red) = home directory; right side (green) = source. "Home wins" → `re-add`; "source wins" → `apply --force`.
 - Use `/sync-dotfiles` skill for committing and pushing changes.
 
 ### Writing Tests

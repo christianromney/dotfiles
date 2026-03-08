@@ -73,11 +73,12 @@ fi
 ctx_info=""
 if [ -n "$remaining" ]; then
     remaining_int=${remaining%.*}
-    if   [ "$remaining_int" -le 10 ]; then color="\e[38;2;231;130;132m"   # red
-    elif [ "$remaining_int" -le 25 ]; then color="\e[38;2;239;159;118m"   # peach/orange
-    else                                   color="$green"
+    used_int=$((100 - remaining_int))
+    if   [ "$used_int" -ge 90 ]; then color="\e[38;2;231;130;132m"   # red
+    elif [ "$used_int" -ge 75 ]; then color="\e[38;2;239;159;118m"   # peach/orange
+    else                              color="$green"
     fi
-    ctx_info="${color}Context: ${remaining_int}%${reset}"
+    ctx_info="${color}Context: ${used_int}%${reset}"
 fi
 
 # ---------------------------------------------------------------------------

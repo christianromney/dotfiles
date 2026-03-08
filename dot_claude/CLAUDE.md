@@ -97,8 +97,10 @@ Even these should only be used when:
 ## Shell Environment
 
 - Fish is the user's shell -- use fish syntax for interactive commands.
-- Write POSIX/bash `.sh` scripts for portable automation; write `.fish` scripts only when fish-specific features are needed.
+- Personal scripts in `~/bin/` use `#!/usr/bin/env fish` by default.
+- Write POSIX/bash `.sh` for portable scripts meant for sharing or CI.
 - macOS BSD utility gotchas: `date`, `stat`, and `sed -i` behave differently from GNU versions. Use `gsed` if GNU sed behavior is required.
+- Ghostty is the user's terminal emulator.
 
 ## Software Development Guidelines
 

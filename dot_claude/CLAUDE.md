@@ -49,7 +49,7 @@ Even these should only be used when:
 
 ### Researcher attribution and absence claims
 
-- Use active voice to describe researcher actions. Name researchers explicitly: Claude (the AI), Stuart (the user), or use "we" for collaborative work. Examples: "Claude searched..." "I investigated..." "We determined..."
+- Use active voice to describe researcher actions. Name researchers explicitly: Claude (the AI), Christian (the user), or use "we" for collaborative work. Examples: "Claude searched..." "I investigated..." "We determined..."
 - For absence claims, use the phrasing: "Claude did not find [X] in [sources examined](#sources)" to scope the limitation to searched sources, not to reality. This clearly indicates what was searched and why the absence may not be conclusive.
 - Do not inject assessment or judgment about research subjects (e.g., guardrails do not "dominate," "skew," or "burden"--just enumerate what they are). Quote sources for claims about effectiveness or adoption patterns.
 
@@ -158,6 +158,8 @@ Even these should only be used when:
 - Use the `gh` command line utility when you need to interact with GitHub.
 - Diagramming Tool: mermaid
 - Shell: Fish
+
+## Credential Security
 
 @reference/credential-security.md
 

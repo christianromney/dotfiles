@@ -78,7 +78,7 @@ if [ -n "$remaining" ]; then
     elif [ "$used_int" -ge 75 ]; then color="\e[38;2;239;159;118m"   # peach/orange
     else                              color="$green"
     fi
-    ctx_info="${color}Context: ${used_int}% used${reset}"
+    ctx_info="${color}Context: ${used_int}% Used${reset}"
 fi
 
 # ---------------------------------------------------------------------------

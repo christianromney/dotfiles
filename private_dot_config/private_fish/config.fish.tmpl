@@ -27,7 +27,7 @@ end
 {{- end }}
 
 # add home/bin and Doom to path
-set -gx PATH $HOME/bin $HOME/.local/bin $HOME/.config/emacs/bin $HOME/.cargo/bin $HOME/.bun/bin $PATH
+set -gx PATH $HOME/bin $HOME/.local/bin $HOME/.config/emacs/bin $HOME/.cargo/bin $HOME/.bun/bin /Library/TeX/texbin $PATH
 
 # ensure ssh and gpg are initialized
 gpgconf --launch gpg-agent

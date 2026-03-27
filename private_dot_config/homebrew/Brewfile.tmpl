@@ -136,7 +136,6 @@ brew "make"
 brew "markdownlint-cli"
 brew "marp-cli"
 brew "maven"
-brew "md2pdf"
 brew "md5deep"
 brew "mpg123"
 brew "mpv"
@@ -152,7 +151,6 @@ brew "openssh"
 brew "pandoc"
 brew "pango"
 brew "parallel"
-brew "pdflatex"
 brew "pinentry-mac"
 brew "pipenv"
 brew "pkgconf"
@@ -190,9 +188,6 @@ brew "sphinx-doc"
 brew "ssh-copy-id"
 brew "sst/tap/opencode"
 brew "starship"
-{{- if eq .chezmoi.fqdnHostname "mint.local" }}
-brew "stockfish"
-{{- end }}
 brew "stow"
 brew "stylelint"
 brew "swi-prolog"
@@ -233,9 +228,6 @@ brew "zlib"
 brew "zoxide"
 cask "1password"
 cask "1password-cli"
-{{- if eq .chezmoi.fqdnHostname "mint.local" }}
-cask "airflow"  
-{{- end }}
 cask "appcleaner"
 cask "arc"
 cask "audio-hijack"
@@ -243,9 +235,6 @@ cask "betterdisplay"
 cask "cursor"
 cask "discord"
 cask "dropbox"
-{{- if eq .chezmoi.fqdnHostname "mint.local" }}
-cask "expressvpn"  
-{{- end }}
 cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-juliamono"
@@ -258,30 +247,16 @@ cask "font-roboto-mono"
 cask "ghostty"
 cask "github"
 cask "google-chrome"
-{{- if eq .chezmoi.fqdnHostname "mint.local" }}
-cask "gpg-suite@nightly"
-{{- else }}
 cask "gpg-suite"
-{{- end }}
 cask "kdiff3"
 cask "keybase"
 cask "mactex"
 cask "meetingbar"
 cask "meld"
-{{- if eq .chezmoi.fqdnHostname "christian.romney" }}
-cask "microsoft-teams"
-{{- end }}
 cask "notion-mail"
 cask "obsidian"
 cask "onyx"
-{{- if eq .chezmoi.fqdnHostname "mint.local" }}
-cask "opencpn"  
-{{- end }}
 cask "orbstack"
-{{- if eq .chezmoi.fqdnHostname "mint.local" }}
-cask "plex"
-cask "plex-media-server"
-{{- end }}
 cask "quarto"
 cask "raycast"
 cask "rectangle"
@@ -290,15 +265,8 @@ cask "superwhisper"
 cask "temurin"
 cask "temurin@17"
 cask "thunderbird"
-{{- if eq .chezmoi.fqdnHostname "mint.local" }}
-cask "transmission"
-{{- end }}
 cask "visualvm"
 cask "vlc"
-{{- if eq .chezmoi.fqdnHostname "mint.local" }}
-cask "vuescan"
-cask "wolfram-engine"
-{{- end }}
 cask "zen"
 cask "zoom"
 tap "borkdude/brew"

@@ -154,6 +154,33 @@ Even these should only be used when:
 ### Programming Language
 - Clojure by default; idiomatic style; prefer `deps.edn` over Leiningen.
 
+### Functional Programming (Clojure style)
+- Pure functions by default: take values, return values, no side effects
+- Push side effects (I/O, subprocess calls, printing) to the program boundary; keep the core pure
+- Prefer plain data (maps, vectors, keywords) over protocols, records, or OOP abstractions
+- Functions are transformations: if purpose can't be stated as "takes X, returns Y", reconsider the design
+- Build behavior by composing small focused functions rather than writing large ones
+- Use `->` and `->>` threading macros to express sequential data transformations readably
+
+### Idiomatic Clojure
+- Prefer `when-let` over `let` + `when` when a binding guards nil
+- Prefer `when-not` over `(when (not ...))`
+- Inline single-use bindings rather than naming them
+- Use `#(...)` over `(fn [x] ...)` for simple anonymous functions
+- Move constants (maps, sets) outside functions — don't rebuild them on every call
+- Use `defn-` for implementation helpers not part of the public interface
+- `str/blank?` handles nil — no separate nil check needed before it
+- Docstrings belong on all public `def`s and `defn`s, not just functions
+
+### Code Organization
+- Functions should take their data explicitly; extract fields inside, don't close over parsed globals
+- Avoid abbreviations in names (`cwd`, `ctx`, `fmt-k`) — spell them out
+- Name constants by semantic role, not by appearance or structure (e.g. color roles over color names)
+- Single source of truth: define a value once, reference it by name everywhere else
+- Name functions from the caller's perspective, not the implementation's (e.g. `display` not `colorize`)
+- Put primary data first in function signatures; options/styling/config after
+- A well-designed abstraction eliminates special cases rather than accumulating them
+
 ### Languages and Tools
 - Use the `gh` command line utility when you need to interact with GitHub.
 - Diagramming Tool: mermaid
@@ -165,7 +192,10 @@ Even these should only be used when:
 
 ## MCP Servers and Tools
 - Use Atlassian to read and write Confluence wiki pages and Jira issues
-- Use [Basic Memory](reference/basic-memory/guide.md) whenever I ask you to work with notes.
+- Use @reference/basic-memory/guide-short.md whenever I ask you to work with notes.
+
+### Google Sheets Templates
+- When asked to create a decision matrix, always duplicate the Google Sheets template **"Analysis Bootstrap Template v2"** (Drive ID: `1HOMly_nUAqJcpUeA-0sL4WE-T37i1oJNNFUpV-LupUQ`) and work in the copy. Never modify the template directly.
 
 ### MCP/Tool Resilience
 

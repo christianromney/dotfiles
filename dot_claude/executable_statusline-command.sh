@@ -29,8 +29,6 @@ remaining=$(echo "$input"       | jq -r '.context_window.remaining_percentage //
 total_in=$(echo "$input"        | jq -r '.context_window.total_input_tokens // empty')
 total_out=$(echo "$input"       | jq -r '.context_window.total_output_tokens // empty')
 cost_usd=$(echo "$input"        | jq -r '.cost.total_cost_usd // empty')
-transcript=$(echo "$input"      | jq -r '.transcript_path // empty')
-vim_mode=$(echo "$input"        | jq -r '.vim.mode // empty')
 session_name=$(echo "$input"    | jq -r '.session_name // empty')
 
 # ---------------------------------------------------------------------------
@@ -101,27 +99,6 @@ if [ -n "$cost_usd" ]; then
 fi
 
 # ---------------------------------------------------------------------------
-# Turn count (assistant messages in transcript)
-# ---------------------------------------------------------------------------
-turn_info=""
-if [ -n "$transcript" ] && [ -f "$transcript" ]; then
-    turns=$(grep -c '"role":"assistant"\|"role": "assistant"' "$transcript" 2>/dev/null || true)
-    [ -n "$turns" ] && [ "$turns" -gt 0 ] && turn_info="${overlay1}Turns: ${turns}${reset}"
-fi
-
-# ---------------------------------------------------------------------------
-# Vim mode
-# ---------------------------------------------------------------------------
-vim_info=""
-if [ -n "$vim_mode" ]; then
-    case "$vim_mode" in
-        NORMAL)  vim_info="${green}NORMAL${reset}" ;;
-        INSERT)  vim_info="${sapphire}INSERT${reset}" ;;
-        *)       vim_info="${overlay1}${vim_mode}${reset}" ;;
-    esac
-fi
-
-# ---------------------------------------------------------------------------
 # Session name
 # ---------------------------------------------------------------------------
 name_info=""
@@ -143,8 +120,6 @@ parts_out+=("${lavender}${model}${reset}")
 [ -n "$ctx_info"    ] && parts_out+=("$ctx_info")
 [ -n "$token_info"  ] && parts_out+=("$token_info")
 [ -n "$cost_info"   ] && parts_out+=("$cost_info")
-[ -n "$turn_info"   ] && parts_out+=("$turn_info")
-[ -n "$vim_info"    ] && parts_out+=("$vim_info")
 
 # Join with separator and print (no trailing newline)
 result=""

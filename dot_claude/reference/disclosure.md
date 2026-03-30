@@ -6,20 +6,22 @@ Insert the following blockquote immediately after the primary heading of every
 document you help create or edit:
 
 ```markdown
-> **AI Disclosure**: <model-version> <role> this document.
+> **AI Disclosure**: <model-version> <model-role> this document with <human> <human-role>. 
 > **Last Review**: <review-status>
 > **[Version History](#version-history)**
 ```
 
 - `<model-version>`: Model name and version (e.g., "Claude Sonnet 4.6")
-- `<role>`: The AI's contribution level — choose the most accurate:
+- `<model-role>`: The AI's contribution level — choose the most accurate:
   - "authored" — primarily AI-generated content
   - "co-authored" — substantial AI contribution alongside human authorship
   - "edited" — AI revised or restructured human-written content
   - "reviewed" — AI checked grammar, style, or internal consistency only
-- `<review-status>`: "Unreviewed" by default. Set to "Reviewed by [Full Name]
-  on YYYY-MMM-DD" only when the human explicitly instructs you to record a
-  review. Never infer the reviewer's name.
+- `<human>` - the name of the person supplying the prompt
+- `<human-role>` - characterize the human's contribution. It's especially
+  important to know if the human reviewed the output or only the input. Review
+  can be explicit or implicit, such as when an artifact is produced iteratively
+  with human guidance along the way.
 
 If agents or a team assisted, append these lines to the blockquote:
 
@@ -38,7 +40,7 @@ or edit:
 
 | Date | Description | Changes | Review |
 |------|-------------|---------|--------|
-| YYYY-MMM-DD | Initial draft | +N lines | Unreviewed |
+| YYYY-MMM-DD | Initial draft | +N lines | <review-status> |
 ```
 
 **Column definitions:**
@@ -50,11 +52,12 @@ or edit:
   number of lines removed. For initial document creation, use `+N lines` (no
   deletions). This conveys volume, not significance — large values signal the
   reader to read more carefully.
-- **Review**: "Unreviewed" or "Reviewed by [Full Name] on YYYY-MMM-DD"
+- **Review**: "Unreviewed" or "Reviewed by [Full Name] on YYYY-MMM-DD". This
+   should account for implicit incremental review when appropriate.
 
 Add one row per editing session. Use judgment to batch small related changes
 into a single row.
 
 **Keeping the disclosure block current:** The `Last Review` field in the
-disclosure block must always reflect the most recent "Reviewed by" entry in the
-version history table. If no such entry exists, it reads "Unreviewed."
+disclosure block at the top must always the reflect most recent "Reviewed by" entry in the
+version history table.

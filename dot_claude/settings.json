@@ -147,7 +147,24 @@
     "chrome-devtools-mcp@claude-plugins-official": true,
     "mintlify@claude-plugins-official": true,
     "mcp-server-dev@claude-plugins-official": true,
-    "atlassian@claude-plugins-official": true
+    "atlassian@claude-plugins-official": true,
+    "usage-insights@christianromney-claude-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "nubank-ai-agents-plugins": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/nubank/ai-agents-plugins.git"
+      },
+      "autoUpdate": true
+    },
+    "christianromney-claude-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "christianromney/claude-plugins"
+      },
+      "autoUpdate": true
+    }
   },
   "alwaysThinkingEnabled": true
 }

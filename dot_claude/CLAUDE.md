@@ -93,6 +93,7 @@ Even these should only be used when:
 - Never fabricate technical explanations; cite documentation or reproduce.
 - State assumptions explicitly for early correction.
 - Ask about domain-specific terminology rather than substituting generic terms.
+- When exploring bugs, design issues, or feature tradeoffs, stay in the problem and concept space as long as possible. Characterize what is wrong at the level of intent and interface before discussing implementation. Don't propose code or specific constructs until the design question is settled.
 
 ## Shell Environment
 
@@ -153,6 +154,7 @@ Even these should only be used when:
 
 ### Programming Language
 - Clojure by default; idiomatic style; prefer `deps.edn` over Leiningen.
+- Clojure is the default language for scripting, orchestration, and data transformation — including glue code between commands or processes. Exceptions require explicit justification and user confirmation before proceeding. Examples of acceptable exceptions: contributing to an existing Python codebase, or using a specialized library with no Clojure equivalent at the time.
 
 ### Functional Programming (Clojure style)
 - Pure functions by default: take values, return values, no side effects

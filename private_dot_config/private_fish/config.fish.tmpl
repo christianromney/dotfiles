@@ -12,6 +12,20 @@ set -Ux HOMEBREW_REPOSITORY "/opt/homebrew";
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-generic-password -a christianromney -s github.token.perpetual -w)
 set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
 
+# work configuration
+{{- if eq .chezmoi.hostname "christian.romney" }}
+set -gx PATH "$HOME/dev/nu/nucli" \
+    "$HOME/dev/nu/mini-meta-repo/monocli/bin" \
+    "$HOME/sdk-flutter/bin" \
+    "$HOME/sdk-flutter/bin/cache/dart-sdk/bin" \
+    "$HOME/dev/nu/.pub-cache/bin" \
+    "$HOME/sdk-flutter/bin/cache/dart-sdk/bin" \
+    "$HOME/Library/Android/sdk/cmdline-tools/latest/bin" \
+    "$HOME/Library/Android/sdk" \
+    "$HOME/Library/Android/sdk/platform-tools" \
+    "$HOME/Library/Android/sdk/emulator" $PATH
+{{- end }}
+
 # add home/bin and Doom to path
 set -gx PATH $HOME/bin $HOME/.local/bin $HOME/.config/emacs/bin $HOME/.cargo/bin $HOME/.bun/bin $PATH
 

@@ -40,6 +40,13 @@ Even these should only be used when:
 - When attributing a quote to a speaker based on AI-generated meeting notes (e.g., Gemini transcripts), use the `[Name?]` notation: the person's name in square brackets with a trailing question mark. Example: `[Stuart?] noted: "the DSL is a hairy monster."` This preserves the AI transcriber's best guess while signaling that the attribution has not been verified against the recording.
 - Define the notation in the document's Limitations section on first use.
 
+### Prose and narrative style
+
+- **Vary sentence structure.** Avoid three or more consecutive simple sentences — they read as immature. Prefer compound, complex, or compound-complex constructions that join related ideas.
+- **Don't narrate from the author's perspective.** Write "the analysis revealed X," not "I noticed X" or "I agreed that X." The author's process is not the reader's concern.
+- **Don't tell readers how to interpret content.** Remove meta-commentary like "the reader would find this surprising." Let the evidence speak.
+- **Remove context obvious to the target reader.** If the audience already knows it, don't explain it — it condescends and pads length.
+
 ### Tone and precision
 
 - Avoid absolute claims and superlatives unless they are provable from the evidence. "All 7 methods are one-liners" is fine (provable from code). "No one can read the formula" is not (someone might be able to).

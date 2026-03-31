@@ -12,8 +12,8 @@ set -Ux HOMEBREW_REPOSITORY "/opt/homebrew";
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-generic-password -a christianromney -s github.token.perpetual -w)
 set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
 
+{{- if eq .chezmoi.hostname "christian" }}
 # work configuration
-{{- if eq .chezmoi.hostname "christian.romney" }}
 set -gx PATH "$HOME/dev/nu/nucli" \
     "$HOME/dev/nu/mini-meta-repo/monocli/bin" \
     "$HOME/sdk-flutter/bin" \

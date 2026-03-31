@@ -4,9 +4,6 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
-    "additionalDirectories": [
-      "~/.claude/usage-insights"
-    ],
     "allow": [
       "Read(~/dev/nu/**)",
       "Edit(~/dev/nu/**)",
@@ -118,6 +115,9 @@
       "Skill(usage-insights:usage-insights)",
       "Write(~/.claude/usage-insights/**)",
       "Read(~/.claude/usage-insights/**)"
+    ],
+    "additionalDirectories": [
+      "~/.claude/usage-insights"
     ]
   },
   "hooks": {
@@ -172,7 +172,8 @@
     "chezmoi@christianromney-claude-plugins": true,
     "jujutsu@christianromney-claude-plugins": true,
     "sync@christianromney-claude-plugins": true,
-    "socratic-partner@christianromney-claude-plugins": true
+    "socratic-partner@christianromney-claude-plugins": true,
+    "frontend-design@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "nubank-ai-agents-plugins": {

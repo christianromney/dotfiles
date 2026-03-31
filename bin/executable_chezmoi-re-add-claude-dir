@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# PostToolUse hook: re-add any chezmoi-managed file edited under ~/.claude/ back to source.
+file_path=$(jq -r '.tool_input.file_path // empty')
+[[ "$file_path" == "${HOME}/.claude/"* ]] && chezmoi re-add "$file_path" 2>/dev/null || true
+exit 0

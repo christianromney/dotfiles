@@ -4,6 +4,9 @@
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": {
+    "additionalDirectories": [
+      "~/.claude/usage-insights"
+    ],
     "allow": [
       "Read(~/dev/nu/**)",
       "Edit(~/dev/nu/**)",
@@ -111,7 +114,10 @@
       "mcp__google-workspace__drive_createFolder",
       "mcp__google-workspace__drive_downloadFile",
       "mcp__plugin_atlassian_atlassian__*",
-      "Bash"
+      "Bash",
+      "Skill(usage-insights:usage-insights)",
+      "Write(~/.claude/usage-insights/**)",
+      "Read(~/.claude/usage-insights/**)"
     ]
   },
   "hooks": {

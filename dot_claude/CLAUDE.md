@@ -94,13 +94,31 @@ Even these should only be used when:
 
 ## Problem-Solving Approach
 
-- Understand problems before acting; identify root problems vs symptoms.
+### Debugging and Unexpected Behavior
+
+Use the `superpowers:systematic-debugging` skill for **any** bug, test failure, or unexpected behavior — no exceptions, regardless of how obvious the cause seems.
+
+Apply the scientific method in strict order:
+
+1. **Observe** — read all available evidence (error messages, screenshots, logs, stack traces) completely before forming any theory. Do not skip past evidence.
+2. **Characterize** — describe what is actually happening in concrete terms before naming a cause.
+3. **Hypothesize** — state one specific, falsifiable hypothesis: "I think X is the root cause because Y." An unstated assumption is a guess.
+4. **Test minimally** — make the smallest possible change to test the hypothesis. One variable at a time.
+5. **Conclude** — if the hypothesis is wrong, form a new one from the new evidence. Do not stack fixes.
+
+Hard rules:
+- Do not name a cause before reading the evidence. Saying "it's probably X" before examining the evidence is a guess, not analysis.
+- Do not propose a fix before identifying the root cause.
+- Do not make multiple changes simultaneously.
+- If 3+ hypotheses have failed, stop and question the architecture — do not attempt a fourth fix without discussion.
+
+### General Problem-Solving
+
 - Consider multiple candidate solutions (including "do nothing").
-- Investigate root causes before abandoning working designs; correlation != causation.
-- Never fabricate technical explanations; cite documentation or reproduce.
-- State assumptions explicitly for early correction.
+- Never fabricate technical explanations; cite documentation or reproduce the behavior.
+- State assumptions explicitly so they can be corrected early.
 - Ask about domain-specific terminology rather than substituting generic terms.
-- When exploring bugs, design issues, or feature tradeoffs, stay in the problem and concept space as long as possible. Characterize what is wrong at the level of intent and interface before discussing implementation. Don't propose code or specific constructs until the design question is settled.
+- When exploring design issues or feature tradeoffs, stay in the problem and concept space. Characterize what is wrong at the level of intent and interface before discussing implementation. Do not propose code or specific constructs until the design question is settled.
 
 ## Shell Environment
 

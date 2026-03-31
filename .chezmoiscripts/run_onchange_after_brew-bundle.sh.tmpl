@@ -1,0 +1,5 @@
+#!/bin/sh
+# Brewfile hash — chezmoi uses this to detect changes and re-run.
+# {{ include (joinPath .chezmoi.sourceDir "private_dot_config/homebrew/Brewfile.tmpl") | sha256sum }}
+
+brew bundle install --file="{{ .chezmoi.homeDir }}/.config/homebrew/Brewfile"

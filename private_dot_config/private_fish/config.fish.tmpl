@@ -13,12 +13,14 @@ set -gx HOMEBREW_GITHUB_API_TOKEN (security find-generic-password -a christianro
 set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
 
 {{- if eq .chezmoi.hostname "christian" }}
+set -x NU_HOME $HOME/dev/nu
+set -x NUCLI_HOME $NU_HOME/nucli
+
 # work configuration
-set -gx PATH "$HOME/dev/nu/nucli" \
-    "$HOME/dev/nu/mini-meta-repo/monocli/bin" \
+set -gx PATH "$NUCLI_HOME" \
+    "$NU_HOME/mini-meta-repo/monocli/bin" \
+    "$NU_HOME/.pub-cache/bin" \
     "$HOME/sdk-flutter/bin" \
-    "$HOME/sdk-flutter/bin/cache/dart-sdk/bin" \
-    "$HOME/dev/nu/.pub-cache/bin" \
     "$HOME/sdk-flutter/bin/cache/dart-sdk/bin" \
     "$HOME/Library/Android/sdk/cmdline-tools/latest/bin" \
     "$HOME/Library/Android/sdk" \

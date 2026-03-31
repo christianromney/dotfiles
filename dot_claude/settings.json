@@ -148,7 +148,13 @@
     "mintlify@claude-plugins-official": true,
     "mcp-server-dev@claude-plugins-official": true,
     "atlassian@claude-plugins-official": true,
-    "usage-insights@christianromney-claude-plugins": true
+    "usage-insights@christianromney-claude-plugins": true,
+    "journal@christianromney-claude-plugins": true,
+    "generate@christianromney-claude-plugins": true,
+    "chezmoi@christianromney-claude-plugins": true,
+    "jujutsu@christianromney-claude-plugins": true,
+    "sync@christianromney-claude-plugins": true,
+    "socratic-partner@christianromney-claude-plugins": true
   },
   "extraKnownMarketplaces": {
     "nubank-ai-agents-plugins": {

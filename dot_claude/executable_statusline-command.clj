@@ -94,17 +94,17 @@
 
 (defn session-segment
   "Given `session-name` and `session-id` (strings or nil) and `colors` (map
-   of ANSI escape codes), returns a dimmed bracketed string combining the
-   non-blank values joined by \" · \" (e.g. \"[my-session · c3b86c4d054a]\").
-   When `session-id` is a UUID, only the last hyphen-separated segment is shown.
-   Returns nil if both are blank or nil."
+   of ANSI escape codes), returns a dimmed bracketed label for the session.
+   Shows `session-name` when present; otherwise shows the last hyphen-separated
+   segment of `session-id` (e.g. \"c3b86c4d054a\"). session_id is always
+   present per the Claude Code statusline contract, so no nil guard is needed."
   [session-name session-id colors]
-  (let [short-id (when-not (str/blank? session-id) (last (str/split session-id #"-")))
-        parts    (remove str/blank? [session-name short-id])]
-    (when (seq parts)
-      (str (:dim colors) (:overlay1 colors)
-           "[" (str/join " · " parts) "]"
-           (:reset colors)))))
+  (let [label (if-not (str/blank? session-name)
+                session-name
+                (last (str/split session-id #"-")))]
+    (str (:dim colors) (:overlay1 colors)
+         "[" label "]"
+         (:reset colors))))
 
 (defn agent-segment
   "Given `agent-name` (string or nil) and `colors` (map of ANSI escape

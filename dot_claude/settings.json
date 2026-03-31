@@ -147,7 +147,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "~/.claude/statusline-command.bb"
+    "command": "~/.claude/statusline-command.clj"
   },
   "enabledPlugins": {
     "claude-md-management@claude-plugins-official": true,

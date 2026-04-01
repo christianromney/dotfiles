@@ -248,7 +248,11 @@ cask "font-roboto-mono"
 cask "ghostty"
 cask "github"
 cask "google-chrome"
+{{- if eq .chezmoi.username "christian" }}
+cask "gpg-suite@nightly"
+{{- else }}
 cask "gpg-suite"
+{{- end }}
 cask "kdiff3"
 cask "keybase"
 cask "mactex"

@@ -191,5 +191,26 @@
       "autoUpdate": true
     }
   },
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "spinnerVerbs": {
+    "mode": "replace",
+    "verbs": [
+      "Teeing up",
+      "Driving",
+      "Chipping",
+      "Putting",
+      "Reading the green",
+      "Checking the lie",
+      "Lining up",
+      "Taking the back swing",
+      "Following through",
+      "Playing through",
+      "Marking the ball",
+      "Calculating the handicap",
+      "Checking the scorecard",
+      "Surveying the fairway",
+      "Avoiding the bunker",
+      "Getting out of the rough"
+    ]
+  }
 }

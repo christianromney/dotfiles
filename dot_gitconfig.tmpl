@@ -7,10 +7,16 @@
   excludesfile = ~/.gitignore_global
   editor = emacs
   pager = delta
+[column]
+  ui = auto
 [commit]
   gpgSign = true
+  verbose = true
+[branch]
+  sort = -committerdate
 [tag]
   gpgSign = true
+  sort = version:refname
 [gpg]
   program = /usr/local/MacGPG2/bin/gpg2
 [delta]
@@ -32,7 +38,7 @@
 [interactive]
   diffFilter = delta --hyperlinks --color-only --detect-dark-light --features=interactive
 [help]
-  autocorrect = 1
+  autocorrect = prompt
 [alias]
   br = branch
   ci = commit -s
@@ -72,7 +78,13 @@
   untracked = red
 [push]
   default = simple
+  autoSetupRemote = true
   followTags = true
+  ff = only
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
 [merge]
   conflictStyle = zdiff3
   tool = opendiff
@@ -84,16 +96,22 @@
   path = ~/.gitconfig.secrets
 [diff]
   colorMoved = default
+  algorithm = histogram
+  mnemonicPrefix = true
+  renames = true
 [difftool]
   prompt = false
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
 [rerere]
-  enabled = 1
+  enabled = true
+  autoupdate = true
 [magit]
   hideCampaign = true   
 [icdiff]
   options = --highlight --line-numbers
-[pull]
-  ff = only
 [filter "lfs"]
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process

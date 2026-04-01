@@ -195,22 +195,25 @@
   "spinnerVerbs": {
     "mode": "replace",
     "verbs": [
-      "Teeing up",
-      "Driving",
-      "Chipping",
-      "Putting",
+      "Teeing off",
+      "Taking a divot",
+      "Visualizing the shot",
+      "Playing the wind",
+      "Repairing a ball mark",
+      "Tucking the hips",
+      "Putting for birdie",
+      "Bumping and running",
       "Reading the green",
-      "Checking the lie",
-      "Lining up",
-      "Taking the back swing",
-      "Following through",
-      "Playing through",
+      "Assessing the lie",
+      "Picking a target",
+      "Making a backswing",
+      "Following through",      
       "Marking the ball",
-      "Calculating the handicap",
-      "Checking the scorecard",
-      "Surveying the fairway",
-      "Avoiding the bunker",
-      "Getting out of the rough"
+      "Taking a drop",
+      "Hitting a provisional",
+      "Escaping the bunker",
+      "Cleaning the grooves",
+      "Holding the finish"
     ]
   }
 }

@@ -140,7 +140,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/credential-guard.sh"
+            "command": "python3 ~/.claude/hooks/credential-guard.py"
           }
         ]
       }
@@ -219,5 +219,6 @@
       "Holding the finish"
     ]
   },
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "model": "sonnet[1m]"
 }

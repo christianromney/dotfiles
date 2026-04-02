@@ -191,6 +191,7 @@
       "autoUpdate": true
     }
   },
+  "cleanupPeriodDays": 99999,
   "alwaysThinkingEnabled": true,
   "spinnerVerbs": {
     "mode": "replace",

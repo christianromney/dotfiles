@@ -1,3 +1,17 @@
+# Basic Memory User Preferences
+
+## Deployment
+
+- **Local only** — Basic Memory runs locally; never use cloud routing or cloud-based authentication.
+- If a tool call fails with a cloud credentials error, that indicates misconfiguration — stop and report the error; do not attempt to fix or work around it.
+
+## Default Project
+
+- The default project is `nubank`. Always pass `project: "nubank"` to Basic Memory tools unless the user explicitly names a different project.
+- There is no project named `kb`; that was a retired project.
+
+---
+
 # Basic Memory Note Organization
 
 When working with basic-memory notes, follow these organizational principles:

@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+
+set dir (set -q argv[1]; and echo $argv[1]; or echo ".")
+
+find $dir -type f \( -name "*.json" -o -name "*.jsonl" \) | sort | while read -l file
+    if jq empty $file 2>/dev/null
+        echo "$file, OK"
+    else
+        echo "$file, INVALID"
+    end
+end

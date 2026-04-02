@@ -122,18 +122,6 @@
     ]
   },
   "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write|MultiEdit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/bin/chezmoi-re-add-claude-dir",
-            "statusMessage": "Syncing to chezmoi..."
-          }
-        ]
-      }
-    ],
     "PreToolUse": [
       {
         "matcher": "Bash",

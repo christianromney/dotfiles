@@ -113,6 +113,7 @@
       "mcp__google-workspace__drive_downloadFile",
       "mcp__plugin_atlassian_atlassian__*",
       "Bash",
+      "Skill(slack:*)",
       "Skill(usage-insights:usage-insights)",
       "Write(~/.claude/usage-insights/**)",
       "Read(~/.claude/usage-insights/**)"
@@ -121,6 +122,7 @@
       "~/.claude/usage-insights"
     ]
   },
+  "model": "sonnet[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -134,21 +136,15 @@
       }
     ]
   },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline-command.clj"
-  },
   "enabledPlugins": {
     "claude-md-management@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
-    "security-guidance@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,
     "commit-commands@claude-plugins-official": true,
     "plugin-dev@claude-plugins-official": true,
-    "hookify@claude-plugins-official": true,
     "slack@claude-plugins-official": true,
     "playground@claude-plugins-official": true,
     "chrome-devtools-mcp@claude-plugins-official": true,
@@ -163,9 +159,8 @@
     "socratic-partner@christianromney-claude-plugins": true,
     "frontend-design@claude-plugins-official": true,
     "generate@christianromney-claude-plugins": true,
-    "stu-ai-project@nubank-ai-agents-plugins": true,
-    "doc-quality@nubank-ai-agents-plugins": true,
-    "session-advisor@nubank-ai-agents-plugins": true
+    "session-advisor@nubank-ai-agents-plugins": true,
+    "pyright-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "nubank-ai-agents-plugins": {
@@ -207,6 +202,5 @@
       "Holding the finish"
     ]
   },
-  "alwaysThinkingEnabled": true,
-  "model": "sonnet[1m]"
+  "alwaysThinkingEnabled": true
 }

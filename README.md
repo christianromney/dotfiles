@@ -29,6 +29,8 @@ These are the tools I use most often:
     - environment ~miniconda~ `venv` via direnv stdlib `layout python3`
 - local LLMs: [ollama](https://ollama.com/)
 - containers: [orbstack](https://orbstack.dev/)
+- AI assistant: [Claude Code](https://claude.ai/code)
+  - skills: installed via [skills.sh](https://www.npmjs.com/package/skills) (`npx skills`) and copied to `~/.claude/skills/`
 
 See the full list of installed [formulae](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/formulae.txt) and [casks](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/casks.txt).
 

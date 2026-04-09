@@ -31,7 +31,7 @@ These are the tools I use most often:
 - AI assistant: [Claude Code](https://claude.ai/code)
   - skills: installed via [skills.sh](https://www.npmjs.com/package/skills) (`npx skills`) and copied to `~/.claude/skills/`
 
-See the full list of [installed](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/Brewfile) formulae and casks [automatically applied](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#install-packages-with-scripts) via `brew bundle install`.
+See the full list of [installed](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/Brewfile) formulae and casks [automatically applied](https://www.chezmoi.io/user-guide/machines/macos/) via `brew bundle install`.
 
 
 License

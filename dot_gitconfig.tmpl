@@ -1,7 +1,7 @@
 [user]
   name = Christian Romney
   email = "christian.romney@nubank.com.br"
-  signingkey = 01A60AF7B2843970
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMdQsAvSXgllNbZT2dRTqLRAgrQo4J3ygj3IrgvaP1K
 [core]
   autocrlf = input
   excludesfile = ~/.gitignore_global
@@ -10,7 +10,7 @@
 [column]
   ui = auto
 [commit]
-  gpgSign = true
+  gpgsign = true
   verbose = true
 [branch]
   sort = -committerdate
@@ -18,7 +18,9 @@
   gpgSign = true
   sort = version:refname
 [gpg]
-  program = /usr/local/MacGPG2/bin/gpg2
+  format = ssh
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 [delta]
   features = interactive decorations
   line-numbers = true

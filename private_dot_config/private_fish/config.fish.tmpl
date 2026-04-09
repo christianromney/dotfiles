@@ -11,6 +11,7 @@ set -Ux HOMEBREW_CELLAR "/opt/homebrew/Cellar";
 set -Ux HOMEBREW_REPOSITORY "/opt/homebrew";
 set -gx HOMEBREW_GITHUB_API_TOKEN (security find-generic-password -a christianromney -s github.token.perpetual -w)
 set -gx OLLAMA_API_BASE "http://127.0.0.1:11434"
+set -Ux CLAUDE_CODE_NO_FLICKER 1
 
 {{- if eq .chezmoi.hostname "christian" }}
 set -x NU_HOME $HOME/dev/nu

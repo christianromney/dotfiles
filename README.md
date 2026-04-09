@@ -14,7 +14,7 @@ These are the tools I use most often:
 
 - launcher: [raycast](https://www.raycast.com/)
 - shell: [Fish](https://fishshell.com/) with [Fisher](https://github.com/jorgebucaran/fisher)
-  - terminal emulator: [iTerm2](https://iterm2.com/)
+  - terminal emulator: [Ghostty](https://ghostty.org/)
   - prompt manager: [starship](https://starship.rs/)
   - project environment: [direnv](https://direnv.net/)
   - navigation: [zoxide](https://github.com/ajeetdsouza/zoxide) with [fzf](https://github.com/junegunn/fzf)
@@ -22,17 +22,16 @@ These are the tools I use most often:
   - configuration framework: [Doom](https://github.com/doomemacs/doomemacs)
   - notes: [org-mode](https://orgmode.org/) and [org-roam](https://www.orgroam.com/)
     - reference manager: [BibDesk](https://bibdesk.sourceforge.io/) via [MacTeX](https://www.tug.org/mactex/)
-- font: [JetBrains Mono](https://www.jetbrains.com/lp/mono/)
+- font: [Monaspice Neon](https://github.com/aaronliu0130/monaspice) Nerd font variant of [Github Monaspace Neon](https://monaspace.githubnext.com/)
 - programming languages: 
   - [clojure](https://clojure.org) (preferred)
   - [python](https://python.org)
-    - environment ~miniconda~ `venv` via direnv stdlib `layout python3`
 - local LLMs: [ollama](https://ollama.com/)
 - containers: [orbstack](https://orbstack.dev/)
 - AI assistant: [Claude Code](https://claude.ai/code)
   - skills: installed via [skills.sh](https://www.npmjs.com/package/skills) (`npx skills`) and copied to `~/.claude/skills/`
 
-See the full list of installed [formulae](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/formulae.txt) and [casks](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/casks.txt).
+See the full list of [installed](https://github.com/christianromney/dotfiles/blob/main/private_dot_config/homebrew/Brewfile) formulae and casks [automatically applied](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/#install-packages-with-scripts) via `brew bundle install`.
 
 
 License
@@ -40,7 +39,7 @@ License
 
 The MIT License
 
-Copyright (c) 2010-2024 Christian Romney <christian.a.romney@gmail.com>
+Copyright (c) 2010-2026 Christian Romney <christian.a.romney@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

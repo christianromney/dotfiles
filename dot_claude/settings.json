@@ -119,7 +119,6 @@
       "~/.claude/usage-insights"
     ]
   },
-  "model": "sonnet[1m]",
   "hooks": {
     "PreToolUse": [
       {
@@ -132,6 +131,10 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python3 ~/.claude/statusline-command.py"
   },
   "enabledPlugins": {
     "claude-md-management@claude-plugins-official": true,
@@ -199,10 +202,5 @@
       "Holding the finish"
     ]
   },
-  "alwaysThinkingEnabled": true,
-  "statusLine": {
-    "type": "command",
-    "command": "python3 ~/.claude/statusline-command.py",
-    "refreshIntervalMs": 5000
-  }
+  "alwaysThinkingEnabled": true
 }

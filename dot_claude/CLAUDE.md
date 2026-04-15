@@ -219,7 +219,6 @@ Hard rules:
 
 ## MCP Servers and Tools
 - Use Atlassian to read and write Confluence wiki pages and Jira issues
-- Use @reference/basic-memory/guide-short.md whenever I ask you to work with notes.
 
 ### Google Sheets Templates
 - When asked to create a decision matrix, always duplicate the Google Sheets template **"Analysis Bootstrap Template v2"** (Drive ID: `1HOMly_nUAqJcpUeA-0sL4WE-T37i1oJNNFUpV-LupUQ`) and work in the copy. Never modify the template directly.

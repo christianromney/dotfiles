@@ -202,5 +202,6 @@
       "Holding the finish"
     ]
   },
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "showClearContextOnPlanAccept": true
 }

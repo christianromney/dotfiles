@@ -1,6 +1,6 @@
 ---
 name: workflow-reinvention-weekly-report
-description: "Draft and persist the weekly Workflow Reinvention status report for the U.S. Product Development Workflow. Use when Christian asks to prepare this week's update, draft the Friday report, generate the weekly workflow reinvention report, or similar. Gathers activity from Slack, basic-memory, Google Drive, Confluence, and Jira; drafts an 8-section report against the Playbook Tab 2 template; surfaces RAG / kill-criteria / next-week priorities for user judgment before persisting."
+description: "Draft and persist the weekly Workflow Reinvention status report for the U.S. Product Development Workflow. Use when Christian asks to prepare this week's update, draft the Thursday report, generate the weekly workflow reinvention report, or similar. Gathers activity from Slack, basic-memory, Google Drive, Confluence, and Jira; drafts an 8-section report against the Playbook Tab 2 template; surfaces RAG / kill-criteria / next-week priorities for user judgment before persisting."
 ---
 
 # /workflow-reinvention-weekly-report
@@ -11,7 +11,7 @@ Produce the weekly status report for the U.S. Product Development Workflow Reinv
 
 - **Flow:** U.S. Product Development Workflow
 - **Playbook template:** Tab `t.cfkmheyt2r9d` of Google Doc `1nBL7nsJHn8zs3gUJca1VicYI14SB709s9Ozx7Th4mU8` (8-section markdown)
-- **Deadline:** Friday noon BRT, weekly
+- **Deadline:** Thursday noon BRT, weekly
 - **Basic-memory project:** `nubank`
 - **Design spec:** `nubank/process/workflow-reinvention/workflow-reinvention-plans-design-spec`
 
@@ -177,7 +177,7 @@ Commit message format: `Workflow Reinvention: Week N report`. Never use plain `g
 The Google Workspace MCP cannot upload arbitrary `.md` files (`docs_create` creates Google Docs, not markdown). Give Christian the local path:
 
 ```markdown
-[Open folder in Finder](file:///Users/christian.romney/Documents/personal/notes/content/basic-memory/nubank/process/workflow-reinvention/weekly-reports/)
+[Open folder in Finder](file:///Users/christian/Documents/personal/notes/content/basic-memory/nubank/process/workflow-reinvention/weekly-reports/)
 
 File to upload: us-product-development-week-YYYY-MM-DD.md
 ```
@@ -218,7 +218,7 @@ Example: when drafting §6 Risks, always include a subsection labelled "Global d
 - **Private channels may not appear in `slack_search_channels`** results. Channel IDs for known private channels are listed inline in Step 2. Ask Christian directly if a new private channel needs to be added to gathering.
 - **Basic-memory slugifies titles** into filenames. For weekly reports, title = `us-product-development-week-YYYY-MM-DD`, not descriptive.
 - **Google Drive `.md` upload is manual.** Skill provides the local path; Christian uploads.
-- **Thursday-of-week dating.** For a report drafted Friday or over the weekend, use the Thursday immediately prior as the filename date.
+- **Thursday-of-week dating.** For a report drafted on a different day, use the Thursday of the reporting week as the filename date.
 - **Jira board list may be incomplete.** 28599 and 30041 are confirmed. If gathering misses obvious activity, ask Christian for additional board IDs.
 
 ## Failure modes
@@ -231,4 +231,4 @@ Example: when drafting §6 Risks, always include a subsection labelled "Global d
 ## Related files
 
 - **Design spec:** `nubank/process/workflow-reinvention/workflow-reinvention-plans-design-spec` — defines the architecture; read if anything in this skill is ambiguous.
-- **Resources reference:** `nubank/reference/workflow-reinvention-resources` — canonical URLs and IDs for all external artifacts.
+- **Resources reference:** `nubank/process/workflow-reinvention/workflow-reinvention-resources` — canonical URLs and IDs for all external artifacts.

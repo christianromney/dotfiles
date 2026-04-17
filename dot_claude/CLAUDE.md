@@ -220,6 +220,13 @@ Hard rules:
 ## MCP Servers and Tools
 - Use Atlassian to read and write Confluence wiki pages and Jira issues
 
+### Basic Memory
+
+- **Local only** — Basic Memory runs locally. Never use cloud routing, cloud login, or cloud API key flows. If a tool call fails with a cloud credentials error, stop and report.
+- **Always use Basic Memory MCP tools** to create, edit, move, or search notes. Do not use the Write tool to create `.md` files in BM project directories.
+- Use @reference/basic-memory/guide-short.md for BM tool usage patterns.
+- Use @reference/basic-memory/user-preferences.md for project routing and note organization rules.
+
 ### Google Sheets Templates
 - When asked to create a decision matrix, always duplicate the Google Sheets template **"Analysis Bootstrap Template v2"** (Drive ID: `1HOMly_nUAqJcpUeA-0sL4WE-T37i1oJNNFUpV-LupUQ`) and work in the copy. Never modify the template directly.
 

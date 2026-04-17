@@ -1,108 +1,85 @@
-# Basic Memory User Preferences
+# Basic Memory Configuration
 
 ## Deployment
+- Local only — never cloud routing or cloud authentication.
+- If a tool call fails with a cloud credentials error, stop and report.
 
-- **Local only** — Basic Memory runs locally; never use cloud routing or cloud-based authentication.
-- If a tool call fails with a cloud credentials error, that indicates misconfiguration — stop and report the error; do not attempt to fix or work around it.
+## Project Routing
 
-## Default Project
+Four registered projects. Apply the first matching rule:
 
-- The default project is `nubank`. Always pass `project: "nubank"` to Basic Memory tools unless the user explicitly names a different project.
-- There is no project named `kb`; that was a retired project.
+| Rule | Signal | Project |
+|------|--------|---------|
+| 1 | Note is a dated journal entry, standup, or daily reflection | `journal` |
+| 2 | Skill is `/standup`, `/journal:*`, or topic is personal (hobbies, career development, family, health, finance — not employer-specific) | `personal` |
+| 3 | Skill is `/workflow-reinvention-*` or content relates to Nubank work (engineering, business, process, tools used at work) | `nubank` |
+| 4 | Content is an AI-assisted project plan or docs created by a planning skill, for a project that doesn't belong to nubank | `ai-projects` |
+| 5 | No rule matched | `nubank` |
 
----
+### Project descriptions
 
-# Basic Memory Note Organization
+| Project | Purpose | Example content |
+|---------|---------|----------------|
+| `nubank` | Work knowledge — Nubank engineering, business, regulatory, processes, tools | OCC exam responses, architecture docs, blog posts, WR artifacts |
+| `personal` | Personal knowledge — career, hobbies, non-work topics | Performance reviews, golf notes, personal finance |
+| `journal` | Dated working notes — standups, reflections, daily logs | `2026-04-16.md` entries |
+| `ai-projects` | AI-assisted project plans and docs for non-nubank projects | Plan files, design docs for new personal or OSS projects |
 
-When working with basic-memory notes, follow these organizational principles:
+### Disambiguation
 
-#### 1. Domain-Based Architecture
-- Top-level folders represent major knowledge domains
-- Current domains: `business/`, `engineering/`
-- Use clear, hierarchical structures within each domain
+- **Performance reviews** → `personal` (career, not employer systems)
+- **Blog posts about Claude Code** → `nubank` (engineering practice at work)
+- **Tool notes (jujutsu, chezmoi)** → `nubank` (tooling used in work context)
+- **Workflow reinvention** → `nubank` (hardcoded in skills; process improvement at work)
 
-#### 2. Sub-Domain Structure
-- Group related content within domains using descriptive subfolders
-- Examples:
-  - `business/bank-charter/occ/` for regulatory documents
-  - `business/management/business-continuity/` for BCP resources
-  - `business/management/risk/` for risk management
-  - `engineering/architecture/` for system design docs
-  - `engineering/tools/version-control/` for VCS documentation
-  - `engineering/tools/development/` for development tools
+## Nubank Project Structure
 
-#### 3. Naming Conventions
-- **Filenames**: Use kebab-case (lowercase-with-hyphens)
-- **Permalinks**: Mirror folder structure in kebab-case format
-  - Example: File at `engineering/architecture/backup-infrastructure.md` has permalink `engineering/architecture/backup-infrastructure`
-- **Titles**: Use natural capitalization (Title Case or Sentence case as appropriate)
-- **Avoid redundancy**: Title "Backup Infrastructure" in folder `engineering/architecture/` (not "Backup Infrastructure Architecture")
+```
+nubank/
+├── business/
+│   ├── bank-charter/         # Regulatory: OCC, FFIEC, bank charter application
+│   │   └── occ/              # OCC-specific examination documents
+│   └── management/
+│       ├── business-continuity/  # BCP, disaster recovery
+│       └── risk/              # Risk frameworks, cybersecurity
+├── engineering/
+│   ├── architecture/          # System/network architecture, diagrams
+│   ├── artificial-intelligence/
+│   │   ├── blog/              # Published blog posts
+│   │   └── debugging/         # Investigation notes
+│   ├── mobile/                # iOS, Flutter, BDC
+│   └── tools/                 # Flat — jujutsu, chezmoi, nucli, etc.
+└── process/
+    └── workflow-reinvention/  # WR initiative (protected paths — do not move)
+        └── weekly-reports/
+```
 
-#### 4. Eliminate Redundancy
-- Never create root-level alias folders that duplicate nested locations
-- Don't repeat parent folder concepts in child folder names or titles
-- Consolidate related content under canonical paths
+### Content placement (nubank)
 
-#### 5. Tag Strategy
-- Tags should follow hierarchical structure: `domain → sub-domain → specific`
-- Examples:
-  - `engineering/architecture/cloud`
-  - `business/bank-charter/occ/compliance`
-  - `business/management/risk/operational`
-- Tags should complement (not duplicate) folder structure
+1. Regulatory, compliance, bank charter → `business/bank-charter/`
+2. Risk management, governance → `business/management/risk/`
+3. BCP, resilience → `business/management/business-continuity/`
+4. System architecture → `engineering/architecture/`
+5. AI blog posts → `engineering/artificial-intelligence/blog/`
+6. AI debugging/investigation → `engineering/artificial-intelligence/debugging/`
+7. Mobile (iOS/Flutter/BDC) → `engineering/mobile/`
+8. Tools and utilities → `engineering/tools/` (flat, no subdirs)
+9. Workflow reinvention → `process/workflow-reinvention/`
 
-#### 6. Cross-References
-- Always use full path format for wikilinks: `[[full/path/to/note|Display Text]]`
-- Never rely on bare note titles: `[[Note Title]]` breaks when files move
-- Update all references when moving notes
+## Faceted Tag Vocabulary
 
-#### 7. Content Placement
-Decision tree for note placement:
-1. Is this about business operations, management, strategy, or regulatory compliance? → `business/`
-2. Is this about technical systems or engineering practices? → `engineering/`
+Tags use 4 orthogonal facets. Each note gets 1+ tags per relevant facet. Tags complement folders (cross-cutting bridges); folders provide hierarchy.
 
-Within business:
-- Bank charter, regulatory compliance, examination prep → `business/bank-charter/`
-- Management practices, governance, risk → `business/management/`
-- Product management, market analysis → `business/product/`
-- Strategy, organizational development → `business/strategy/`
+**Initiative** (bounded efforts): `bank-charter`, `workflow-reinvention`
+**Concern** (cross-cutting): `compliance`, `risk`, `security`, `resilience`, `architecture`
+**Technology** (specific tools/platforms): `ios`, `flutter`, `claude-code`, `occ`, `ffiec`, `jujutsu`, `nucli`, `chezmoi`
+**Activity** (one per note): `investigation`, `reference`, `decision`, `assessment`, `blog`, `specification`
 
-Within engineering:
-- System design, architecture, diagrams → `engineering/architecture/`
-- Development tools, debugging techniques → `engineering/tools/development/`
-- Version control practices → `engineering/tools/version-control/`
-- Application-specific implementation → `engineering/applications/{app-name}/`
+## Knowledge Graph
 
-#### 8. When to Create New Structure
-Create new subfolders when:
-- You have 3+ notes on closely related sub-topics
-- Content forms a coherent category distinct from existing structure
-- Grouping improves discoverability and reduces clutter
+Every note should have `## Observations` and `## Relations` sections.
 
-Don't create new structure when:
-- Only 1-2 notes exist on a topic (use existing parent folder)
-- Content could reasonably fit in existing categories
-- New structure would create redundancy
+**Observation categories:** `[fact]`, `[decision]`, `[risk]`, `[requirement]`, `[finding]`, `[status]`
+**Relation types:** `relates_to`, `supports`, `depends_on`, `elaborates`, `supersedes`
 
-#### 9. Domain Definitions
-Current domains serve these purposes:
-
-**business/**: All business-related content including operations, management, strategy, regulatory compliance, and organizational development
-- Sub-domains:
-  - bank-charter/ (regulatory compliance, OCC examination preparation)
-  - management/ (organizational management, business continuity, risk management)
-
-**engineering/**: Technical systems, architecture, tools, and development practices
-- Sub-domains: architecture/, tools/, applications/
-
-#### 10. Future Domain Considerations
-If notes accumulate in areas not well-served by current domains, consider:
-
-- **personal/**: Personal knowledge management (finances, hobbies, house, medical)
-- **technology/**: General technology exploration not specific to work projects (AI research, programming languages, tools evaluation)
-- **thinking/**: Conceptual frameworks, mental models, philosophy
-
-When considering new domains, ensure:
-- Sufficient volume (10+ notes) justifies the domain
-- Content doesn't fit naturally in existing structure
-- Domain represents a fundamental category of knowledge distinct from others
+Use `[[Title of Note]]` wiki-link syntax in Relations.

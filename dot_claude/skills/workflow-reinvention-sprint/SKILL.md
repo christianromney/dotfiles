@@ -344,4 +344,4 @@ After any state/decisions/variance update, invoke `Skill: jujutsu:jujutsu` with 
 
 - **Weekly report skill:** `~/.claude/skills/workflow-reinvention-weekly-report/SKILL.md` — sibling skill for weekly reporting
 - **Design spec:** `nubank/process/workflow-reinvention/workflow-reinvention-plans-design-spec`
-- **Resources reference:** `nubank/reference/workflow-reinvention-resources`
+- **Resources reference:** `nubank/process/workflow-reinvention/workflow-reinvention-resources`

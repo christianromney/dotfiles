@@ -203,5 +203,7 @@
     ]
   },
   "alwaysThinkingEnabled": true,
-  "showClearContextOnPlanAccept": true
+  "advisorModel": "opus",
+  "showClearContextOnPlanAccept": true,
+  "model": "opus[1m]"
 }

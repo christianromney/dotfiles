@@ -62,8 +62,13 @@ Skip noise: join/leave, bot noise, reaction-only events.
 - pageId `264810299811`. Check `version.number` / `version.when` against prior week's report.
 
 **Jira** (`mcp__plugin_atlassian_atlassian__searchJiraIssuesUsingJql`):
-- JQL: `project = TROY AND (board = 28599 OR board = 30041) AND updated >= -7d ORDER BY updated DESC`
-- Boards: 28599 (upstream) and 30041 (downstream) confirmed as of 2026-04-16. Add more when identified.
+- JQL: `project = TROY AND updated >= -7d ORDER BY updated DESC`
+- **Boards (3 squads, 4 boards total):**
+  - **Core** squad: upstream `28599` + downstream `30041` (Core splits its own value stream into upstream/downstream phases)
+  - **Operations** squad: `32117`
+  - **Growth** (Acquisition) squad: `32383`
+- **Cycle time mechanism (D-007):** per-squad, using Jira's built-in cycle-time stats (not changelog re-computation). Exact API exposure TBD — verify on first weekly run. Fall back to changelog-derived time-in-status (as in the Confluence VSM §4.1) if Jira's stored cycle-time fields aren't exposable.
+- The Confluence VSM baseline (mean 8.2d total Created→Done on board `32380`) pre-dates the current 3-squad topology; reconcile during first per-squad cycle-time capture.
 
 ### Step 3: Classify gathered content
 
@@ -165,24 +170,40 @@ Integrate Christian's judgment calls into the draft. Then in parallel:
 
 Invoke `Skill: jujutsu:jujutsu` with a scoped commit covering only the four affected files:
 
-- `content/basic-memory/nubank/process/workflow-reinvention/weekly-reports/us-product-development-week-YYYY-MM-DD.md`
-- `content/basic-memory/nubank/process/workflow-reinvention/workflow-reinvention-decisions.md`
-- `content/basic-memory/nubank/process/workflow-reinvention/workflow-reinvention-variance.md` (if modified)
-- `content/basic-memory/nubank/process/workflow-reinvention/workflow-reinvention-state.md`
+- `basic-memory/nubank/process/workflow-reinvention/weekly-reports/us-product-development-week-YYYY-MM-DD.md`
+- `basic-memory/nubank/process/workflow-reinvention/workflow-reinvention-decisions.md`
+- `basic-memory/nubank/process/workflow-reinvention/workflow-reinvention-variance.md` (if modified)
+- `basic-memory/nubank/process/workflow-reinvention/workflow-reinvention-state.md`
 
 Commit message format: `Workflow Reinvention: Week N report`. Never use plain `git`.
 
-### Step 8: Drive upload (manual handoff)
+### Step 8: Drive handoff (print link + open local folder)
 
-The Google Workspace MCP cannot upload arbitrary `.md` files (`docs_create` creates Google Docs, not markdown). Give Christian the local path:
+The Google Workspace MCP cannot upload arbitrary `.md` files (`docs_create` creates Google Docs, not markdown). **Every run MUST do all three** of the following — never skip:
+
+**1. Print the Google Drive folder URL** so Christian can click through:
+
+```
+https://drive.google.com/drive/folders/19FBU-8_NP-Cp5XoC-BlTFzcn63ECabPb
+```
+
+Target subfolder inside that Drive folder: `Weekly Reporting Routine / U.S. Product Development Workflow /`.
+
+**2. Print a Finder-clickable `file://` link** in the chat:
 
 ```markdown
-[Open folder in Finder](file:///Users/christian/Documents/personal/notes/content/basic-memory/nubank/process/workflow-reinvention/weekly-reports/)
+[Open folder in Finder](file:///Users/christian.romney/Documents/work/notes/basic-memory/nubank/process/workflow-reinvention/weekly-reports/)
 
 File to upload: us-product-development-week-YYYY-MM-DD.md
 ```
 
-Target Drive path: `Workflow Reinvention / Weekly Reporting Routine / U.S. Product Development Workflow /`.
+**3. Run `open` (macOS) on the local folder** so Finder pops up automatically:
+
+```bash
+open "/Users/christian.romney/Documents/work/notes/basic-memory/nubank/process/workflow-reinvention/weekly-reports/"
+```
+
+Do all three every time. Christian explicitly requested this (2026-04-22).
 
 ### Step 9: Offer Slack summary
 
@@ -219,7 +240,7 @@ Example: when drafting §6 Risks, always include a subsection labelled "Global d
 - **Basic-memory slugifies titles** into filenames. For weekly reports, title = `us-product-development-week-YYYY-MM-DD`, not descriptive.
 - **Google Drive `.md` upload is manual.** Skill provides the local path; Christian uploads.
 - **Thursday-of-week dating.** For a report drafted on a different day, use the Thursday of the reporting week as the filename date.
-- **Jira board list may be incomplete.** 28599 and 30041 are confirmed. If gathering misses obvious activity, ask Christian for additional board IDs.
+- **Board topology (confirmed 2026-04-22):** Core = `28599` (upstream) + `30041` (downstream); Operations = `32117`; Growth = `32383`. If gathering misses obvious activity, ask Christian whether a new squad has been added.
 
 ## Failure modes
 

@@ -60,6 +60,12 @@ Even these should only be used when:
 - For absence claims, use the phrasing: "Claude did not find [X] in [sources examined](#sources)" to scope the limitation to searched sources, not to reality. This clearly indicates what was searched and why the absence may not be conclusive.
 - Do not inject assessment or judgment about research subjects (e.g., guardrails do not "dominate," "skew," or "burden"--just enumerate what they are). Quote sources for claims about effectiveness or adoption patterns.
 
+### Lists
+
+- Use ordered (numbered) lists for inherently sequential content — procedural steps, BCM Cycle stages, FFIEC procedures, version-change protocols, anything that reads as "first, then, finally."
+- Use bulleted (unordered) lists for items whose order is not meaningful — related-pages lists, glossary entries, parallel enumerations, reference links.
+- On Confluence/ADF: `orderedList` with `attrs.order: 1` for sequential content; `bulletList` for unordered.
+
 ### Linking
 
 - When referring to something elsewhere in the same document (e.g., a sources section, a table, a prior discussion), use a markdown anchor link rather than enumerating or re-describing the content. Example: "the [sources examined](#13-sources)" rather than "the sources examined (Confluence, Google Docs, Slack)".
@@ -145,6 +151,11 @@ Hard rules:
 - Match the local tools, conventions and style when working with existing code.
 - Don't introduce new tools without strong justification presented to the user for approval.
 
+### File Naming
+- Filename stems must contain no periods. Only the extension separator may contain a period.
+- When kebab-casing a title that contains acronym periods (e.g., `N.A.`, `U.S.`, `A.I.`), strip the periods from the derived filename. Preserve the original spelling in the document body via `#+title:` or front matter.
+- Bad: `nubank-n.a.-bcm-chapter-plan.md` (multiple periods in stem). Good: `nubank-bcm-chapter-plan.md` or `nubank-na-bcm-chapter-plan.md`.
+
 ### Dotfiles Management
 
 - chezmoi manages dotfiles; source dir is `~/.local/share/chezmoi`.
@@ -173,6 +184,7 @@ Hard rules:
 - Use jujutsu (jj) colocated with git for version control.
 - Other collaborators use Git and GitHub only, but jujutsu enables more powerful local workflows that interoperate seamlessly with the larger team.
 - jj has no staging area; see the jujutsu skill for workflow details.
+- **Always invoke the `/jujutsu:jujutsu` skill for commit, push, rebase, and bookmark operations** rather than running raw `git` or `jj` commands directly. The skill knows the proper jj workflow; plain `git` commands can interfere with jj's anonymous-head workflow.
 
 ### Editor
 - Emacs (Doom Emacs); don't generate configs for other editors.

@@ -428,40 +428,60 @@ Doom loads early."
 (defvar +docs-dir "~/Documents/"
   "Root for all documents")
 
+;; personal-side
 (defvar +personal-dir (expand-file-name "personal" +docs-dir)
   "Location of my personal documents")
 (defvar +info-dir (expand-file-name "notes" +personal-dir)
-  "The root for all notes, calendars, agendas, todos, attachments, and bibliographies.")
+  "Personal-notes repo root.")
 
 (defvar +papers-dir (expand-file-name "academic-papers" +info-dir)
-  "Location of academic papers downloaded by BibDesk")
+  "Location of academic papers downloaded by BibDesk.")
+(defvar +personal-org-dir (expand-file-name "org" +info-dir)
+  "Plain personal org-mode knowledge notes (NOT roam-managed).")
+(defvar +personal-agenda-dir (expand-file-name "agenda" +info-dir)
+  "Personal agenda files (todo.org, appointment-diary).")
 
-(setq org-directory      (expand-file-name "content" +info-dir)
-  org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
-  +papers-notes-dir      (expand-file-name "papers" org-directory)
-  org-download-image-dir (expand-file-name "image-downloads" org-directory)) ;; +dragndrop
+;; work-side (mirrors personal layout)
+(defvar +work-dir (expand-file-name "work" +docs-dir)
+  "Location of work documents (Nubank).")
+(defvar +work-notes-dir (expand-file-name "notes" +work-dir)
+  "Work-notes repo root.")
+(defvar +work-org-dir (expand-file-name "org" +work-notes-dir)
+  "Work org-mode notes (org-roam managed).")
+(defvar +work-agenda-dir (expand-file-name "agenda" +work-notes-dir)
+  "Work agenda files (todo.org).")
 
-;; roam notes
-(setq org-roam-directory     (expand-file-name "roam" org-directory)
-  org-roam-dailies-directory "journal/"
-  org-roam-db-location       (expand-file-name ".org-roam.db" org-directory ))
+;; org-mode roots — org-roam is work-only, single global root
+(setq org-directory          +work-org-dir
+      org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
+      +papers-notes-dir      (expand-file-name "papers" +personal-org-dir)
+      org-download-image-dir (expand-file-name "image-downloads" org-directory))
 
-;; AI library
-(setq +kb-dir (expand-file-name "kb" org-roam-directory))
-(setq +prompts-dir (cr/mkdirp (expand-file-name "prompts" +kb-dir)))
-(setq +context-dir (cr/mkdirp (expand-file-name "context" +kb-dir)))
+(setq org-roam-directory       org-directory
+      org-roam-dailies-directory "journal/"
+      org-roam-db-location     (expand-file-name ".org-roam.db" org-roam-directory))
 
-;; agenda
-(setq org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'"
-  org-agenda-files           (directory-files-recursively org-directory "\\.org$"))
+;; Scope org-id cache to the work roam — prevents pre-segregation personal IDs
+;; (now inert metadata in personal-side files) from leaking into work autocompletion.
+(setq org-id-locations-file (expand-file-name ".orgids" org-roam-directory))
+
+;; agenda — union of work org, work agenda, personal org, personal agenda
+(defun +rebuild-agenda-files ()
+  "Union .org files from both repos for org-agenda."
+  (setq org-agenda-files
+        (append
+         (directory-files-recursively org-roam-directory     "\\.org$")
+         (directory-files-recursively +work-agenda-dir       "\\.org$")
+         (directory-files-recursively +personal-org-dir      "\\.org$")
+         (directory-files-recursively +personal-agenda-dir   "\\.org$"))))
+
+(setq org-agenda-file-regexp "\\`[^.].*\\.org\\(\\.gpg\\)?\\'")
+(+rebuild-agenda-files)
 
 (after! org
-  (add-hook 'org-agenda-mode-hook
-    (lambda ()
-      (setq org-agenda-files
-        (directory-files-recursively org-directory "\\.org$")))))
+  (add-hook 'org-agenda-mode-hook #'+rebuild-agenda-files))
 
-;; capture
+;; capture template file constants (work side; relative to org-directory)
 (setq +org-capture-changelog-file "changelog.org"
   +org-capture-notes-file     "notes.org"
   +org-capture-projects-file  "projects.org"
@@ -596,11 +616,16 @@ Doom loads early."
     org-refile-allow-creating-parent-nodes t
     org-refile-targets                     '((nil :maxlevel . 5)
                                               (org-agenda-files :maxlevel . 5)))
-  ;; capture
+  ;; capture — work TODOs default to work/notes/agenda/todo.org;
+  ;; personal TODOs use absolute path to personal/notes/agenda/todo.org
   (setq
     org-capture-templates
-    `(("t" "Todo" entry (file+headline "todo.org" "Todos")
-        "* TODO %^{Task} %^G")))
+    `(("t" "Work TODO" entry
+       (file+headline ,(expand-file-name "todo.org" +work-agenda-dir) "Todos")
+       "* TODO %^{Task} %^G")
+      ("p" "Personal TODO" entry
+       (file+headline ,(expand-file-name "todo.org" +personal-agenda-dir) "Todos")
+       "* TODO %^{Task} %^G")))
 
   ;; todos
   (setq
@@ -759,7 +784,7 @@ Doom loads early."
     cal-html-directory                   "~/Desktop"
     cal-html-holidays                    t
     diary-file
-    (expand-file-name "appointment-diary" org-directory)
+    (expand-file-name "appointment-diary" +personal-agenda-dir)
 
     calendar-holidays
     (append holiday-general-holidays
@@ -967,12 +992,6 @@ Doom loads early."
             ("C-c m o p" . gptel-org-set-properties))
     :config
     (require 'gptel-integrations)
-    (require 'gptel-prompts)
-
-    ;; Load prompts and ensure they update when prompt files change
-    (setq gptel-prompts-directory +prompts-dir)
-    (gptel-prompts-update)
-    (gptel-prompts-add-update-watchers)
 
     (defvar gptel--anthropic
       (gptel-make-anthropic "Claude"
@@ -1046,12 +1065,8 @@ Doom loads early."
     (defvar cr/mcp-fetch-tools
       '("fetch"))
 
-    (defvar cr/mcp-filesystem-tools
-      '("list_directory" "create_directory" "edit_file"
-         "write_file" "read_multiple_files" "read_file"))
-
     (defvar cr/mcp-standard-tools
-      (append cr/mcp-time-tools cr/mcp-fetch-tools cr/mcp-filesystem-tools))
+      (append cr/mcp-time-tools cr/mcp-fetch-tools))
 
     (defvar cr/mcp-apple-tools
       '("applescript_execute"))
@@ -1123,8 +1138,6 @@ Doom loads early."
     (mcp-hub-servers
       `(("basic-memory" . (:command "uvx" :args ("basic-memory" "mcp")))
          ("fetch"        . (:command "uvx" :args ("mcp-server-fetch")))
-         ("filesystem"   . (:command "npx"
-                             :args ("-y" "@modelcontextprotocol/server-filesystem" ,org-directory ,+foss-dir)))
          ("playwright"   . (:command "npx" :args ("@playwright/mcp@latest")))
          ("time"         . (:command "uvx" :args ("mcp-server-time")))))
     :config

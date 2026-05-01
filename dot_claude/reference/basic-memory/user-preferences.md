@@ -18,19 +18,26 @@ Four registered projects. Apply the first matching rule:
 
 ### Project descriptions
 
-| Project | Purpose | Example content |
-|---------|---------|----------------|
-| `nubank` | Work knowledge — Nubank engineering, business, regulatory, processes, tools | OCC exam responses, architecture docs, blog posts, WR artifacts |
-| `personal` | Personal knowledge — career, hobbies, non-work topics | Performance reviews, golf notes, personal finance |
-| `journal` | Dated working notes — standups, reflections, daily logs | `2026-04-16.md` entries |
-| `ai-projects` | AI-assisted project plans and docs for non-nubank projects | Plan files, design docs for new personal or OSS projects |
+| Project | Local Path | Purpose | Example content |
+|---------|-----------|---------|----------------|
+| `nubank` | `~/Documents/work/notes/basic-memory/nubank/` | Work knowledge — Nubank engineering, business, regulatory, processes | OCC exam responses, architecture docs, WR artifacts |
+| `personal` | `~/Documents/personal/notes/basic-memory/personal/` | Personal knowledge — career, hobbies, non-work topics | Performance reviews about Christian, golf notes, personal finance |
+| `journal` | `~/Documents/personal/notes/basic-memory/journal/` | Dated working notes — standups, reflections, daily logs | `2026-04-16.md` entries |
+| `ai-projects` | `~/Documents/personal/notes/basic-memory/ai-projects/` | AI-assisted project plans and docs for non-nubank projects | Plan files, design docs for new personal or OSS projects |
 
-### Disambiguation
+Following the note-segregation of 2026-04-29, the `nubank` project lives in the work-notes repo (`~/Documents/work/notes/`); the other three live in the personal-notes repo. Cross-repo references between work and personal content are intentionally severed (see `~/Documents/_archive/severed-links-inventory-2026-04-28.md`).
 
-- **Performance reviews** → `personal` (career, not employer systems)
-- **Blog posts about Claude Code** → `nubank` (engineering practice at work)
-- **Tool notes (jujutsu, chezmoi)** → `nubank` (tooling used in work context)
-- **Workflow reinvention** → `nubank` (hardcoded in skills; process improvement at work)
+### Disambiguation (topic-based, rule B)
+
+Classification follows employer-specificity, not origin/use. A note created during work hours about a generic topic is classified by content, not context.
+
+- **Performance reviews about Christian himself** → `personal` (his own career, even though sourced from employer systems)
+- **Performance reviews about Christian's reports / team** → `nubank` (employer artifact about employees)
+- **Blog posts about Claude Code** → `personal` unless the post discusses Nubank-specific engineering practice or tooling configuration
+- **Tool notes (jujutsu, chezmoi, nucli)** → `personal` (generic tooling), unless the note documents Nubank-specific configuration or integration
+- **Workflow Reinvention** → `nubank` (Nubank-specific process improvement; hardcoded in skills)
+- **Generic CS / language / library knowledge** (Clojure, Datomic, AWS, distributed systems) → `personal` even when learned at work — generic content is portable, not employer property
+- **Nubank-specific application of generic tech** (e.g., Nubank's Datomic deployment, Nubank's AWS architecture) → `nubank`
 
 ## Nubank Project Structure
 

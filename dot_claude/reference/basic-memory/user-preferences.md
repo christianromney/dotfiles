@@ -10,10 +10,10 @@ Four registered projects. Apply the first matching rule:
 
 | Rule | Signal | Project |
 |------|--------|---------|
-| 1 | Note is a dated journal entry, standup, or daily reflection | `journal` |
+| 1 | Note is a dated journal entry, standup, or daily reflection | see [Journal routing](#journal-routing) |
 | 2 | Skill is `/standup`, `/journal:*`, or topic is personal (hobbies, career development, family, health, finance — not employer-specific) | `personal` |
 | 3 | Skill is `/workflow-reinvention-*` or content relates to Nubank work (engineering, business, process, tools used at work) | `nubank` |
-| 4 | Content is an AI-assisted project plan or docs created by a planning skill, for a project that doesn't belong to nubank | `ai-projects` |
+| 4 | Content is an AI-assisted project plan or docs created by a planning skill — see [Project plans routing](#project-plans-routing) | depends |
 | 5 | No rule matched | `nubank` |
 
 ### Project descriptions
@@ -26,6 +26,40 @@ Four registered projects. Apply the first matching rule:
 | `ai-projects` | `~/Documents/personal/notes/basic-memory/ai-projects/` | AI-assisted project plans and docs for non-nubank projects | Plan files, design docs for new personal or OSS projects |
 
 Following the note-segregation of 2026-04-29, the `nubank` project lives in the work-notes repo (`~/Documents/work/notes/`); the other three live in the personal-notes repo. Cross-repo references between work and personal content are intentionally severed (see `~/Documents/_archive/severed-links-inventory-2026-04-28.md`).
+
+### Path correctness rule
+
+**Paths inside a project are always relative to the project root — never include the project name as a path component.**
+
+- Correct (nubank project): `engineering/architecture/fin-connect.md`
+- Wrong: `nubank/engineering/architecture/fin-connect.md`
+- Correct (ai-projects): `plans/note-segregation/note-segregation-design.md`
+- Wrong: `ai-projects/plans/note-segregation/note-segregation-design.md`
+
+The project is always specified separately via the `project` parameter. Embedding the project name in the path creates a doubly-nested directory (`nubank/nubank/...`) that is invisible in the filesystem but corrupts BM's search index.
+
+### Journal routing
+
+Dated working notes route to one of two destinations — **not always the `journal` project**:
+
+| Topic | Destination |
+|-------|-------------|
+| Business / work (meetings, standups, project updates, work reflections) | `nubank` project, directory `journal/` |
+| Personal (family, health, hobbies, non-work reflections) | `journal` project (personal-notes repo) |
+| Ambiguous | **Ask Christian** — never guess |
+
+When in doubt, state the ambiguity and ask. Guessing wrong routes a personal entry into a work-discoverable location.
+
+### Project plans routing
+
+AI-assisted project plans and design docs (typically created by superpowers planning skills) route based on the project's employer affiliation:
+
+| Project type | Project | Directory |
+|-------------|---------|-----------|
+| Nubank work project (bank charter, WR, internal tooling) | `nubank` | `project-plans/{project-name}/` |
+| Personal or OSS project (non-Nubank) | `ai-projects` | `plans/{project-name}/` |
+
+**Never use `docs/superpowers/` as the directory.** The superpowers plugin defaults to this path; always override it to the correct `project-plans/{project-name}/` or `plans/{project-name}/` path.
 
 ### Disambiguation (topic-based, rule B)
 
@@ -56,9 +90,14 @@ nubank/
 │   │   └── debugging/         # Investigation notes
 │   ├── mobile/                # iOS, Flutter, BDC
 │   └── tools/                 # Flat — jujutsu, chezmoi, nucli, etc.
-└── process/
-    └── workflow-reinvention/  # WR initiative (protected paths — do not move)
-        └── weekly-reports/
+├── journal/                   # Business working notes, standups, work reflections
+├── process/
+│   └── workflow-reinvention/  # WR initiative (protected paths — do not move)
+│       └── weekly-reports/
+└── project-plans/             # AI-assisted plans for Nubank projects
+    ├── note-segregation/
+    ├── nubank-bcm-chapter/
+    └── {project-name}/        # one subfolder per project
 ```
 
 ### Content placement (nubank)
@@ -72,6 +111,8 @@ nubank/
 7. Mobile (iOS/Flutter/BDC) → `engineering/mobile/`
 8. Tools and utilities → `engineering/tools/` (flat, no subdirs)
 9. Workflow reinvention → `process/workflow-reinvention/`
+10. Business journal entries (work standups, meeting notes, work reflections) → `journal/`
+11. AI-assisted plans for Nubank projects → `project-plans/{project-name}/`
 
 ## Faceted Tag Vocabulary
 

@@ -142,6 +142,7 @@ Hard rules:
 - Write good version control commit messages following the instructions in @commit-message.md
 - Create all documentation following the instructions in @documentation.md
 - Create all diagrams following the instructions in @diagramming.md
+- Architectural briefing template for knowledge-base entries on technologies: `~/dev/nu/claude-plugins/generate/skills/arch-briefing/briefing-template.md`
 
 ### General Maxims
 - Large tasks should be decomposed into smaller pieces.

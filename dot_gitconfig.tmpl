@@ -7,6 +7,9 @@
   excludesfile = ~/.gitignore_global
   editor = emacs
   pager = delta
+{{- if eq .chezmoi.hostname "christian" }}
+  hooksPath = /usr/local/git-dlp/hooks
+{{- end }}
 [column]
   ui = auto
 [commit]

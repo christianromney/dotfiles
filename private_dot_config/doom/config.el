@@ -429,26 +429,25 @@ Doom loads early."
   "Root for all documents")
 
 ;; personal-side
-(defvar +personal-dir (expand-file-name "personal" +docs-dir)
+(defvar +personal-dir (cr/mkdirp (expand-file-name "personal" +docs-dir))
   "Location of my personal documents")
-(defvar +info-dir (expand-file-name "notes" +personal-dir)
+(defvar +info-dir (cr/mkdirp (expand-file-name "notes" +personal-dir))
   "Personal-notes repo root.")
-
-(defvar +papers-dir (expand-file-name "academic-papers" +info-dir)
+(defvar +papers-dir (cr/mkdirp (expand-file-name "academic-papers" +info-dir))
   "Location of academic papers downloaded by BibDesk.")
-(defvar +personal-org-dir (expand-file-name "org" +info-dir)
+(defvar +personal-org-dir (cr/mkdirp (expand-file-name "org" +info-dir))
   "Plain personal org-mode knowledge notes (NOT roam-managed).")
-(defvar +personal-agenda-dir (expand-file-name "agenda" +info-dir)
+(defvar +personal-agenda-dir (cr/mkdirp (expand-file-name "agenda" +info-dir))
   "Personal agenda files (todo.org, appointment-diary).")
 
 ;; work-side (mirrors personal layout)
-(defvar +work-dir (expand-file-name "work" +docs-dir)
+(defvar +work-dir (cr/mkdirp (expand-file-name "work" +docs-dir))
   "Location of work documents (Nubank).")
-(defvar +work-notes-dir (expand-file-name "notes" +work-dir)
+(defvar +work-notes-dir (cr/mkdirp (expand-file-name "notes" +work-dir))
   "Work-notes repo root.")
-(defvar +work-org-dir (expand-file-name "org" +work-notes-dir)
+(defvar +work-org-dir (cr/mkdirp (expand-file-name "org" +work-notes-dir))
   "Work org-mode notes (org-roam managed).")
-(defvar +work-agenda-dir (expand-file-name "agenda" +work-notes-dir)
+(defvar +work-agenda-dir (cr/mkdirp (expand-file-name "agenda" +work-notes-dir))
   "Work agenda files (todo.org).")
 
 ;; org-mode roots — org-roam is work-only, single global root

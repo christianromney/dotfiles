@@ -6,15 +6,16 @@
 
 ## Project Routing
 
-Four registered projects. Apply the first matching rule:
+Two registered projects. Apply the first matching rule:
 
 | Rule | Signal | Project |
 |------|--------|---------|
-| 1 | Note is a dated journal entry, standup, or daily reflection | see [Journal routing](#journal-routing) |
-| 2 | Skill is `/standup`, `/journal:*`, or topic is personal (hobbies, career development, family, health, finance — not employer-specific) | `personal` |
-| 3 | Skill is `/workflow-reinvention-*` or content relates to Nubank work (engineering, business, process, tools used at work) | `nubank` |
-| 4 | Content is an AI-assisted project plan or docs created by a planning skill — see [Project plans routing](#project-plans-routing) | depends |
-| 5 | No rule matched | `nubank` |
+| 1 | Topic is personal (hobbies, career development, family, health, finance — not employer-specific) | `personal` |
+| 2 | Skill is `/workflow-reinvention-*` or content relates to Nubank work (engineering, business, process, tools used at work) | `nubank` |
+| 3 | Content is an AI-assisted project plan for a Nubank project (planning skill) — see [Project plans routing](#project-plans-routing) | `nubank` |
+| 4 | No rule matched | `nubank` |
+
+> Only `nubank` and `personal` exist in Basic Memory.
 
 ### Project descriptions
 
@@ -22,10 +23,8 @@ Four registered projects. Apply the first matching rule:
 |---------|-----------|---------|----------------|
 | `nubank` | `~/Documents/work/notes/basic-memory/nubank/` | Work knowledge — Nubank engineering, business, regulatory, processes | OCC exam responses, architecture docs, WR artifacts |
 | `personal` | `~/Documents/personal/notes/basic-memory/personal/` | Personal knowledge — career, hobbies, non-work topics | Performance reviews about Christian, golf notes, personal finance |
-| `journal` | `~/Documents/personal/notes/basic-memory/journal/` | Dated working notes — standups, reflections, daily logs | `2026-04-16.md` entries |
-| `ai-projects` | `~/Documents/personal/notes/basic-memory/ai-projects/` | AI-assisted project plans and docs for non-nubank projects | Plan files, design docs for new personal or OSS projects |
 
-Following the note-segregation of 2026-04-29, the `nubank` project lives in the work-notes repo (`~/Documents/work/notes/`); the other three live in the personal-notes repo. Cross-repo references between work and personal content are intentionally severed (see `~/Documents/_archive/severed-links-inventory-2026-04-28.md`).
+Following the note-segregation of 2026-04-29, the `nubank` project lives in the work-notes repo (`~/Documents/work/notes/`); the `personal` project lives in the personal-notes repo. Cross-repo references between work and personal content are intentionally severed (see `~/Documents/_archive/severed-links-inventory-2026-04-28.md`).
 
 ### Path correctness rule
 
@@ -33,33 +32,20 @@ Following the note-segregation of 2026-04-29, the `nubank` project lives in the 
 
 - Correct (nubank project): `engineering/architecture/fin-connect.md`
 - Wrong: `nubank/engineering/architecture/fin-connect.md`
-- Correct (ai-projects): `plans/note-segregation/note-segregation-design.md`
-- Wrong: `ai-projects/plans/note-segregation/note-segregation-design.md`
+- Correct (personal project): `career/2026-performance-review.md`
+- Wrong: `personal/career/2026-performance-review.md`
 
 The project is always specified separately via the `project` parameter. Embedding the project name in the path creates a doubly-nested directory (`nubank/nubank/...`) that is invisible in the filesystem but corrupts BM's search index.
 
-### Journal routing
-
-Dated working notes route to one of two destinations — **not always the `journal` project**:
-
-| Topic | Destination |
-|-------|-------------|
-| Business / work (meetings, standups, project updates, work reflections) | `nubank` project, directory `journal/` |
-| Personal (family, health, hobbies, non-work reflections) | `journal` project (personal-notes repo) |
-| Ambiguous | **Ask Christian** — never guess |
-
-When in doubt, state the ambiguity and ask. Guessing wrong routes a personal entry into a work-discoverable location.
-
 ### Project plans routing
 
-AI-assisted project plans and design docs (typically created by superpowers planning skills) route based on the project's employer affiliation:
+AI-assisted project plans and design docs (typically created by superpowers planning skills) for **Nubank** projects route to the `nubank` project:
 
 | Project type | Project | Directory |
 |-------------|---------|-----------|
 | Nubank work project (bank charter, WR, internal tooling) | `nubank` | `project-plans/{project-name}/` |
-| Personal or OSS project (non-Nubank) | `ai-projects` | `plans/{project-name}/` |
 
-**Never use `docs/superpowers/` as the directory.** The superpowers plugin defaults to this path; always override it to the correct `project-plans/{project-name}/` or `plans/{project-name}/` path.
+**Never use `docs/superpowers/` as the directory.** The superpowers plugin defaults to this path; always override it to the correct `project-plans/{project-name}/` path in the `nubank` project.
 
 ### Disambiguation (topic-based, rule B)
 
@@ -90,7 +76,6 @@ nubank/
 │   │   └── debugging/         # Investigation notes
 │   ├── mobile/                # iOS, Flutter, BDC
 │   └── tools/                 # Flat — jujutsu, chezmoi, nucli, etc.
-├── journal/                   # Business working notes, standups, work reflections
 ├── process/
 │   └── workflow-reinvention/  # WR initiative (protected paths — do not move)
 │       └── weekly-reports/
@@ -111,8 +96,7 @@ nubank/
 7. Mobile (iOS/Flutter/BDC) → `engineering/mobile/`
 8. Tools and utilities → `engineering/tools/` (flat, no subdirs)
 9. Workflow reinvention → `process/workflow-reinvention/`
-10. Business journal entries (work standups, meeting notes, work reflections) → `journal/`
-11. AI-assisted plans for Nubank projects → `project-plans/{project-name}/`
+10. AI-assisted plans for Nubank projects → `project-plans/{project-name}/`
 
 ## Faceted Tag Vocabulary
 

@@ -502,8 +502,8 @@ Set up all directory and file paths.
   "Personal-notes repo root.")
 (defvar +papers-dir (cr/mkdirp (expand-file-name "academic-papers" +info-dir))
   "Location of academic papers downloaded by BibDesk.")
-(defvar +personal-org-dir (cr/mkdirp (expand-file-name "org" +info-dir))
-  "Plain personal org-mode knowledge notes (NOT roam-managed).")
+(defvar +personal-org-dir (cr/mkdirp (expand-file-name "memos" +info-dir))
+  "Personal notes (memos/) — being migrated to Denote; formerly plain org.")
 (defvar +personal-agenda-dir (cr/mkdirp (expand-file-name "agenda" +info-dir))
   "Personal agenda files (todo.org, appointment-diary).")
 

@@ -520,7 +520,7 @@ Set up all directory and file paths.
 ;; org-mode roots — org-roam is work-only, single global root
 (setq org-directory          +work-org-dir
       org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
-      +papers-notes-dir      (expand-file-name "papers" +personal-org-dir)
+      +papers-notes-dir      (expand-file-name "academic-papers-notes" +info-dir)
       org-download-image-dir (expand-file-name "image-downloads" org-directory))
 
 (setq org-roam-directory       org-directory

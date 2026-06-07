@@ -44,6 +44,15 @@
 (package! ob-mermaid) ;; exportable
 
 ;; ----------------------------------------------------------------------------------
+;; Denote (Markdown note-taking — see config.org "Denote")
+;; ----------------------------------------------------------------------------------
+(package! denote)
+(package! consult-denote)
+(package! denote-journal)
+(package! denote-markdown)
+(package! denote-silo)
+
+;; ----------------------------------------------------------------------------------
 ;; Utilities
 ;; ----------------------------------------------------------------------------------
 (package! compile-angel)

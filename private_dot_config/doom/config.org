@@ -1088,6 +1088,73 @@ I most often export my org notes to PDF or [[https://gitlab.com/oer/org-re-revea
   :after org)
 #+end_src
 
+** Denote
+Markdown note-taking with [[https://protesilaos.com/emacs/denote][Denote]], a parallel lane to
+Org Roam (which stays the work knowledge graph). Notes live in the personal =memos/= silo as
+Markdown + YAML front matter — legible to Obsidian and AI tools alike. "Types" are just
+keywords (=journal=, =paper=, =reference=…); silos keep work and personal collections
+separate; =denote-markdown= converts =denote:= links to/from portable Markdown links on demand.
+
+#+begin_src elisp
+(message "  ...denote: core...")
+
+(after! denote
+  (setq denote-directory (expand-file-name "memos" +info-dir)  ; personal silo (default)
+        denote-file-type 'markdown-yaml                         ; new notes: Markdown + YAML
+        denote-prompts '(title keywords)
+        denote-date-prompt-use-org-read-date t
+        denote-save-buffers t
+        denote-backlinks-show-context t
+        denote-known-keywords '("data-structures" "math" "distributed-systems" "databases"
+                                 "clojure" "software-design" "ai" "security" "finance"
+                                 "personal" "journal" "paper" "reference"))
+  (denote-rename-buffer-mode 1))
+
+(message "  ...denote: silos...")
+
+;; Only the personal silo is active while trialing; add the work memos/ dir here later.
+(after! denote-silo
+  (setq denote-silo-directories (list (expand-file-name "memos" +info-dir))))
+
+;; Programmatic dir-locals (no committed .dir-locals.el): personal repo => its memos/.
+;; Same as the global default today; becomes load-bearing once a work silo is added.
+(dir-locals-set-class-variables 'denote-personal-silo
+  `((nil . ((denote-directory . ,(expand-file-name "memos" +info-dir))))))
+(dir-locals-set-directory-class +info-dir 'denote-personal-silo)
+
+(message "  ...denote: journal...")
+
+(after! denote-journal
+  (setq denote-journal-directory nil            ; nil => journal into the active silo (memos/)
+        denote-journal-keyword "journal"
+        denote-journal-title-format 'day-date-month-year)
+  (add-hook 'calendar-mode-hook #'denote-journal-calendar-mode))
+
+(message "  ...denote: consult integration...")
+
+(after! (consult denote)
+  (consult-denote-mode 1))
+
+(message "  ...denote: keybindings (C-c n d)...")
+
+;; :leader is C-c in this non-evil (Holy) setup, so this lands under C-c n d,
+;; beside Doom's own C-c n (notes) / C-c n r (roam).
+(map! :leader
+      (:prefix ("n" . "notes")
+       (:prefix ("d" . "denote")
+        :desc "New note"                "n" #'denote
+        :desc "New note (pick silo)"    "N" #'denote-silo-create-note
+        :desc "Open / create"           "o" #'denote-silo-open-or-create
+        :desc "Today's journal"         "j" #'denote-journal-new-or-existing-entry
+        :desc "Insert link"             "i" #'denote-link
+        :desc "Backlinks"               "b" #'denote-backlinks
+        :desc "Find (consult)"          "f" #'consult-denote-find
+        :desc "Grep (consult)"          "g" #'consult-denote-grep
+        :desc "Rename via front matter" "r" #'denote-rename-file-using-front-matter)))
+
+(message "  ...denote configured.")
+#+end_src
+
 ** Artificial Intelligence
 Dedicated LLM modes inside Emacs. Proprietary flagship AIs require API keys in
 ~~/.authinfo.gpg~:

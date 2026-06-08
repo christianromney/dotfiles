@@ -1091,6 +1091,18 @@ separate; =denote-markdown= converts =denote:= links to/from portable Markdown l
 #+begin_src elisp
 (message "  ...denote: core...")
 
+;; Keyword sluggifier that PRESERVES hyphens.  Valid because notes are markdown-yaml
+;; (YAML tags allow hyphens; org tags do not).  Downcase; spaces/underscores -> hyphen;
+;; drop chars outside [a-z0-9-]; collapse repeated hyphens; trim.  Never emits '_' or
+;; space, which are Denote's filename keyword separators.
+(defun cr/denote-sluggify-keyword (str)
+  (let* ((s (downcase (or str "")))
+         (s (replace-regexp-in-string "[ _]+" "-" s))
+         (s (replace-regexp-in-string "[^a-z0-9-]" "" s))
+         (s (replace-regexp-in-string "-+" "-" s))
+         (s (replace-regexp-in-string "\\`-+\\|-+\\'" "" s)))
+    s))
+
 (after! denote
   (setq denote-directory (expand-file-name "memos" +info-dir)  ; personal silo (default)
         denote-file-type 'markdown-yaml                         ; new notes: Markdown + YAML
@@ -1101,6 +1113,8 @@ separate; =denote-markdown= converts =denote:= links to/from portable Markdown l
         denote-known-keywords '("data-structures" "math" "distributed-systems" "databases"
                                  "clojure" "software-design" "ai" "security" "finance"
                                  "personal" "journal" "paper" "reference"))
+  ;; Preserve hyphens in keywords (override Denote's default squashing sluggifier).
+  (setf (alist-get 'keyword denote-file-name-slug-functions) #'cr/denote-sluggify-keyword)
   (denote-rename-buffer-mode 1))
 
 (message "  ...denote: silos...")

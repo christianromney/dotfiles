@@ -520,7 +520,6 @@ Set up all directory and file paths.
 ;; org-mode roots — org-roam is work-only, single global root
 (setq org-directory          +work-org-dir
       org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
-      +papers-notes-dir      (expand-file-name "academic-papers-notes" +info-dir)
       org-download-image-dir (expand-file-name "image-downloads" org-directory))
 
 (setq org-roam-directory       org-directory
@@ -934,20 +933,17 @@ Bibliography management and citation embedding via with [[https://github.com/ema
   :if (modulep! :tools biblio)
   :config
   (let ((bib (list (expand-file-name "bibliography.bib" +info-dir)))
-         (lib-path (list +papers-dir))
-         (notes-path +papers-notes-dir))
+         (lib-path (list +papers-dir)))
     (setq!
       org-cite-global-bibliography bib
       reftex-default-bibliography bib
       bibtex-completion-bibliography bib
       bibtex-completion-library-path lib-path
-      bibtex-completion-notes-path notes-path
       citar-bibliography bib
       citar-file-variable "Local-Url"
       citar-library-file-extensions (list "pdf")
       citar-library-paths lib-path
-      citar-notes-paths (list notes-path)
-      citar-notes-source 'citar-file
+      ;; Notes are handled by citar-denote (Denote markdown in memos/), not citar-file.
       citar-file-open-functions
       (list
         '("pdf"  . citar-file-open-external) ;; use preview
@@ -956,6 +952,15 @@ Bibliography management and citation embedding via with [[https://github.com/ema
   (citar-capf-setup)
   (map! :map general-override-mode-map
     "C-c n b" #'citar-open))
+
+(use-package! citar-denote
+  :after citar
+  :config
+  ;; Literature notes are Denote Markdown in memos/, tagged :paper:, with the citation
+  ;; key in a `reference:' YAML line. Replaces the citar-file notes source.
+  (setq citar-denote-keyword "paper"
+        citar-denote-file-type 'markdown-yaml)
+  (citar-denote-mode))
 
 (after! citar
   (citar-org-roam-mode -1)

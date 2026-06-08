@@ -51,6 +51,7 @@
 (package! denote-journal)
 (package! denote-markdown)
 (package! denote-silo)
+(package! citar-denote)         ; literature notes as Denote notes (citar integration)
 
 ;; ----------------------------------------------------------------------------------
 ;; Utilities
@@ -63,8 +64,4 @@
 (package! google-this)
 (package! elfeed-tube :recipe (:host github :repo "karthink/elfeed-tube"))
 (package! wttrin :recipe (:host github :repo "bcbcarl/emacs-wttrin"
-                           :branch "master" :files ("*.el" (:exclude "*.png"))))
-
-
-;; Experimental
-(package! org-link-basic-memory :recipe (:host github :repo "christianromney/org-link-basic-memory"))
+                          :branch "master" :files ("*.el" (:exclude "*.png"))))

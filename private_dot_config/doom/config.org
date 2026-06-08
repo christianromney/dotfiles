@@ -1081,13 +1081,6 @@ I most often export my org notes to PDF or [[https://gitlab.com/oer/org-re-revea
 #+end_src
 
 
-
-*** Better Memory Links :experimental:
-#+begin_src elisp
-(use-package! org-link-basic-memory
-  :after org)
-#+end_src
-
 ** Denote
 Markdown note-taking with [[https://protesilaos.com/emacs/denote][Denote]], a parallel lane to
 Org Roam (which stays the work knowledge graph). Notes live in the personal =memos/= silo as
@@ -1153,6 +1146,17 @@ separate; =denote-markdown= converts =denote:= links to/from portable Markdown l
         :desc "Rename via front matter" "r" #'denote-rename-file-using-front-matter)))
 
 (message "  ...denote configured.")
+#+end_src
+
+** Markdown
+GitHub-flavored Markdown; the =+grip= flag adds live preview on =C-c l p=. Lint on open and
+save rather than while typing — the live =flycheck= squiggles are jarring.
+
+#+begin_src elisp
+(message "  ...markdown: lint on save...")
+
+(add-hook! 'markdown-mode-hook
+  (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
 #+end_src
 
 ** Artificial Intelligence

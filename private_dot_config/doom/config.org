@@ -516,6 +516,8 @@ Set up all directory and file paths.
   "Work org-mode notes (org-roam managed).")
 (defvar +work-agenda-dir (cr/mkdirp (expand-file-name "agenda" +work-notes-dir))
   "Work agenda files (todo.org).")
+(defvar +work-memos-dir (cr/mkdirp (expand-file-name "memos" +work-notes-dir))
+  "Work notes (memos/) — Denote silo; org-roam stays for knowledge notes + the graph.")
 
 ;; org-mode roots — org-roam is work-only, single global root
 (setq org-directory          +work-org-dir
@@ -1088,8 +1090,8 @@ I most often export my org notes to PDF or [[https://gitlab.com/oer/org-re-revea
 
 ** Denote
 Markdown note-taking with [[https://protesilaos.com/emacs/denote][Denote]], a parallel lane to
-Org Roam (which stays the work knowledge graph). Notes live in the personal =memos/= silo as
-Markdown + YAML front matter — legible to Obsidian and AI tools alike. "Types" are just
+Org Roam (which stays the work knowledge graph). Notes live in per-repo =memos/= silos
+(personal + work) as Markdown + YAML front matter — legible to Obsidian and AI tools alike. "Types" are just
 keywords (=journal=, =paper=, =reference=…); silos keep work and personal collections
 separate; =denote-markdown= converts =denote:= links to/from portable Markdown links on demand.
 
@@ -1124,15 +1126,20 @@ separate; =denote-markdown= converts =denote:= links to/from portable Markdown l
 
 (message "  ...denote: silos...")
 
-;; Only the personal silo is active while trialing; add the work memos/ dir here later.
+;; Two silos: personal memos/ and work memos/ (org-roam stays the work knowledge graph).
 (after! denote-silo
-  (setq denote-silo-directories (list (expand-file-name "memos" +info-dir))))
+  (setq denote-silo-directories (list +personal-org-dir +work-memos-dir)))
 
-;; Programmatic dir-locals (no committed .dir-locals.el): personal repo => its memos/.
-;; Same as the global default today; becomes load-bearing once a work silo is added.
+;; Programmatic dir-locals (no committed .dir-locals.el): each repo => its own memos/.
+;; Load-bearing now that both silos exist — a buffer under the personal repo resolves
+;; denote-directory to personal memos/; a buffer under the work repo, to work memos/.
 (dir-locals-set-class-variables 'denote-personal-silo
-  `((nil . ((denote-directory . ,(expand-file-name "memos" +info-dir))))))
+  `((nil . ((denote-directory . ,+personal-org-dir)))))
 (dir-locals-set-directory-class +info-dir 'denote-personal-silo)
+
+(dir-locals-set-class-variables 'denote-work-silo
+  `((nil . ((denote-directory . ,+work-memos-dir)))))
+(dir-locals-set-directory-class +work-notes-dir 'denote-work-silo)
 
 (message "  ...denote: journal...")
 

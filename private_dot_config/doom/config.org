@@ -1117,9 +1117,18 @@ separate; =denote-markdown= converts =denote:= links to/from portable Markdown l
         denote-date-prompt-use-org-read-date t
         denote-save-buffers t
         denote-backlinks-show-context t
-        denote-known-keywords '("data-structures" "math" "distributed-systems" "databases"
+        denote-known-keywords '(;; personal + cross-cutting
+                                 "data-structures" "math" "distributed-systems" "databases"
                                  "clojure" "software-design" "ai" "security" "finance"
-                                 "personal" "journal" "paper" "reference"))
+                                 "personal" "journal" "paper" "reference"
+                                 ;; work knowledge-note vocabulary (see project-plans)
+                                 "aml" "architecture" "bank-charter" "career-ladder"
+                                 "compliance" "datomic" "devtools" "ffiec" "growth"
+                                 "hiring" "identity" "leadership" "llm" "meeting" "occ"
+                                 "okr" "onboarding" "open-banking" "people"
+                                 "performance-review" "process" "product" "productivity"
+                                 "rag" "regulatory" "reorg" "resilience" "risk" "strategy"
+                                 "system-performance" "team" "testing"))
   ;; Preserve hyphens in keywords (override Denote's default squashing sluggifier).
   (setf (alist-get 'keyword denote-file-name-slug-functions) #'cr/denote-sluggify-keyword)
   (denote-rename-buffer-mode 1))

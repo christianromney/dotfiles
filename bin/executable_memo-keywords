@@ -1,0 +1,362 @@
+#!/usr/bin/env bb
+;; memo-keywords — suggest and apply Denote keywords for journal memos using a
+;; local Ollama model. See `memo-keywords --help` for usage.
+(ns memo-keywords
+  (:require [babashka.fs :as fs]
+            [babashka.http-client :as http]
+            [babashka.process :as process]
+            [cheshire.core :as json]
+            [clojure.edn :as edn]
+            [clojure.java.io :as io]
+            [clojure.string :as str]
+            [clojure.tools.cli :refer [parse-opts]]))
+
+(def default-directory
+  "Work Denote silo; override with --dir."
+  (str (fs/expand-home "~/Documents/work/notes/memos")))
+
+(def default-model "gemma4:e4b-mlx")
+(def ollama-chat-url "http://localhost:11434/api/chat")
+(def max-body-chars 8000)
+(def max-keywords 5)
+
+(defn- eprintln [& parts]
+  (binding [*out* *err*]
+    (apply println parts)))
+
+;;; Pure core
+
+(defn sluggify-keyword
+  "Denote keyword slug that preserves hyphens (mirrors cr/denote-sluggify-keyword):
+  downcase; spaces/underscores -> hyphen; drop chars outside [a-z0-9-]; collapse
+  repeated hyphens; trim leading/trailing hyphens."
+  [s]
+  (-> (str s)
+      str/lower-case
+      (str/replace #"[ _]+" "-")
+      (str/replace #"[^a-z0-9-]" "")
+      (str/replace #"-+" "-")
+      (str/replace #"^-+|-+$" "")))
+
+(def ^:private denote-filename-pattern
+  ;; ID[==SIGNATURE]--TITLE[__KEYWORDS].md
+  #"(\d{8}T\d{6})(?:==([a-z0-9=-]+?))?--([a-z0-9-]+?)(?:__([a-z0-9_-]+))?\.md")
+
+(defn parse-filename
+  "Parse a Denote filename into {:identifier :signature :title :keywords},
+  or nil when the name is not a Denote name."
+  [filename]
+  (when-let [[_ identifier signature title keywords]
+             (re-matches denote-filename-pattern filename)]
+    {:identifier identifier
+     :signature signature
+     :title title
+     :keywords (if keywords (vec (str/split keywords #"_")) [])}))
+
+(defn render-filename
+  "Render {:identifier :signature :title :keywords} into a Denote filename.
+  Keywords are sorted alphabetically per Denote convention."
+  [{:keys [identifier signature title keywords]}]
+  (str identifier
+       (when (seq signature) (str "==" signature))
+       "--" title
+       (when (seq keywords) (str "__" (str/join "_" (sort keywords))))
+       ".md"))
+
+(defn- front-matter-bounds
+  "Index of the closing --- line, or nil when content has no front matter."
+  [lines]
+  (when (= "---" (first lines))
+    (some #(when (= "---" (nth lines %)) %) (range 1 (count lines)))))
+
+(defn parse-note
+  "Parse note content into {:title :tags :body}, or nil without front matter."
+  [content]
+  (let [lines (vec (str/split-lines content))]
+    (when-let [end (front-matter-bounds lines)]
+      (let [field (fn [k]
+                    (some #(when-let [[_ v] (re-matches (re-pattern (str k ":\\s*(.*?)\\s*")) %)] v)
+                          (subvec lines 1 end)))]
+        {:title (some-> (field "title") (str/replace #"^\"|\"$" ""))
+         :tags (some-> (field "tags") (json/parse-string) vec)
+         :body (str/join "\n" (drop-while str/blank? (subvec lines (inc end))))}))))
+
+(defn replace-tags
+  "Return content with the front-matter tags line rewritten to hold `tags`,
+  preserving the line's key/alignment prefix and every other byte. Returns nil
+  when content has no front-matter tags line."
+  [content tags]
+  (let [lines (vec (str/split-lines content))]
+    (when-let [end (front-matter-bounds lines)]
+      (when-let [idx (some #(when (re-matches #"tags:\s*\[.*" (nth lines %)) %)
+                           (range 1 end))]
+        (let [line (nth lines idx)
+              prefix (subs line 0 (str/index-of line "["))
+              array (str "[" (str/join ", " (map #(str "\"" % "\"") tags)) "]")]
+          (str (str/join "\n" (assoc lines idx (str prefix array)))
+               (when (str/ends-with? content "\n") "\n")))))))
+
+(defn extract-json
+  "Parse the first JSON object in model output, tolerating markdown fences and
+  surrounding prose — some backends (e.g. MLX) ignore the format constraint.
+  Returns nil when no JSON object is present."
+  [content]
+  (let [start (str/index-of content "{")
+        end (str/last-index-of content "}")]
+    (when (and start end (< start end))
+      (json/parse-string (subs content start (inc end)) true))))
+
+(defn merge-keywords
+  "Sorted, distinct, sluggified union of keywords, always including journal."
+  [keywords]
+  (->> (conj (vec keywords) "journal")
+       (map sluggify-keyword)
+       (remove str/blank?)
+       distinct
+       sort
+       vec))
+
+(defn sanitize-suggestion
+  "Clean a model suggestion against the vocabulary: sluggified in-vocab terms
+  stay in :keywords (capped at max-keywords), unknown terms move to :proposed,
+  journal is dropped from both."
+  [{:keys [keywords proposed]} vocabulary]
+  (let [terms (->> (concat keywords proposed)
+                   (map sluggify-keyword)
+                   (remove str/blank?)
+                   (remove #{"journal"})
+                   distinct)]
+    {:keywords (vec (take max-keywords (filter vocabulary terms)))
+     :proposed (vec (remove vocabulary terms))}))
+
+;;; Silo scanning
+
+(defn- memo-files [dir]
+  (->> (fs/list-dir dir)
+       (map fs/file-name)
+       (filter #(str/ends-with? % ".md"))
+       sort))
+
+(defn- vocabulary
+  "The silo's de-facto keyword vocabulary: every keyword present in its
+  Denote filenames, except journal."
+  [dir]
+  (->> (memo-files dir)
+       (keep parse-filename)
+       (mapcat :keywords)
+       (remove #{"journal"})
+       set))
+
+(defn- journal-only-files [dir]
+  (filter #(= ["journal"] (:keywords (parse-filename %))) (memo-files dir)))
+
+;;; Ollama inference
+
+(def ^:private system-prompt
+  (str "You assign topical keywords to work journal entries written by a "
+       "software engineering leader at a fintech. Reply with JSON only."))
+
+(defn- response-schema [vocabulary]
+  {:type "object"
+   :properties {:keywords {:type "array"
+                           :items {:type "string" :enum (vec (sort vocabulary))}}
+                :proposed {:type "array" :items {:type "string"}}}
+   :required ["keywords" "proposed"]})
+
+(defn- user-prompt [vocabulary title body]
+  (str "Vocabulary (the only allowed values for \"keywords\"):\n"
+       (str/join ", " (sort vocabulary))
+       "\n\nRules:\n"
+       "- Choose up to " max-keywords " vocabulary keywords describing the entry's dominant topics.\n"
+       "- Prefer fewer, stronger keywords. An empty list is correct for thin or placeholder entries.\n"
+       "- Only when a major topic has no vocabulary fit, add a new kebab-case keyword to \"proposed\". This is rarely needed.\n"
+       "- Never use the keyword \"journal\".\n\n"
+       "Journal entry titled \"" title "\":\n\n"
+       (let [body (str body)]
+         (subs body 0 (min (count body) max-body-chars)))))
+
+(defn- ollama-suggest [{:keys [model vocabulary title body]}]
+  (let [request {:model model
+                 :messages [{:role "system" :content system-prompt}
+                            {:role "user" :content (user-prompt vocabulary title body)}]
+                 :stream false
+                 :format (response-schema vocabulary)
+                 :options {:temperature 0}}
+        response (http/post ollama-chat-url
+                            {:headers {"Content-Type" "application/json"}
+                             :body (json/generate-string request)})
+        content (-> (:body response) (json/parse-string true) :message :content)
+        suggestion (extract-json content)]
+    (when-not suggestion
+      (throw (ex-info "Model reply contained no JSON object"
+                      {:model model :content content})))
+    (sanitize-suggestion suggestion vocabulary)))
+
+(defn- suggest-for-file [path model vocab]
+  (let [{:keys [title body]} (parse-note (slurp (str path)))
+        {:keys [keywords proposed]} (ollama-suggest {:model model
+                                                     :vocabulary vocab
+                                                     :title title
+                                                     :body body})]
+    (array-map :file (fs/file-name path)
+               :title title
+               :keywords keywords
+               :proposed proposed)))
+
+;;; Commands
+
+(defn- evenly-spaced
+  "Up to n items spread evenly across coll (all of coll when n is nil/larger)."
+  [coll n]
+  (let [v (vec coll)
+        c (count v)]
+    (if (or (nil? n) (>= n c))
+      v
+      (mapv #(v (quot (* % c) n)) (range n)))))
+
+(defn- report-proposed [results]
+  (let [freq (frequencies (mapcat :proposed results))]
+    (when (seq freq)
+      (eprintln "\nProposed new keywords (approve with: memo-keywords apply --approve kw1,kw2):")
+      (doseq [[keyword n] (sort-by (comp - val) freq)]
+        (eprintln (format "  %-30s x%d" keyword n))))))
+
+(defn- cmd-propose [{:keys [dir model sample]}]
+  (let [vocab (vocabulary dir)
+        files (evenly-spaced (journal-only-files dir) sample)
+        total (count files)
+        results (vec (map-indexed
+                      (fn [i file]
+                        (let [result (suggest-for-file (fs/path dir file) model vocab)]
+                          (eprintln (format "[%3d/%d] %s -> %s%s"
+                                            (inc i) total (:title result)
+                                            (pr-str (:keywords result))
+                                            (if (seq (:proposed result))
+                                              (str " proposed " (pr-str (:proposed result)))
+                                              "")))
+                          (prn result)
+                          (flush)
+                          result))
+                      files))]
+    (report-proposed results)))
+
+(defn- cmd-suggest [{:keys [model format]} file]
+  (when-not (and file (fs/exists? file))
+    (eprintln "suggest: file not found:" (str file))
+    (System/exit 2))
+  (let [path (fs/absolutize file)
+        result (suggest-for-file path model (vocabulary (fs/parent path)))]
+    (case format
+      "json" (println (json/generate-string result))
+      (prn result))))
+
+(defn- cmd-check
+  "Verify every memo's filename keywords match its front-matter tags.
+  Returns the number of inconsistent files."
+  [{:keys [dir]}]
+  (let [bad (for [file (memo-files dir)
+                  :let [parsed (parse-filename file)
+                        note (when parsed (parse-note (slurp (str (fs/path dir file)))))]
+                  :when (and parsed note
+                             (not= (sort (map sluggify-keyword (:tags note)))
+                                   (sort (:keywords parsed))))]
+              file)]
+    (if (seq bad)
+      (do (eprintln "INCONSISTENT (front-matter tags vs filename keywords):")
+          (run! #(eprintln " " %) bad))
+      (eprintln "check: all" (count (memo-files dir)) "memos consistent."))
+    (count bad)))
+
+(defn- check-stale-references
+  "Search the repository above the silo for references to pre-rename filenames."
+  [dir old-names]
+  (when (seq old-names)
+    (let [root (str (fs/parent dir))
+          result (process/shell {:in (str/join "\n" old-names)
+                                 :out :string :err :string :continue true}
+                                "rg" "--files-with-matches" "--fixed-strings" "-f" "-" root)
+          hits (remove str/blank? (str/split-lines (or (:out result) "")))]
+      (if (seq hits)
+        (do (eprintln "\nWARNING: files still reference pre-rename filenames:")
+            (run! #(eprintln " " %) hits))
+        (eprintln "No stale filename references found.")))))
+
+(defn- read-manifest [source]
+  (with-open [reader (java.io.PushbackReader. (io/reader source))]
+    (->> (repeatedly #(edn/read {:eof ::eof} reader))
+         (take-while #(not= ::eof %))
+         vec)))
+
+(defn- cmd-apply [{:keys [dir approve] :as options} manifest-source]
+  (let [approved (set (when approve (map sluggify-keyword (str/split approve #","))))
+        entries (read-manifest manifest-source)
+        renames (atom [])]
+    (doseq [{:keys [file keywords proposed]} entries]
+      (let [chosen (concat keywords (filter approved proposed))
+            old-path (fs/path dir file)
+            parsed (parse-filename file)]
+        (cond
+          (empty? chosen)
+          (eprintln "skip (no keywords):" file)
+
+          (not (fs/exists? old-path))
+          (eprintln "skip (missing, already applied?):" file)
+
+          (not= ["journal"] (:keywords parsed))
+          (eprintln "skip (already keyworded):" file)
+
+          :else
+          (let [merged (merge-keywords chosen)
+                new-name (render-filename (assoc parsed :keywords merged))
+                rewritten (replace-tags (slurp (str old-path)) merged)]
+            (if-not rewritten
+              (eprintln "skip (no front-matter tags line):" file)
+              (do (spit (str old-path) rewritten)
+                  (fs/move old-path (fs/path dir new-name))
+                  (swap! renames conj [file new-name])
+                  (eprintln "renamed:" file "->" new-name)))))))
+    (eprintln (format "%nApplied %d of %d manifest entries." (count @renames) (count entries)))
+    (let [inconsistent (cmd-check options)]
+      (check-stale-references dir (map first @renames))
+      (when (pos? inconsistent) (System/exit 1)))))
+
+;;; Entry point
+
+(def ^:private cli-options
+  [["-d" "--dir DIR" "Denote silo directory" :default default-directory]
+   ["-m" "--model MODEL" "Ollama model" :default default-model]
+   ["-s" "--sample N" "propose: only N entries, spread evenly across the silo"
+    :parse-fn parse-long]
+   ["-f" "--format FMT" "suggest: output format, edn or json" :default "edn"]
+   ["-a" "--approve KWS" "apply: comma-separated proposed keywords to accept"]
+   ["-h" "--help"]])
+
+(defn- print-usage [summary]
+  (println "memo-keywords — suggest and apply Denote keywords for journal memos.")
+  (println)
+  (println "Usage:")
+  (println "  memo-keywords propose [--dir D] [--model M] [--sample N]   manifest EDN to stdout")
+  (println "  memo-keywords suggest FILE [--model M] [--format edn|json] one-entry suggestion to stdout")
+  (println "  memo-keywords apply [MANIFEST] [--dir D] [--approve k1,k2] apply manifest (stdin when omitted)")
+  (println "  memo-keywords check [--dir D]                              verify tags/filename consistency")
+  (println)
+  (println "Options:")
+  (println summary))
+
+(defn -main [& args]
+  (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)
+        [command & rest-args] arguments]
+    (cond
+      errors (do (run! eprintln errors) (System/exit 2))
+      (or (:help options) (nil? command)) (print-usage summary)
+      :else (case command
+              "propose" (cmd-propose options)
+              "suggest" (cmd-suggest options (first rest-args))
+              "apply" (cmd-apply options (or (first rest-args) *in*))
+              "check" (when (pos? (cmd-check options)) (System/exit 1))
+              (do (eprintln "unknown command:" command)
+                  (print-usage summary)
+                  (System/exit 2))))))
+
+(when (= *file* (System/getProperty "babashka.file"))
+  (apply -main *command-line-args*))

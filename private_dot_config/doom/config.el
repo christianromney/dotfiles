@@ -435,8 +435,8 @@ Doom loads early."
   "Personal-notes repo root.")
 (defvar +papers-dir (cr/mkdirp (expand-file-name "academic-papers" +info-dir))
   "Location of academic papers downloaded by BibDesk.")
-(defvar +personal-org-dir (cr/mkdirp (expand-file-name "org" +info-dir))
-  "Plain personal org-mode knowledge notes (NOT roam-managed).")
+(defvar +personal-org-dir (cr/mkdirp (expand-file-name "memos" +info-dir))
+  "Personal notes (memos/) — being migrated to Denote; formerly plain org.")
 (defvar +personal-agenda-dir (cr/mkdirp (expand-file-name "agenda" +info-dir))
   "Personal agenda files (todo.org, appointment-diary).")
 
@@ -449,11 +449,12 @@ Doom loads early."
   "Work org-mode notes (org-roam managed).")
 (defvar +work-agenda-dir (cr/mkdirp (expand-file-name "agenda" +work-notes-dir))
   "Work agenda files (todo.org).")
+(defvar +work-memos-dir (cr/mkdirp (expand-file-name "memos" +work-notes-dir))
+  "Work notes (memos/) — Denote silo; org-roam stays for knowledge notes + the graph.")
 
 ;; org-mode roots — org-roam is work-only, single global root
 (setq org-directory          +work-org-dir
       org-clock-persist-file (expand-file-name "org-clock-save.el" org-directory)
-      +papers-notes-dir      (expand-file-name "papers" +personal-org-dir)
       org-download-image-dir (expand-file-name "image-downloads" org-directory))
 
 (setq org-roam-directory       org-directory
@@ -833,20 +834,17 @@ Doom loads early."
   :if (modulep! :tools biblio)
   :config
   (let ((bib (list (expand-file-name "bibliography.bib" +info-dir)))
-         (lib-path (list +papers-dir))
-         (notes-path +papers-notes-dir))
+         (lib-path (list +papers-dir)))
     (setq!
       org-cite-global-bibliography bib
       reftex-default-bibliography bib
       bibtex-completion-bibliography bib
       bibtex-completion-library-path lib-path
-      bibtex-completion-notes-path notes-path
       citar-bibliography bib
       citar-file-variable "Local-Url"
       citar-library-file-extensions (list "pdf")
       citar-library-paths lib-path
-      citar-notes-paths (list notes-path)
-      citar-notes-source 'citar-file
+      ;; Notes are handled by citar-denote (Denote markdown in memos/), not citar-file.
       citar-file-open-functions
       (list
         '("pdf"  . citar-file-open-external) ;; use preview
@@ -855,6 +853,15 @@ Doom loads early."
   (citar-capf-setup)
   (map! :map general-override-mode-map
     "C-c n b" #'citar-open))
+
+(use-package! citar-denote
+  :after citar
+  :config
+  ;; Literature notes are Denote Markdown in memos/, tagged :paper:, with the citation
+  ;; key in a `reference:' YAML line. Replaces the citar-file notes source.
+  (setq citar-denote-keyword "paper"
+        citar-denote-file-type 'markdown-yaml)
+  (citar-denote-mode))
 
 (after! citar
   (citar-org-roam-mode -1)
@@ -955,8 +962,96 @@ Doom loads early."
 
 (message "  ...org reveal...")
 
-(use-package! org-link-basic-memory
-  :after org)
+(message "  ...denote: core...")
+
+;; Keyword sluggifier that PRESERVES hyphens.  Valid because notes are markdown-yaml
+;; (YAML tags allow hyphens; org tags do not).  Downcase; spaces/underscores -> hyphen;
+;; drop chars outside [a-z0-9-]; collapse repeated hyphens; trim.  Never emits '_' or
+;; space, which are Denote's filename keyword separators.
+(defun cr/denote-sluggify-keyword (str)
+  (let* ((s (downcase (or str "")))
+         (s (replace-regexp-in-string "[ _]+" "-" s))
+         (s (replace-regexp-in-string "[^a-z0-9-]" "" s))
+         (s (replace-regexp-in-string "-+" "-" s))
+         (s (replace-regexp-in-string "\\`-+\\|-+\\'" "" s)))
+    s))
+
+(after! denote
+  (setq denote-directory (expand-file-name "memos" +info-dir)  ; personal silo (default)
+        denote-file-type 'markdown-yaml                         ; new notes: Markdown + YAML
+        denote-prompts '(title keywords)
+        denote-date-prompt-use-org-read-date t
+        denote-save-buffers t
+        denote-backlinks-show-context t
+        denote-known-keywords '(;; personal + cross-cutting
+                                 "data-structures" "math" "distributed-systems" "databases"
+                                 "clojure" "software-design" "ai" "security" "finance"
+                                 "personal" "journal" "paper" "reference"
+                                 ;; work knowledge-note vocabulary (see project-plans)
+                                 "aml" "architecture" "bank-charter" "career-ladder"
+                                 "compliance" "datomic" "devtools" "ffiec" "growth"
+                                 "hiring" "identity" "leadership" "llm" "meeting" "occ"
+                                 "okr" "onboarding" "open-banking" "people"
+                                 "performance-review" "process" "product" "productivity"
+                                 "rag" "regulatory" "reorg" "resilience" "risk" "strategy"
+                                 "system-performance" "team" "testing"))
+  ;; Preserve hyphens in keywords (override Denote's default squashing sluggifier).
+  (setf (alist-get 'keyword denote-file-name-slug-functions) #'cr/denote-sluggify-keyword)
+  (denote-rename-buffer-mode 1))
+
+(message "  ...denote: silos...")
+
+;; Two silos: personal memos/ and work memos/ (org-roam stays the work knowledge graph).
+(after! denote-silo
+  (setq denote-silo-directories (list +personal-org-dir +work-memos-dir)))
+
+;; Programmatic dir-locals (no committed .dir-locals.el): each repo => its own memos/.
+;; Load-bearing now that both silos exist — a buffer under the personal repo resolves
+;; denote-directory to personal memos/; a buffer under the work repo, to work memos/.
+(dir-locals-set-class-variables 'denote-personal-silo
+  `((nil . ((denote-directory . ,+personal-org-dir)))))
+(dir-locals-set-directory-class +info-dir 'denote-personal-silo)
+
+(dir-locals-set-class-variables 'denote-work-silo
+  `((nil . ((denote-directory . ,+work-memos-dir)))))
+(dir-locals-set-directory-class +work-notes-dir 'denote-work-silo)
+
+(message "  ...denote: journal...")
+
+(after! denote-journal
+  (setq denote-journal-directory nil            ; nil => journal into the active silo (memos/)
+        denote-journal-keyword "journal"
+        denote-journal-title-format 'day-date-month-year)
+  (add-hook 'calendar-mode-hook #'denote-journal-calendar-mode))
+
+(message "  ...denote: consult integration...")
+
+(after! (consult denote)
+  (consult-denote-mode 1))
+
+(message "  ...denote: keybindings (C-c n d)...")
+
+;; :leader is C-c in this non-evil (Holy) setup, so this lands under C-c n d,
+;; beside Doom's own C-c n (notes) / C-c n r (roam).
+(map! :leader
+      (:prefix ("n" . "notes")
+       (:prefix ("d" . "denote")
+        :desc "New note"                "n" #'denote
+        :desc "New note (pick silo)"    "N" #'denote-silo-create-note
+        :desc "Open / create"           "o" #'denote-silo-open-or-create
+        :desc "Today's journal"         "j" #'denote-journal-new-or-existing-entry
+        :desc "Insert link"             "i" #'denote-link
+        :desc "Backlinks"               "b" #'denote-backlinks
+        :desc "Find (consult)"          "f" #'consult-denote-find
+        :desc "Grep (consult)"          "g" #'consult-denote-grep
+        :desc "Rename via front matter" "r" #'denote-rename-file-using-front-matter)))
+
+(message "  ...denote configured.")
+
+(message "  ...markdown: lint on save...")
+
+(add-hook! 'markdown-mode-hook
+  (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
 
 (defvar gpt-default-model "gpt-4.1-nano-2025-04-14"
   "My preferred Open AI chat model.")

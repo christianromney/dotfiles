@@ -134,8 +134,25 @@
     (is (= {:keywords [] :proposed ["m-team"]}
            (mk/extract-json
             "Here you go:\n{\"keywords\": [], \"proposed\": [\"m-team\"]}\nHope that helps!"))))
-  (testing "no JSON object present"
+  (testing "bare JSON array (unconstrained MLX models sometimes reply with just the list)"
+    (is (= ["leadership" "process"]
+           (mk/extract-json "[\"leadership\", \"process\"]"))))
+  (testing "no JSON present"
     (is (nil? (mk/extract-json "I could not classify this entry.")))))
+
+(deftest coerce-suggestion-examples
+  (testing "object passes through"
+    (is (= {:keywords ["datomic"] :proposed ["m-team"]}
+           (mk/coerce-suggestion {:keywords ["datomic"] :proposed ["m-team"]}))))
+  (testing "bare array becomes the keyword list"
+    (is (= {:keywords ["leadership" "process"] :proposed []}
+           (mk/coerce-suggestion ["leadership" "process"]))))
+  (testing "non-string array members are dropped"
+    (is (= {:keywords ["team"] :proposed []}
+           (mk/coerce-suggestion ["team" 42 nil]))))
+  (testing "anything else is nil"
+    (is (nil? (mk/coerce-suggestion nil)))
+    (is (nil? (mk/coerce-suggestion "leadership")))))
 
 ;;; merge-keywords
 

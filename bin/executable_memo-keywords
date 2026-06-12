@@ -97,14 +97,28 @@
                (when (str/ends-with? content "\n") "\n")))))))
 
 (defn extract-json
-  "Parse the first JSON object in model output, tolerating markdown fences and
-  surrounding prose — some backends (e.g. MLX) ignore the format constraint.
-  Returns nil when no JSON object is present."
+  "Parse the JSON object — or, failing that, JSON array — in model output,
+  tolerating markdown fences and surrounding prose: backends that ignore the
+  format constraint (e.g. MLX) reply in either shape. Returns nil when no
+  parseable JSON is present."
   [content]
-  (let [start (str/index-of content "{")
-        end (str/last-index-of content "}")]
-    (when (and start end (< start end))
-      (json/parse-string (subs content start (inc end)) true))))
+  (let [try-parse #(try (json/parse-string % true) (catch Exception _ nil))
+        slice (fn [open close]
+                (let [start (str/index-of content open)
+                      end (str/last-index-of content close)]
+                  (when (and start end (< start end))
+                    (subs content start (inc end)))))]
+    (or (some-> (slice "{" "}") try-parse)
+        (some-> (slice "[" "]") try-parse))))
+
+(defn coerce-suggestion
+  "Coerce parsed model JSON into suggestion shape: an object passes through;
+  a bare array is treated as the keyword list. Anything else is nil."
+  [parsed]
+  (cond
+    (map? parsed) parsed
+    (sequential? parsed) {:keywords (vec (filter string? parsed)) :proposed []}
+    :else nil))
 
 (defn merge-keywords
   "Sorted, distinct, sluggified union of keywords, always including journal."
@@ -186,9 +200,9 @@
                             {:headers {"Content-Type" "application/json"}
                              :body (json/generate-string request)})
         content (-> (:body response) (json/parse-string true) :message :content)
-        suggestion (extract-json content)]
+        suggestion (coerce-suggestion (extract-json content))]
     (when-not suggestion
-      (throw (ex-info "Model reply contained no JSON object"
+      (throw (ex-info "Model reply contained no usable JSON"
                       {:model model :content content})))
     (sanitize-suggestion suggestion vocabulary)))
 

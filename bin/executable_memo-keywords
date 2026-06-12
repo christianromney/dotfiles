@@ -184,7 +184,9 @@
        "- Choose up to " max-keywords " vocabulary keywords describing the entry's dominant topics.\n"
        "- Prefer fewer, stronger keywords. An empty list is correct for thin or placeholder entries.\n"
        "- Only when a major topic has no vocabulary fit, add a new kebab-case keyword to \"proposed\". This is rarely needed.\n"
-       "- Never use the keyword \"journal\".\n\n"
+       "- Never use the keyword \"journal\".\n"
+       "- Reply with exactly one JSON object of this shape, and nothing else:\n"
+       "  {\"keywords\": [\"...\"], \"proposed\": []}\n\n"
        "Journal entry titled \"" title "\":\n\n"
        (let [body (str body)]
          (subs body 0 (min (count body) max-body-chars)))))

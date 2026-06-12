@@ -1029,6 +1029,102 @@ Doom loads early."
 (after! (consult denote)
   (consult-denote-mode 1))
 
+(message "  ...denote: keyword suggestions (memo-keywords)...")
+
+;; Content-based keyword suggestions for journal entries via ~/bin/memo-keywords
+;; (local Ollama model). On save, an unkeyworded journal entry (filename still
+;; ends in __journal.md) gets an async suggestion; accept/edit the keywords in
+;; the minibuffer and Denote renames the file to match. C-g declines for the
+;; rest of the session. Also available on demand via C-c n d k.
+(defvar cr/denote-keyword-suggest-on-save t
+  "When non-nil, suggest keywords for unkeyworded journal entries after save.")
+
+(defvar cr/denote-keyword-min-body-chars 200
+  "Skip keyword suggestions for entries with fewer characters than this.")
+
+(defconst cr/denote-keyword-suggest-command (expand-file-name "~/bin/memo-keywords")
+  "Path to the memo-keywords script.")
+
+(defvar cr/denote-keyword--state (make-hash-table :test #'equal)
+  "Per-session suggestion state keyed by file: `pending' or `declined'.")
+
+(defun cr/denote-journal-unkeyworded-p (file)
+  "Whether FILE is a Denote journal entry that has only the journal keyword."
+  (and file
+       (string-match-p "__journal\\.md\\'" file)
+       (file-in-directory-p file (denote-directory))))
+
+(defun cr/denote-keyword--apply (file keywords)
+  "Write KEYWORDS into FILE's front matter, then rename FILE to match."
+  (when-let ((buffer (find-buffer-visiting file)))
+    (with-current-buffer buffer
+      (save-excursion
+        (goto-char (point-min))
+        (when (re-search-forward "^tags:\\([ \t]*\\)\\[.*\\]" nil t)
+          (replace-match (concat "tags:\\1["
+                                 (mapconcat (lambda (k) (format "\"%s\"" k))
+                                            keywords ", ")
+                                 "]"))))
+      (save-buffer)
+      (let ((denote-rename-confirmations nil))
+        (denote-rename-file-using-front-matter file)))))
+
+(defun cr/denote-keyword--offer (file suggestion)
+  "Offer SUGGESTION's keywords for FILE in the minibuffer; apply on accept."
+  (let* ((suggested (append (gethash "keywords" suggestion) nil))
+         (proposed (append (gethash "proposed" suggestion) nil))
+         (candidates (delete-dups (append suggested proposed (denote-keywords))))
+         (chosen (condition-case nil
+                     (completing-read-multiple
+                      (format "Keywords for %s: " (file-name-nondirectory file))
+                      candidates nil nil (string-join suggested ","))
+                   (quit nil))))
+    (if (null chosen)
+        (puthash file 'declined cr/denote-keyword--state)
+      (remhash file cr/denote-keyword--state)
+      (cr/denote-keyword--apply
+       file (sort (delete-dups (cons "journal" chosen)) #'string<)))))
+
+(defun cr/denote-keyword-suggest ()
+  "Asynchronously suggest content-based keywords for the current journal entry."
+  (interactive)
+  (let ((file (buffer-file-name)))
+    (if (not (cr/denote-journal-unkeyworded-p file))
+        (when (called-interactively-p 'interactive)
+          (message "Not an unkeyworded journal entry: %s" (buffer-name)))
+      (puthash file 'pending cr/denote-keyword--state)
+      (make-process
+       :name "memo-keywords-suggest"
+       :buffer (generate-new-buffer " *memo-keywords*")
+       :command (list cr/denote-keyword-suggest-command
+                      "suggest" "--format" "json" file)
+       :noquery t
+       :sentinel
+       (lambda (process _event)
+         (when (memq (process-status process) '(exit signal))
+           (unwind-protect
+               (if (zerop (process-exit-status process))
+                   (cr/denote-keyword--offer
+                    file
+                    (with-current-buffer (process-buffer process)
+                      (goto-char (point-min))
+                      (json-parse-buffer)))
+                 (remhash file cr/denote-keyword--state)
+                 (message "memo-keywords failed for %s (see *Messages*)"
+                          (file-name-nondirectory file)))
+             (kill-buffer (process-buffer process)))))))))
+
+(defun cr/denote-keyword-suggest-after-save ()
+  "Trigger `cr/denote-keyword-suggest' for substantial unkeyworded entries."
+  (when (and cr/denote-keyword-suggest-on-save
+             (cr/denote-journal-unkeyworded-p (buffer-file-name))
+             (> (buffer-size) cr/denote-keyword-min-body-chars)
+             (not (gethash (buffer-file-name) cr/denote-keyword--state)))
+    (cr/denote-keyword-suggest)))
+
+(add-hook! 'markdown-mode-hook
+  (add-hook 'after-save-hook #'cr/denote-keyword-suggest-after-save nil t))
+
 (message "  ...denote: keybindings (C-c n d)...")
 
 ;; :leader is C-c in this non-evil (Holy) setup, so this lands under C-c n d,
@@ -1044,7 +1140,8 @@ Doom loads early."
         :desc "Backlinks"               "b" #'denote-backlinks
         :desc "Find (consult)"          "f" #'consult-denote-find
         :desc "Grep (consult)"          "g" #'consult-denote-grep
-        :desc "Rename via front matter" "r" #'denote-rename-file-using-front-matter)))
+        :desc "Rename via front matter" "r" #'denote-rename-file-using-front-matter
+        :desc "Suggest keywords"        "k" #'cr/denote-keyword-suggest)))
 
 (message "  ...denote configured.")
 

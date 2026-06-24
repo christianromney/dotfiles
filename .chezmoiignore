@@ -11,3 +11,4 @@
 .DS_Store
 .Trash
 .cache
+.basic-memory/config.json

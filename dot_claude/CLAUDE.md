@@ -34,6 +34,7 @@ Even these should only be used when:
 - Every factual claim must trace to a specific source.
 - Prefer broadly-shared sources (GitHub, Confluence team spaces, JIRA, public Slack channels) over narrowly-shared ones (Google Docs with unknown sharing, DMs, emails).
 - When the same content exists in both a private and a public document, cite the public one.
+- Never fabricate a link or citation. If no real shared source exists, leave the claim unlinked rather than inventing a plausible-looking URL; don't link a private/1:1/restricted document when a canonical shared source exists.
 
 ### Uncertain attribution
 
@@ -97,6 +98,11 @@ Even these should only be used when:
 - Every document must include a Version History table. See @reference/disclosure.md for the required format.
 - Every edit session must add a row. Coalesce entries for the same date when that is clearer.
 - The version history helps future readers understand which claims have been verified and when.
+
+### Readability and scannability
+
+- Lead with the takeaway, then support it: a bold one-line summary followed by tight bullets, with key metrics surfaced rather than buried in prose, so a busy reader grasps each section quickly.
+- In visual documents, create interest through typography, layout, and restraint — not intense color or busy headers.
 
 ## Problem-Solving Approach
 
@@ -165,6 +171,11 @@ Hard rules:
 - `chezmoi diff` left side (red) = home directory; right side (green) = source. "Home wins" → `re-add`; "source wins" → `apply --force`.
 - Use `/sync-dotfiles` skill for committing and pushing changes.
 
+### Interactive and Subshell Tools
+
+- When a change can only be made through an interactive or subshell-spawning tool — e.g., `chezmoi edit` (opens `$EDITOR`), `chezmoi cd` (opens a subshell), or any TUI/REPL — do **not** force it with throwaway shell-script or scripted-`$EDITOR` workarounds, and do not bypass the tool by editing managed source files (e.g., under `~/.local/share/chezmoi`) by raw path.
+- Instead, tell me plainly that the step can't be run non-interactively and ask whether I'd prefer to handle the manual step myself (I usually do). Then complete the non-interactive parts yourself.
+
 ### Writing Tests
 
 - Never disable tests, fix them.
@@ -180,6 +191,11 @@ Hard rules:
 - Never silently swallow exceptions.
 
 ## User Preferences
+
+### Capturing Preferences and Memory
+
+- When you learn a general (non-project-specific) preference of mine — how I want you to write, work, or use tools — record it in this global `~/.claude/CLAUDE.md` so it syncs across machines (my Claude config is chezmoi-managed for exactly this reason), then sync with `chezmoi re-add ~/.claude/CLAUDE.md`.
+- Keep project- or machine-specific facts (status, file locations, one-off references) in project-local memory, not here.
 
 ### Version Control
 - Use jujutsu (jj) colocated with git for version control.

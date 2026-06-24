@@ -54,6 +54,8 @@ Even these should only be used when:
 - Prefer measured language: "very difficult" over "impossible", "significant gap" over "the most significant gap", "changed significantly" over "fundamentally changed".
 - When an assertion is AI reasoning rather than a sourced finding, say so explicitly.
 - **Don't treat different terms as synonyms.** If two terms seem interchangeable, they probably denote different things. "Calculation parameters" (rates, thresholds) and "step configurations" (ordered DSL steps) are not the same concept. Using one to restate the other obscures the distinction. Pick the term that means what you intend, or define both.
+- **Don't overstate quantities, scope, or roles.** Report provable figures and the accurate role — e.g., "shadow interviewer," not "led"; "contributed to," not "delivered." Verify a count before calling it large.
+- **Attribute work precisely.** Distinguish what your organization delivers (and you are accountable for) from what you personally performed; credit others' work to them; use exact verbs ("approved" ≠ "authored").
 
 ### Researcher attribution and absence claims
 

@@ -28,6 +28,7 @@ set -gx PATH "$NUCLI_HOME" \
     "$HOME/Library/Android/sdk/platform-tools" \
     "$HOME/Library/Android/sdk/emulator" $PATH
 
+# litellm
 set -gx ANTHROPIC_BASE_URL "https://us-prod-litellm.nullmplatform.com"
 set -gx ANTHROPIC_AUTH_TOKEN (security find-generic-password -a christian.romney.personal -s litellm.virtual-key -w)
 

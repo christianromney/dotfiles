@@ -152,6 +152,10 @@ Hard rules:
 - Create all diagrams following the instructions in @diagramming.md
 - Architectural briefing template for knowledge-base entries on technologies: `~/dev/nu/claude-plugins/generate/skills/arch-briefing/briefing-template.md`
 
+### Pull Requests
+
+- Keep PRs small, single-purpose, and reviewable. Follow the instructions in @reference/pull-requests.md
+
 ### General Maxims
 - Large tasks should be decomposed into smaller pieces.
 - Make incremental changes that compile and pass tests.

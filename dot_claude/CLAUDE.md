@@ -208,6 +208,7 @@ Hard rules:
 - Other collaborators use Git and GitHub only, but jujutsu enables more powerful local workflows that interoperate seamlessly with the larger team.
 - jj has no staging area; see the jujutsu skill for workflow details.
 - **Always invoke the `/jujutsu:jujutsu` skill for commit, push, rebase, and bookmark operations** rather than running raw `git` or `jj` commands directly. The skill knows the proper jj workflow; plain `git` commands can interfere with jj's anonymous-head workflow.
+- **Always invoke the `/generate:commit-message` skill to draft commit messages** before committing, rather than authoring them inline from context or a prior plan.
 
 ### Editor
 - Emacs (Doom Emacs); don't generate configs for other editors.

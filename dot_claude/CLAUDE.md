@@ -174,6 +174,12 @@ Hard rules:
 - `chezmoi diff` left side (red) = home directory; right side (green) = source. "Home wins" → `re-add`; "source wins" → `apply --force`.
 - Use `/sync-dotfiles` skill for committing and pushing changes.
 
+### Skill Development
+
+- Develop all new Claude Code skills in `~/dev/nu/claude-plugins` (Christian's personal plugin marketplace, `christianromney/claude-plugins` on GitHub, jj-colocated with git) — never as standalone entries under `~/.claude/skills/`.
+- Scaffold new skills as `<plugin-name>/skills/<skill-name>/SKILL.md` with a matching `.claude-plugin/plugin.json`, and register them in the repo's `.claude-plugin/marketplace.json` catalog. See `decision-matrix/` for the simplest single-skill example.
+- Commit/push via the `/jujutsu:jujutsu` skill, not raw git.
+
 ### Interactive and Subshell Tools
 
 - When a change can only be made through an interactive or subshell-spawning tool — e.g., `chezmoi edit` (opens `$EDITOR`), `chezmoi cd` (opens a subshell), or any TUI/REPL — do **not** force it with throwaway shell-script or scripted-`$EDITOR` workarounds, and do not bypass the tool by editing managed source files (e.g., under `~/.local/share/chezmoi`) by raw path.

@@ -139,6 +139,7 @@ Hard rules:
 - Fish is the user's shell -- use fish syntax for interactive commands.
 - Personal scripts in `~/bin/` use `#!/usr/bin/env fish` by default.
 - Write POSIX/bash `.sh` for portable scripts meant for sharing or CI.
+- Consult the `fish-shell` skill (`~/.claude/skills/fish-shell/`) before writing or editing any `.fish` file or fish function. Fish's syntax looks bash-like but silently diverges (no bare `var=value` assignment, all variables are lists with 1-based indexing, no `[[ ]]`/`$(( ))`, no `then`/`fi`, no errexit) -- don't rely on bash intuition alone.
 - macOS BSD utility gotchas: `date`, `stat`, and `sed -i` behave differently from GNU versions. Use `gsed` if GNU sed behavior is required.
 - Ghostty is the user's terminal emulator.
 
@@ -151,10 +152,6 @@ Hard rules:
 - Create all documentation following the instructions in @documentation.md
 - Create all diagrams following the instructions in @diagramming.md
 - Architectural briefing template for knowledge-base entries on technologies: `~/dev/nu/claude-plugins/generate/skills/arch-briefing/briefing-template.md`
-
-### Pull Requests
-
-- Keep PRs small, single-purpose, and reviewable. Follow the instructions in @reference/pull-requests.md
 
 ### General Maxims
 - Large tasks should be decomposed into smaller pieces.

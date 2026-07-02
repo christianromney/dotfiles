@@ -5,7 +5,7 @@ description: Write, review, or debug Fish shell scripts and functions correctly 
 
 # Fish Shell Scripting
 
-Fish (the "friendly interactive shell") looks close enough to bash that it's easy to write something that *parses* but is subtly wrong — silent bugs, not syntax errors. This skill exists so that never happens again: the reference material here was built after a real incident where bash-shaped assumptions about shell scripting broke a script in a way that wasn't caught until data was already lost.
+Fish (the "friendly interactive shell") looks close enough to bash that it's easy to write something that *parses* but is subtly wrong — silent bugs, not syntax errors, since Fish's control-flow keywords, quoting rules, and variable model diverge from POSIX shell in ways a bash-fluent reader won't notice at a glance. This skill exists to close that gap: consult the reference material below before assuming bash intuition carries over.
 
 ## Before writing or editing any Fish code
 

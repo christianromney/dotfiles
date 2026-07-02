@@ -35,7 +35,7 @@ set -gx ANTHROPIC_AUTH_TOKEN (security find-generic-password -a christian.romney
 {{- end }}
 
 # add home/bin and Doom to path
-set -gx PATH $HOME/bin $HOME/.local/bin $HOME/.config/emacs/bin $HOME/.cargo/bin $HOME/.bun/bin $PATH
+set -gx PATH $HOME/bin $HOME/.local/bin $HOMEBREW_CELLAR/emacs-plus@31/31.0.90/bin $HOME/.config/emacs/bin $HOME/.cargo/bin $HOME/.bun/bin $PATH
 
 # ensure ssh and gpg are initialized
 gpgconf --launch gpg-agent

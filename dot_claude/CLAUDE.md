@@ -174,6 +174,17 @@ Hard rules:
 - `chezmoi diff` left side (red) = home directory; right side (green) = source. "Home wins" → `re-add`; "source wins" → `apply --force`.
 - Use `/sync-dotfiles` skill for committing and pushing changes.
 
+### Plugin Marketplace Hierarchy
+
+Nubank plugin marketplaces form a tiered hierarchy from broadest audience to narrowest, which doubles as an incubation pipeline: plugins graduate upward as they prove generally useful, becoming more general and higher-quality at each step. Not every plugin survives promotion — some are temporary experiments superseded by better approaches.
+
+1. **Company-wide** — `nubank/ai-agents-plugins` on GitHub. The broadest, most generally-applicable plugins serving all Nubankers regardless of job function: calendar, Confluence, Jira, Slack, and other knowledge-worker/business/communications/productivity skills. As of 2026-Jul, being reworked from an ungoverned kitchen-sink (anyone adding parochial plugins) into a curated, governed marketplace — a change Christian views favorably.
+2. **Job-function-specific** — skills broadly applicable within a function (e.g., engineering) independent of team: commit-message and pull-request skills are the model example.
+3. **Team-specific** — a team's own repo for workflows/tools tailored to that team's specific context (e.g., a credit-card team's specific workflows). Christian's team, U.S. Market (internal codename "Troy"), maintains one to standardize AI tooling capabilities across the team. **Unconfirmed as of 2026-Jul-06**: a repo search under the `nubank` GitHub org did not turn up a standalone Troy/US-Market marketplace repo — it found only a `plugins/us-market/` subdirectory inside `nubank/ai-agents-plugins` (owned by `@nubank/us-market-engineering`). Verify the actual repo name/URL with Christian and correct this entry.
+4. **Personal** — `christianromney/claude-plugins` (see Skill Development below), where Christian develops and tests plugins before they graduate to team level and potentially beyond.
+
+Promotion path: personal → team → job-function → company-wide.
+
 ### Skill Development
 
 - Develop all new Claude Code skills in `~/dev/nu/claude-plugins` (Christian's personal plugin marketplace, `christianromney/claude-plugins` on GitHub, jj-colocated with git) — never as standalone entries under `~/.claude/skills/`.

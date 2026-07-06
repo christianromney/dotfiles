@@ -185,7 +185,7 @@ Nubank plugin marketplaces form a tiered hierarchy from most local/least vetted 
 
 Promotion path: personal → team → job-function → company-wide.
 
-Use `nu proj clone <repo-name>` to check out any Nubank GitHub repo by name to `~/dev/nu/<repo-name>` — this is how each of the three Nubank-hosted repos above should be checked out locally.
+Use `nu proj clone <repo-name>` to check out any repo in the `nubank` GitHub organization by name to `~/dev/nu/<repo-name>` — this covers the team (`us-market-ai-resources`) and company-wide (`ai-agents-plugins`) tiers above. It does not apply to the personal tier, since `christianromney/claude-plugins` is under Christian's personal GitHub account, not the `nubank` org — that one must be cloned by its full path.
 
 ### Skill Development
 

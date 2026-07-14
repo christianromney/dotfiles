@@ -236,10 +236,14 @@ cask "1password-cli"
 cask "appcleaner"
 cask "arc"
 cask "audio-hijack"
+{{- if eq .chezmoi.username "mint" }}
 cask "clearance"
+{{- end }}
 cask "cursor"
 cask "discord"
+{{- if eq .chezmoi.username "mint" }}
 cask "dropbox"
+{{- end }}
 cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-juliamono"

@@ -146,3 +146,5 @@ dkms.conf
 .envrc
 .jj
 .claude/settings.local.json
+
+**/.claude/settings.local.json

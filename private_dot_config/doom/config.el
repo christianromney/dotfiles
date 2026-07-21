@@ -1191,27 +1191,7 @@ Doom loads early."
                  (cr/keychain-user-and-password
                    "api.anthropic.com" "apikey")))
         :stream t))
-
-    (defvar gptel--openai
-      (gptel-make-openai "Open AI (NuLLM)"
-        :stream t
-        :models '(o1-mini o3-mini o4-mini o1 o3 ;; reasoning models increasing in power + cost
-                   gpt-4.1-nano gpt-4.1-mini gpt-4.1) ;; standard models increasing in power + cost
-        :host "ist-prod-litellm.nullmplatform.com"
-        :key (lambda ()
-               (cr/auth-source-secret
-                 (cr/keychain-user-and-password
-                   "ist-prod-litellm.nullmplatform.com" "openai")))))
-
-    (defvar gptel--gemini
-      (gptel-make-gemini "Gemini (NuLLM)"
-        :stream t
-        :host "ist-prod-litellm.nullmplatform.com"
-        :key (lambda ()
-               (cr/auth-source-secret
-                 (cr/keychain-user-and-password
-                   "ist-prod-litellm.nullmplatform.com" "gemini")))))
-
+    
     (defvar gptel--ollama
       (gptel-make-ollama "Ollama"
         :host "localhost:11434"

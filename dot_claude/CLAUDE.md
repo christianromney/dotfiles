@@ -154,11 +154,31 @@ Hard rules:
 
 ### Design and Documentation
 
-- Observe the rules for good design in @design.md
-- Write good version control commit messages following the instructions in @commit-message.md
-- Create all documentation following the instructions in @documentation.md
-- Create all diagrams following the instructions in @diagramming.md
+- Observe the Design Principles below.
+- Write good version control commit messages via the `/generate:commit-message` skill (see Version Control below).
+- Create prose documentation following the Document Generation Guidelines above; create code documentation following Docstrings and Comments below.
+- Create all diagrams via the `/generate:diagram` skill (Mermaid DFD/ER/state/sequence/component conventions).
 - Architectural briefing template for knowledge-base entries on technologies: `~/dev/nu/claude-plugins/generate/skills/arch-briefing/briefing-template.md`
+
+### Design Principles
+
+- Be honest about what you don't know, failed to do, or aren't sure about.
+- Analysis, planning, and design always precede development, and must be documented.
+- Design is like sculpting, not painting — remove things, don't pile them on.
+- Be concise and specific, especially when thinking out loud.
+- Drive design from need, not anticipation — start from first principles and build up.
+- Design APIs top-down, staying connected to the user and API ergonomics.
+- A categorical solution always outweighs an optimization.
+
+**Tenets of a design**: sufficiency (solves the problem completely), minimality (fewest parts), completeness (fully implemented, not partial), simplicity (singular and independent, not tangled).
+
+**Problem statements**: a well-stated problem precedes any solution. A good problem statement is a succinct, precise statement of unmet user objectives and their cause — not a list of symptoms, anecdotes, or desired remedies. Consider multiple solutions or approaches, and stay connected to the problem while evaluating them so the choice made actually solves it.
+
+**Evaluating solutions**: even the best solution has trade-offs, and the worst usually has some redeeming quality. Compare solutions in a decision matrix — criteria as rows (ordered by descending importance), solutions as columns, with clarifying prose in each cell, not just scores or binary answers.
+
+**Compatibility**: version APIs, namespaces, and functions rather than introducing breakage.
+- Breaking change: requiring more from callers, or providing less than previously promised.
+- Compatible change: requiring less, or providing more.
 
 ### General Maxims
 - Large tasks should be decomposed into smaller pieces.
@@ -257,6 +277,32 @@ Use `nu proj clone <repo-name>` to check out any repo in the `nubank` GitHub org
 - Use `defn-` for implementation helpers not part of the public interface
 - `str/blank?` handles nil — no separate nil check needed before it
 - Docstrings belong on all public `def`s and `defn`s, not just functions
+
+### Docstrings and Comments
+
+Docstrings are specifications, not mechanics — read via `(doc fn-name)` in the REPL, decoupled from the surrounding code. Some languages (Clojure, Python) support them; provide one on every public `def`/`defn`. Keep them concise: promise only the minimal semantics needed, so implementations can change without breaking the contract.
+
+1. Describe intent, not mechanics — what a thing does and why, not how it's internally organized or implemented (that's visible in the code itself).
+2. No cross-references to other implementations, especially with line numbers — line numbers rot, and the reader shouldn't need to trace a parallel implementation to trust this one.
+3. State semantics, argument meaning **and type** explicitly (e.g. "a string", "a vector of strings"), map-key shape including optionality, invariants, and return type — say if the return value is lazy, and of what. State that an exception is thrown on failure, but don't promise a concrete exception class unless the caller needs to catch that specific type.
+4. Keep the "why," drop the "how you verified it" — a rationale belongs in the docstring; the specific command used to confirm it doesn't.
+5. Prefer idiomatic, primary-data-first signatures over a mixed leading-string/trailing-variadic shape.
+6. Namespace docstrings state what the namespace does and give an overview of concepts spanning its symbols — not organizational or legacy-coexistence trivia.
+7. Preserve prose flow — don't chain a parenthetical type-aside after every clause. State argument types as trailing prose, not as an interruption after each argument name (this is the 0–1-arg default; see rule 18 for 2+ args).
+8. Never write "see below" (or similar) — name the actual keys/values inline instead.
+9. Explain magic numbers with an inline comment showing the arithmetic/derivation.
+10. Prefer `(:import ...)` for frequently-used Java classes over repeating fully-qualified names throughout the file.
+11. Name the actual keys a function reads/returns, not the tool or upstream function that produced the map — provenance is mechanical noise, shape is what the caller needs. Exceptions: defer to another function's docstring ("as built by `build-row`") once that function documents its own shape, or embed a hyperlink to a shared external spec (algorithm, data structure, grammar).
+12. Don't leave a vague "Returns a lazy seq" without naming the element type/shape.
+13. Don't describe what something ISN'T or doesn't do — "the road not taken" describes an infinite set of non-facts.
+14. Omit extraneous rationale and conjecture — state confirmed behavior, not a speculative guess about why something might happen.
+15. Don't name a sibling function unless it's an argument, is called from within the body, or rule 11's exception applies — naming an unrelated function creates conceptual coupling the reader has to go verify for no reason. This supersedes a blanket "reference other docstrings to avoid repetition": only defer when the referenced docstring documents its own shape.
+16. Avoid ambiguous modal verbs ("should", "may", "might") describing your own function's guaranteed behavior — say "does"/"returns" when the code guarantees the outcome.
+17. Rename functions with vague or role-only names proactively (e.g. `for-display` → `row-with-local-time`) instead of waiting to be asked.
+18. For functions with 2+ arguments needing individual type/shape documentation, list one argument per line as `` `arg-name` - description ``, in its own block between the summary and the `Returns` clause. This supersedes rule 7 specifically for multi-argument functions; rule 7 still governs narrative text and 0–1-arg functions.
+19. Macro docstrings must explain whether and how each argument is evaluated (unevaluated/quoted vs. evaluated) — the key semantic difference from an ordinary function.
+
+Apply these proactively before presenting code — scan sibling functions in the same file for a pattern once one instance is flagged, don't wait to be told twice.
 
 ### Code Organization
 - Functions should take their data explicitly; extract fields inside, don't close over parsed globals

@@ -269,6 +269,7 @@ Use `nu proj clone <repo-name>` to check out any repo in the `nubank` GitHub org
 - Use `->` and `->>` threading macros to express sequential data transformations readably
 
 ### Idiomatic Clojure
+- Prefer `(:import ...)` for frequently-used Java classes (e.g. `java.time.Instant`, `java.time.ZoneId`) over repeating the fully-qualified name throughout a file — applies equally to test files, not just implementation namespaces.
 - Prefer `when-let` over `let` + `when` when a binding guards nil
 - Prefer `when-not` over `(when (not ...))`
 - Inline single-use bindings rather than naming them
@@ -291,7 +292,7 @@ Docstrings are specifications, not mechanics — read via `(doc fn-name)` in the
 7. Preserve prose flow — don't chain a parenthetical type-aside after every clause. State argument types as trailing prose, not as an interruption after each argument name (this is the 0–1-arg default; see rule 18 for 2+ args).
 8. Never write "see below" (or similar) — name the actual keys/values inline instead.
 9. Explain magic numbers with an inline comment showing the arithmetic/derivation.
-10. Prefer `(:import ...)` for frequently-used Java classes over repeating fully-qualified names throughout the file.
+10. Prefer `(:import ...)` over fully-qualified Java class names — see Idiomatic Clojure above (applies to test files too).
 11. Name the actual keys a function reads/returns, not the tool or upstream function that produced the map — provenance is mechanical noise, shape is what the caller needs. Exceptions: defer to another function's docstring ("as built by `build-row`") once that function documents its own shape, or embed a hyperlink to a shared external spec (algorithm, data structure, grammar).
 12. Don't leave a vague "Returns a lazy seq" without naming the element type/shape.
 13. Don't describe what something ISN'T or doesn't do — "the road not taken" describes an infinite set of non-facts.

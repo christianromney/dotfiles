@@ -31,10 +31,33 @@ Even these should only be used when:
 - It is fine to keep doing unrelated reversible work (research, drafting) while waiting, but do not act on the unanswered question's outcome until the user actually answers.
 - Exception: if the user has explicitly told you, in the moment, to proceed autonomously or use your own judgment for this task, that stands until revoked — this rule is about unanswered questions, not about removing autonomy the user granted.
 
-## Document Generation Guidelines
+## Writing Standards
 
-- Whenever you help me write a document, insert a disclosure notice at the top of the document.
-- Follow the detailed disclosure and version history instructions in @reference/disclosure.md
+These rules govern evidence, honesty, and clarity in all communication — replies to me, documents, code, comments — not only formal deliverables written for someone else. They are ground rules for how you reason and answer, not document-formatting mechanics (those live in the `technical-writing` skill; see below).
+
+### Word and verb choice
+
+- Use active voice.
+- Prefer a direct action verb over a noun phrase built on a weak verb: "investigate," not "conduct an investigation of"; "validate," not "perform a validation of."
+- Don't stack helping verbs: "could cause," not "might possibly have been able to cause."
+- Use one consistent name for the same item throughout a piece of writing — don't introduce synonyms for variety.
+
+### Prose and narrative style
+
+- **Vary sentence structure.** Avoid three or more consecutive simple sentences — they read as immature. Prefer compound, complex, or compound-complex constructions that join related ideas.
+- **Don't narrate from the author's perspective.** Write "the analysis revealed X," not "I noticed X" or "I agreed that X." The author's process is not the reader's concern.
+- **Don't tell readers how to interpret content.** Remove meta-commentary like "the reader would find this surprising." Let the evidence speak.
+- **Remove context obvious to the target reader.** If the audience already knows it, don't explain it — it condescends and pads length.
+
+### Tone and precision
+
+- Avoid absolute claims and superlatives unless they are provable from the evidence. "All 7 methods are one-liners" is fine (provable from code). "No one can read the formula" is not (someone might be able to).
+- Prefer measured language: "very difficult" over "impossible", "significant gap" over "the most significant gap", "changed significantly" over "fundamentally changed".
+- Avoid marketing adjectives ("seamless," "robust," "cutting-edge") in favor of a concrete, verifiable description of what something does.
+- When an assertion is AI reasoning rather than a sourced finding, say so explicitly.
+- **Don't treat different terms as synonyms.** If two terms seem interchangeable, they probably denote different things. "Calculation parameters" (rates, thresholds) and "step configurations" (ordered DSL steps) are not the same concept. Using one to restate the other obscures the distinction. Pick the term that means what you intend, or define both.
+- **Don't overstate quantities, scope, or roles.** Report provable figures and the accurate role — e.g., "shadow interviewer," not "led"; "contributed to," not "delivered." Verify a count before calling it large.
+- **Attribute work precisely.** Distinguish what your organization delivers (and you are accountable for) from what you personally performed; credit others' work to them; use exact verbs ("approved" ≠ "authored").
 
 ### Source attribution
 
@@ -48,65 +71,15 @@ Even these should only be used when:
 - When attributing a quote to a speaker based on AI-generated meeting notes (e.g., Gemini transcripts), use the `[Name?]` notation: the person's name in square brackets with a trailing question mark. Example: `[Stuart?] noted: "the DSL is a hairy monster."` This preserves the AI transcriber's best guess while signaling that the attribution has not been verified against the recording.
 - Define the notation in the document's Limitations section on first use.
 
-### Prose and narrative style
-
-- **Vary sentence structure.** Avoid three or more consecutive simple sentences — they read as immature. Prefer compound, complex, or compound-complex constructions that join related ideas.
-- **Don't narrate from the author's perspective.** Write "the analysis revealed X," not "I noticed X" or "I agreed that X." The author's process is not the reader's concern.
-- **Don't tell readers how to interpret content.** Remove meta-commentary like "the reader would find this surprising." Let the evidence speak.
-- **Remove context obvious to the target reader.** If the audience already knows it, don't explain it — it condescends and pads length.
-
-### Tone and precision
-
-- Avoid absolute claims and superlatives unless they are provable from the evidence. "All 7 methods are one-liners" is fine (provable from code). "No one can read the formula" is not (someone might be able to).
-- Prefer measured language: "very difficult" over "impossible", "significant gap" over "the most significant gap", "changed significantly" over "fundamentally changed".
-- When an assertion is AI reasoning rather than a sourced finding, say so explicitly.
-- **Don't treat different terms as synonyms.** If two terms seem interchangeable, they probably denote different things. "Calculation parameters" (rates, thresholds) and "step configurations" (ordered DSL steps) are not the same concept. Using one to restate the other obscures the distinction. Pick the term that means what you intend, or define both.
-- **Don't overstate quantities, scope, or roles.** Report provable figures and the accurate role — e.g., "shadow interviewer," not "led"; "contributed to," not "delivered." Verify a count before calling it large.
-- **Attribute work precisely.** Distinguish what your organization delivers (and you are accountable for) from what you personally performed; credit others' work to them; use exact verbs ("approved" ≠ "authored").
-
 ### Researcher attribution and absence claims
 
 - Use active voice to describe researcher actions. Name researchers explicitly: Claude (the AI), Christian (the user), or use "we" for collaborative work. Examples: "Claude searched..." "I investigated..." "We determined..."
 - For absence claims, use the phrasing: "Claude did not find [X] in [sources examined](#sources)" to scope the limitation to searched sources, not to reality. This clearly indicates what was searched and why the absence may not be conclusive.
 - Do not inject assessment or judgment about research subjects (e.g., guardrails do not "dominate," "skew," or "burden"--just enumerate what they are). Quote sources for claims about effectiveness or adoption patterns.
 
-### Lists
+## Technical Writing
 
-- Use ordered (numbered) lists for inherently sequential content — procedural steps, BCM Cycle stages, FFIEC procedures, version-change protocols, anything that reads as "first, then, finally."
-- Use bulleted (unordered) lists for items whose order is not meaningful — related-pages lists, glossary entries, parallel enumerations, reference links.
-- On Confluence/ADF: `orderedList` with `attrs.order: 1` for sequential content; `bulletList` for unordered.
-
-### Linking
-
-- When referring to something elsewhere in the same document (e.g., a sources section, a table, a prior discussion), use a markdown anchor link rather than enumerating or re-describing the content. Example: "the [sources examined](#13-sources)" rather than "the sources examined (Confluence, Google Docs, Slack)".
-- When referring to a file in the same repository, use a relative markdown link. Example: `[calculations-retro.md](calculations-retro.md)`.
-- Prefer inline links over reference-style links for readability in source form.
-- Code links must use a specific commit hash and line range -- not a branch name or HEAD, which move. Example: `/blob/a1b2c3d/src/file.clj#L15-L28`, not `/blob/main/src/file.clj`.
-- First mentions of terms in summaries must link to their definition or full treatment elsewhere in the document or in an external source.
-- Table cells with named entities (components, services, libraries, interceptors) must link to their canonical location (source definition, GitHub repo, or implementing file).
-- VPN-required links must be marked with `(VPN)` per [url-access-requirements.md](url-access-requirements.md). GitHub and Confluence do not require VPN.
-- Display text should be concise: no line numbers, no full file paths, no commit hashes. The URL carries precision; the text carries meaning.
-
-### Errata
-
-- Errata are **errors discovered and subsequently corrected**. Each erratum states what was wrong, what the correction was, and speculates on why the error occurred.
-- Process errors (e.g., citing private documents, analyzing stale data) are errata when they led to incorrect content that was corrected.
-- Do **not** put limitations in the errata section. Limitations are not errors -- they are qualifications on the scope or confidence of the analysis. Presenting a strong claim in one section and then qualifying it in an errata section that readers may not reach is worse than qualifying the claim where it is made.
-- When correcting errors, always add an Errata entry. Never silently fix a factual error -- the correction history is part of the research record.
-- Errata are a **flat numbered list**. Do not add subheaders, categories, or cross-item commentary. Each erratum stands alone.
-
-### Limitations
-
-- Qualify claims at the point they are made. A reader should never encounter a confident assertion in one section that is softened or disclaimed in a separate section they may not read.
-- If a claim rests on AI reasoning rather than a sourced finding, say so inline.
-- If a quantitative claim comes from agent analysis, note the uncertainty inline.
-- For crosscutting weaknesses that affect the entire analysis (e.g., "no independent code review was performed," "no direct input from the team"), list them in a separate **Limitations** section.
-
-### Version history
-
-- Every document must include a Version History table. See @reference/disclosure.md for the required format.
-- Every edit session must add a row. Coalesce entries for the same date when that is clearer.
-- The version history helps future readers understand which claims have been verified and when.
+For durable, technical-domain writing — regardless of medium (Confluence, Google Docs, gists, markdown notes, long Slack posts, README files, blog posts) or rhetorical form (procedural, narrative, argumentative) — document-production mechanics (AI disclosure block, version history, lists, linking, errata, limitations sections) and a stricter procedural tier (derived from ASD-STE100 Simplified Technical English, for runbooks/install-steps/error-messages/CLI-help) live in the `technical-writing` skill, not here. Docstrings also fall under that skill's document-mechanics tier — see its `docstrings.md` reference.
 
 ### Readability and scannability
 
@@ -281,29 +254,7 @@ Use `nu proj clone <repo-name>` to check out any repo in the `nubank` GitHub org
 
 ### Docstrings and Comments
 
-Docstrings are specifications, not mechanics — read via `(doc fn-name)` in the REPL, decoupled from the surrounding code. Some languages (Clojure, Python) support them; provide one on every public `def`/`defn`. Keep them concise: promise only the minimal semantics needed, so implementations can change without breaking the contract.
-
-1. Describe intent, not mechanics — what a thing does and why, not how it's internally organized or implemented (that's visible in the code itself).
-2. No cross-references to other implementations, especially with line numbers — line numbers rot, and the reader shouldn't need to trace a parallel implementation to trust this one.
-3. State semantics, argument meaning **and type** explicitly (e.g. "a string", "a vector of strings"), map-key shape including optionality, invariants, and return type — say if the return value is lazy, and of what. State that an exception is thrown on failure, but don't promise a concrete exception class unless the caller needs to catch that specific type.
-4. Keep the "why," drop the "how you verified it" — a rationale belongs in the docstring; the specific command used to confirm it doesn't.
-5. Prefer idiomatic, primary-data-first signatures over a mixed leading-string/trailing-variadic shape.
-6. Namespace docstrings state what the namespace does and give an overview of concepts spanning its symbols — not organizational or legacy-coexistence trivia.
-7. Preserve prose flow — don't chain a parenthetical type-aside after every clause. State argument types as trailing prose, not as an interruption after each argument name (this is the 0–1-arg default; see rule 18 for 2+ args).
-8. Never write "see below" (or similar) — name the actual keys/values inline instead.
-9. Explain magic numbers with an inline comment showing the arithmetic/derivation.
-10. Prefer `(:import ...)` over fully-qualified Java class names — see Idiomatic Clojure above (applies to test files too).
-11. Name the actual keys a function reads/returns, not the tool or upstream function that produced the map — provenance is mechanical noise, shape is what the caller needs. Exceptions: defer to another function's docstring ("as built by `build-row`") once that function documents its own shape, or embed a hyperlink to a shared external spec (algorithm, data structure, grammar).
-12. Don't leave a vague "Returns a lazy seq" without naming the element type/shape.
-13. Don't describe what something ISN'T or doesn't do — "the road not taken" describes an infinite set of non-facts.
-14. Omit extraneous rationale and conjecture — state confirmed behavior, not a speculative guess about why something might happen.
-15. Don't name a sibling function unless it's an argument, is called from within the body, or rule 11's exception applies — naming an unrelated function creates conceptual coupling the reader has to go verify for no reason. This supersedes a blanket "reference other docstrings to avoid repetition": only defer when the referenced docstring documents its own shape.
-16. Avoid ambiguous modal verbs ("should", "may", "might") describing your own function's guaranteed behavior — say "does"/"returns" when the code guarantees the outcome.
-17. Rename functions with vague or role-only names proactively (e.g. `for-display` → `row-with-local-time`) instead of waiting to be asked.
-18. For functions with 2+ arguments needing individual type/shape documentation, list one argument per line as `` `arg-name` - description ``, in its own block between the summary and the `Returns` clause. This supersedes rule 7 specifically for multi-argument functions; rule 7 still governs narrative text and 0–1-arg functions.
-19. Macro docstrings must explain whether and how each argument is evaluated (unevaluated/quoted vs. evaluated) — the key semantic difference from an ordinary function.
-
-Apply these proactively before presenting code — scan sibling functions in the same file for a pattern once one instance is flagged, don't wait to be told twice.
+Docstrings are technical writing: technical-domain (code semantics) and durable (read via `(doc fn-name)` every time someone touches the function). The full rule set — what to describe, how to state argument types and shapes, cross-reference conventions — lives in the `technical-writing` skill's `docstrings.md` reference; apply it proactively while coding, not only when asked.
 
 ### Code Organization
 - Functions should take their data explicitly; extract fields inside, don't close over parsed globals

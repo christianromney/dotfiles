@@ -119,7 +119,7 @@ Hard rules:
 - Fish is the user's shell -- use fish syntax for interactive commands.
 - Personal scripts in `~/bin/` use `#!/usr/bin/env fish` by default.
 - Write POSIX/bash `.sh` for portable scripts meant for sharing or CI.
-- Consult the `fish-shell` skill (`~/.claude/skills/fish-shell/`) before writing or editing any `.fish` file or fish function. Fish's syntax looks bash-like but silently diverges (no bare `var=value` assignment, all variables are lists with 1-based indexing, no `[[ ]]`/`$(( ))`, no `then`/`fi`, no errexit) -- don't rely on bash intuition alone.
+- Consult the `fish-shell` skill (from the `fish-shell` plugin) before writing or editing any `.fish` file or fish function. Fish's syntax looks bash-like but silently diverges (no bare `var=value` assignment, all variables are lists with 1-based indexing, no `[[ ]]`/`$(( ))`, no `then`/`fi`, no errexit) -- don't rely on bash intuition alone.
 - macOS BSD utility gotchas: `date`, `stat`, and `sed -i` behave differently from GNU versions. Use `gsed` if GNU sed behavior is required.
 - Ghostty is the user's terminal emulator.
 
@@ -191,12 +191,12 @@ Use `nu proj clone <repo-name>` to check out any repo in the `nubank` GitHub org
 
 - Develop all new Claude Code skills in `~/dev/nu/claude-plugins` (Christian's personal plugin marketplace, `christianromney/claude-plugins` on GitHub, jj-colocated with git) — never as standalone entries under `~/.claude/skills/`.
 - Scaffold new skills as `<plugin-name>/skills/<skill-name>/SKILL.md` with a matching `.claude-plugin/plugin.json`, and register them in the repo's `.claude-plugin/marketplace.json` catalog. See `decision-matrix/` for the simplest single-skill example.
-- Commit/push via the `/jujutsu:jujutsu` skill, not raw git.
+- Commit/push via the `/jujutsu` skill, not raw git.
 
 ### Interactive and Subshell Tools
 
 - When a change can only be made through an interactive or subshell-spawning tool — e.g., `chezmoi edit` (opens `$EDITOR`), `chezmoi cd` (opens a subshell), or any TUI/REPL — do **not** force it with throwaway shell-script or scripted-`$EDITOR` workarounds, and do not bypass the tool by editing managed source files (e.g., under `~/.local/share/chezmoi`) by raw path.
-- Instead, tell me plainly that the step can't be run non-interactively and ask whether I'd prefer to handle the manual step myself (I usually do). Then complete the non-interactive parts yourself.
+- Instead, tell me plainly that the step can't be run non-interactively and ask whether I'd prefer to handle the manual step myself (I usually do). Then complete the non-interactive parts yourself. This applies even when the `chezmoi` skill lists `chezmoi edit` or `chezmoi cd` as ordinary usage.
 
 ### Writing Tests
 
@@ -223,7 +223,7 @@ Use `nu proj clone <repo-name>` to check out any repo in the `nubank` GitHub org
 - Use jujutsu (jj) colocated with git for version control.
 - Other collaborators use Git and GitHub only, but jujutsu enables more powerful local workflows that interoperate seamlessly with the larger team.
 - jj has no staging area; see the jujutsu skill for workflow details.
-- **Always invoke the `/jujutsu:jujutsu` skill for commit, push, rebase, and bookmark operations** rather than running raw `git` or `jj` commands directly. The skill knows the proper jj workflow; plain `git` commands can interfere with jj's anonymous-head workflow.
+- **Always invoke the `/jujutsu` skill for commit, push, rebase, and bookmark operations** rather than running raw `git` or `jj` commands directly. The skill knows the proper jj workflow; plain `git` commands can interfere with jj's anonymous-head workflow. When a jj command needs a message (`jj commit -m`, `jj describe -m`), draft it with `/generate:commit-message` first; this overrides the message examples in the jujutsu skill.
 - **Always invoke the `/generate:commit-message` skill to draft commit messages** before committing, rather than authoring them inline from context or a prior plan.
 
 ### Editor

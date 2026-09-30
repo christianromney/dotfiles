@@ -7,7 +7,9 @@
   excludesfile = ~/.gitignore_global
   editor = emacs
   pager = delta
+{{- if eq .chezmoi.hostname "christian" }}
 	hooksPath = /usr/local/git-dlp/hooks
+{{- end }}
 [column]
   ui = auto
 [commit]
@@ -137,3 +139,9 @@
 # nubank
 [url "git@github.com"]
   insteadOf = git://github.com/
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential

@@ -193,6 +193,7 @@ Use `nu proj clone <repo-name>` to check out any repo in the `nubank` GitHub org
 - Develop all new Claude Code skills in `~/dev/nu/claude-plugins` (Christian's personal plugin marketplace, `christianromney/claude-plugins` on GitHub, jj-colocated with git) — never as standalone entries under `~/.claude/skills/`.
 - Scaffold new skills as `<plugin-name>/skills/<skill-name>/SKILL.md` with a matching `.claude-plugin/plugin.json`, and register them in the repo's `.claude-plugin/marketplace.json` catalog. See `decision-matrix/` for the simplest single-skill example.
 - Commit/push via the `/jujutsu` skill, not raw git.
+- Before installing a third-party skill with `npx skills add`, vet it with the `/skill-security-analysis:skill-security-analysis` skill and check its upstream license (record it in `~/.agents/NOTICE.md`). Always pass explicit agents (`-a claude-code codex cursor opencode`): never use `-y` without `-a` (it installs to all 79 agents) and never use `-a claude-code` alone (it copies files instead of linking to `~/.agents`). The Agent skills runbook in the `personal` Basic Memory project has the full procedure.
 
 ### Interactive and Subshell Tools
 

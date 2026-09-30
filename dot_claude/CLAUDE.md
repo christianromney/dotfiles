@@ -170,6 +170,7 @@ Hard rules:
 
 - chezmoi manages dotfiles; source dir is `~/.local/share/chezmoi`.
 - Workflow: `chezmoi add` (new files), `chezmoi re-add` (changed files), `chezmoi apply` (deploy).
+- chezmoi has `git.autoCommit` and `git.autoPush` enabled, and they stay enabled. So `chezmoi add` and `re-add` commit and push to GitHub immediately. Treat them as push commands under the Version Control "show me before anything is pushed" rule.
 - Template files need the `--template` flag when adding.
 - `chezmoi diff` left side (red) = home directory; right side (green) = source. "Home wins" → `re-add`; "source wins" → `apply --force`.
 - Use `/sync-dotfiles` skill for committing and pushing changes.
@@ -225,6 +226,7 @@ Use `nu proj clone <repo-name>` to check out any repo in the `nubank` GitHub org
 - jj has no staging area; see the jujutsu skill for workflow details.
 - **Always invoke the `/jujutsu` skill for commit, push, rebase, and bookmark operations** rather than running raw `git` or `jj` commands directly. The skill knows the proper jj workflow; plain `git` commands can interfere with jj's anonymous-head workflow. When a jj command needs a message (`jj commit -m`, `jj describe -m`), draft it with `/generate:commit-message` first; this overrides the message examples in the jujutsu skill.
 - **Always invoke the `/generate:commit-message` skill to draft commit messages** before committing, rather than authoring them inline from context or a prior plan.
+- **Show me before anything is pushed.** Before running any command that results in a push, show me what will leave the machine and wait for my explicit approval. That includes an explicit push (`jj git push`, `git push`) and a command that pushes as a side effect, such as `chezmoi add`/`re-add` with auto-push enabled. Show the diff, or the list of commits, plus the destination remote and branch. Approval covers only the change shown. A later change needs its own approval.
 - **Every commit must be cryptographically signed, in every repository.** jj signs automatically (`signing.behavior = "own"`, SSH key via 1Password), and so does git (`commit.gpgsign = true`). When running `git commit` directly, still pass `-S` explicitly. Never pass options that suppress signing (`--no-gpg-sign`, `-c commit.gpgsign=false`, `--config signing.behavior=drop`).
 - **Verify the signature before reporting a commit as done**: run `jj log -r <rev> -T 'if(signature, signature.status(), "NONE")'` or `git log -1 --format=%G?`, and report the result. If signing fails (for example, 1Password is locked), stop and tell me. Don't retry unsigned. Never state whether a commit is signed without checking.
 

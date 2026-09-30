@@ -1,0 +1,6 @@
+# Canonical Basic Memory extended assistant guide, refreshed weekly from main.
+# No checksum: main moves, so a pinned hash would fail on every upstream change.
+[".claude/reference/basic-memory/guide.md"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/basicmachines-co/basic-memory/main/docs/ai-assistant-guide-extended.md"
+    refreshPeriod = "168h"

@@ -225,6 +225,8 @@ Use `nu proj clone <repo-name>` to check out any repo in the `nubank` GitHub org
 - jj has no staging area; see the jujutsu skill for workflow details.
 - **Always invoke the `/jujutsu` skill for commit, push, rebase, and bookmark operations** rather than running raw `git` or `jj` commands directly. The skill knows the proper jj workflow; plain `git` commands can interfere with jj's anonymous-head workflow. When a jj command needs a message (`jj commit -m`, `jj describe -m`), draft it with `/generate:commit-message` first; this overrides the message examples in the jujutsu skill.
 - **Always invoke the `/generate:commit-message` skill to draft commit messages** before committing, rather than authoring them inline from context or a prior plan.
+- **Every commit must be cryptographically signed, in every repository.** jj signs automatically (`signing.behavior = "own"`, SSH key via 1Password), and so does git (`commit.gpgsign = true`). When running `git commit` directly, still pass `-S` explicitly. Never pass options that suppress signing (`--no-gpg-sign`, `-c commit.gpgsign=false`, `--config signing.behavior=drop`).
+- **Verify the signature before reporting a commit as done**: run `jj log -r <rev> -T 'if(signature, signature.status(), "NONE")'` or `git log -1 --format=%G?`, and report the result. If signing fails (for example, 1Password is locked), stop and tell me. Don't retry unsigned. Never state whether a commit is signed without checking.
 
 ### Editor
 - Emacs (Doom Emacs); don't generate configs for other editors.

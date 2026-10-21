@@ -7,3 +7,4 @@ alias rf='rm -rf'
 alias save-brews="list-brews | tee $HOME/.config/homebrew/formulae.txt"
 alias save-casks="list-casks | tee $HOME/.config/homebrew/casks.txt"
 alias imgcat='viu'
+alias mmdc='mmdc -p $HOME/.config/mermaid-cli/puppeteer-config.json'

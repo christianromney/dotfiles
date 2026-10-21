@@ -908,10 +908,22 @@ Doom loads early."
   :config
   (setq graphviz-dot-indent-width 2))
 
+(defvar cr/mermaid-puppeteer-config-file
+  (expand-file-name "~/.config/mermaid-cli/puppeteer-config.json")
+  "Puppeteer config file that points `mmdc' at the installed Chrome.
+`mmdc' otherwise looks for its own chrome-headless-shell build in
+~/.cache/puppeteer.  The fish alias for `mmdc' passes the same file.")
+
 (use-package! mermaid-mode
   :defer t
   :config
   (setq ob-mermaid-cli-path "/opt/homebrew/bin/mmdc"))
+
+;; ob-mermaid has no variable for the Puppeteer config, only the
+;; :puppeteer-config-file header argument, so make it a default header argument.
+(after! ob-mermaid
+  (add-to-list 'org-babel-default-header-args:mermaid
+               (cons :puppeteer-config-file cr/mermaid-puppeteer-config-file)))
 
 (after! org
   (when (modulep! :lang plantuml)
@@ -1149,6 +1161,19 @@ Doom loads early."
 
 (add-hook! 'markdown-mode-hook
   (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
+
+(defun +markdown-compile-pandoc-modern (beg end output-buffer)
+  "Compile markdown with pandoc, using the non-deprecated flag names."
+  (when (executable-find "pandoc")
+    (call-process-region beg end "pandoc" nil output-buffer nil
+                         "-f" "markdown"
+                         "-t" "html"
+                         "--math-method=mathjax"
+                         "--syntax-highlighting=pygments")))
+
+(after! markdown-mode
+  (remove-hook '+markdown-compile-functions #'+markdown-compile-pandoc)
+  (add-hook '+markdown-compile-functions #'+markdown-compile-pandoc-modern))
 
 (defvar gpt-default-model "gpt-4.1-nano-2025-04-14"
   "My preferred Open AI chat model.")

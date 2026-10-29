@@ -266,6 +266,9 @@ cask "gpg-suite"
 {{- end }}
 cask "kdiff3"
 cask "keybase"
+{{- if eq .chezmoi.username "christian" }}
+cask "linear"
+{{- end }}
 cask "mactex"
 cask "markedit"
 cask "meetingbar"
